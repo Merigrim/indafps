@@ -1,0 +1,23 @@
+package se.kth.csc.indafps;
+
+/**
+ * Abstract base class for every game object.
+ *
+ * @author Marcus Åbrandt Östergren
+ * @author Oscar Friberg
+ * @version 2013-04-25
+ */
+
+public class Key extends Item {
+	@Override
+	public void update(float dt) {
+	}
+
+	@Override
+	public void render() {
+	}
+
+	@Override
+	public void handleInput() {
+	}
+}
