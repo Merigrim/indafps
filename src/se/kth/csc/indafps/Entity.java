@@ -11,15 +11,22 @@ public abstract class Entity implements GameComponent {
     protected Vec3 position;
     protected Vec3 rotation;
     protected Vec3 scale;
-    protected Vec3 velocity;
     protected Vec4 color;
 
     protected boolean solid;
 
     public Entity() {
+		position = new Vec3();
+		rotation = new Vec3();
+		scale = new Vec3();
+		color = new Vec4();
+
+		solid = false;
     }
 
     public Entity(Vec3 position) {
+		this();
+		setPosition(position);
     }
 
     /**
@@ -37,7 +44,7 @@ public abstract class Entity implements GameComponent {
     }
 
 	/**
-	 * Places this entity at the given position so that the given
+	 * Position this Entity at the given position so that the given
 	 * position will have the same position as the center of this
 	 * Entity.
 	 */
@@ -97,14 +104,6 @@ public abstract class Entity implements GameComponent {
     public Vec3 getScale() {
 		return new Vec3(scale.getX(), scale.getY(),
 				scale.getZ());
-    }
-
-    /**
-     * @return The vector representation of the velocity.
-     */
-    public Vec3 getVelocity() {
-		return new Vec3(velocity.getX(), velocity.getY(),
-				velocity.getZ());
     }
 
     /**

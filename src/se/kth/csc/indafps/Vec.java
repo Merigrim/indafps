@@ -62,4 +62,20 @@ public class Vec {
         }
         return normalized;
     }
+
+	/**
+	 * @return True if the other vector is identical to this vector,
+	 * otherwise false.
+	 */
+	public boolean equals(Vec other) {
+		if (components.length == other.components.length) {
+			for (int i = 0; i < components.length; ++i) {
+				if (components[i] != other.components[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }

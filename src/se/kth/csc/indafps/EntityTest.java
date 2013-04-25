@@ -22,9 +22,35 @@ public abstract class EntityTest {
     }
 
 	@Test
-	public void setPosTest() {
-		e1.setPosition(new Vec3(1.0f, 1.0f, -2.0f));
-		Vec3 pos = e1.getPosition();
+	public void setPositionTest() {
+		Vec3 v1 = new Vec3(1.0f, 1.0f, -2.0f);
+		e1.setPosition(v1);
+		Vec3 v2 = e1.getPosition();
+		assertTrue(v1.equals(v2));
+	}
+
+	@Test
+	public void setScaleTest() {
+		Vec3 v1 = new Vec3(1.0f, 1.0f, -2.0f);
+		e1.setSize(v1);
+		Vec3 v2 = e1.getScale();
+		assertTrue(v1.equals(v2));
+	}
+
+	@Test
+	public void setRotationTest() {
+		Vec3 v1 = new Vec3(1.0f, 1.0f, -2.0f);
+		e1.setRotation(v1);
+		Vec3 v2 = e1.getRotation();
+		assertTrue(v1.equals(v2));
+	}
+
+	@Test
+	public void setColorTest() {
+		Vec4 v1 = new Vec4(1.0f, 1.0f, -2.0f, 1.5f);
+		e1.setColor(v1);
+		Vec4 v2 = e1.getColor();
+		assertTrue(v1.equals(v2));
 	}
 
     @Test
