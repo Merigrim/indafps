@@ -10,10 +10,10 @@ package se.kth.csc.indafps;
 public class Line {
     // The coordinates of this line
     private Vec3 position;
-    
+
     // The direction of this line.
     private Vec3 direction;
-    
+
     /**
      * Initializes the line with the specified parameters.
      * 
@@ -33,7 +33,7 @@ public class Line {
     public Vec3 getPosition() {
         return position;
     }
-    
+
     /**
      * Returns this line's direction.
      * 
@@ -51,7 +51,7 @@ public class Line {
     public void setPosition(Vec3 position) {
         this.position = position;
     }
-    
+
     /**
      * Sets this line's direction.
      * 

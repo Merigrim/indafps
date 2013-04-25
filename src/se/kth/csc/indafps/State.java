@@ -11,7 +11,7 @@ package se.kth.csc.indafps;
 public abstract class State implements GameComponent {
     // The state manager associated with this state
     private StateManager manager;
-    
+
     @Override
     public abstract void update(float dt);
 
@@ -20,11 +20,12 @@ public abstract class State implements GameComponent {
 
     @Override
     public abstract void handleInput();
-    
+
     /**
      * Associates this specific state with the specified StateManager instance.
      * Unfortunately, Java doesn't have a concept of friend classes (Boo!) so
      * this method will have package-level access.
+     * 
      * @param manager
      */
     void associateWithManager(StateManager manager) {

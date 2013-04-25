@@ -16,7 +16,7 @@ public class Engine {
     public Engine() {
         // TODO Possible constructor work
     }
-    
+
     /**
      * Initializes the engine, creating the game window and setting up OpenGL.
      * 
@@ -26,7 +26,7 @@ public class Engine {
         // TODO The initialization procedure
         return false;
     }
-    
+
     /**
      * Starts the game by initializing the engine and then entering the main
      * game loop.
@@ -38,7 +38,7 @@ public class Engine {
         // TODO The main game loop
         close();
     }
-    
+
     /**
      * Handles the engine cleanup process.
      */

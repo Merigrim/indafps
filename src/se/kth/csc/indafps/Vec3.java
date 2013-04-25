@@ -14,7 +14,7 @@ public class Vec3 extends Vec {
     public Vec3() {
         init(3);
     }
-    
+
     /**
      * Initializes the vector using the specified coordinates.
      * 
@@ -27,7 +27,7 @@ public class Vec3 extends Vec {
         setY(y);
         setZ(z);
     }
-    
+
     /**
      * Sets this vector's x coordinate
      * 
@@ -54,7 +54,7 @@ public class Vec3 extends Vec {
     public void setZ(float z) {
         set(2, z);
     }
-    
+
     /**
      * Gets this vector's x coordinate
      * 
@@ -72,7 +72,7 @@ public class Vec3 extends Vec {
     public float getY() {
         return get(1);
     }
-    
+
     /**
      * Gets this vector's z coordinate
      * 
@@ -81,7 +81,7 @@ public class Vec3 extends Vec {
     public float getZ() {
         return get(2);
     }
-    
+
     /**
      * Returns a normalized version of the vector.
      * 
@@ -89,7 +89,8 @@ public class Vec3 extends Vec {
      */
     public Vec3 normalize() {
         Vec general = getNormal();
-        Vec3 normalized = new Vec3(general.get(0), general.get(1), general.get(2));
+        Vec3 normalized = new Vec3(general.get(0), general.get(1),
+                general.get(2));
         return normalized;
     }
 }

@@ -1,5 +1,7 @@
 package se.kth.csc.indafps;
 
+import java.io.IOException;
+
 /**
  * The main game state. Handles the level which in turn handles all game
  * objects and their interactions.
@@ -17,8 +19,13 @@ public class GameState extends State {
     
     private void init(String levelFilename) {
         level = new Level();
-        level.importLevel(levelFilename);
-        hud = new Hud();
+        try {
+            level.importLevel(levelFilename);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        hud = new Hud(null);
         // TODO
     }
     

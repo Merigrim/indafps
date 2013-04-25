@@ -15,12 +15,14 @@ public interface ButtonCallback {
      * @param pos The mouse cursor's coordinates
      */
     void onPress(Vec2 pos);
+
     /**
      * Executes actions following the button being pressed and released.
      * 
      * @param pos The mouse cursor's coordinates
      */
     void onRelease(Vec2 pos);
+
     /**
      * Executes actions following the button being hovered over by the cursor.
      * 

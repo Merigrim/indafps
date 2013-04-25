@@ -16,6 +16,7 @@ public class OptionsState extends State {
     private void setFullscreen(boolean state) {
         // TODO
     }
+
     /**
      * Sets the resolution of the game window using the specified parameters.
      * 
@@ -25,7 +26,7 @@ public class OptionsState extends State {
     private void setResolution(int width, int height) {
         // TODO
     }
-    
+
     @Override
     public void update(float dt) {
         // TODO Auto-generated method stub

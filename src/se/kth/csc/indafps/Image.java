@@ -12,7 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 public class Image extends Widget {
     // The texture to render
     private Texture texture;
-    
+
     /**
      * Sets this image's texture.
      * 

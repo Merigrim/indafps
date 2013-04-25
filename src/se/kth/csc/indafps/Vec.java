@@ -10,7 +10,7 @@ package se.kth.csc.indafps;
 public class Vec {
     // The vector components
     private float[] components;
-    
+
     /**
      * Initializes the vector with the specified number of components.
      * 
@@ -19,24 +19,26 @@ public class Vec {
     protected void init(int n) {
         components = new float[n];
     }
-    
+
     /**
      * Returns the specified component
+     * 
      * @param n The component to get
-     * @return 
+     * @return The requested component
      */
     protected float get(int n) {
         return components[n];
     }
-    
+
     /**
      * Sets the specified component
+     * 
      * @param n The component to set
      */
     protected void set(int n, float value) {
         components[n] = value;
     }
-    
+
     /**
      * Returns the length of this vector.
      * 
@@ -50,7 +52,7 @@ public class Vec {
         }
         return (float)Math.sqrt(sum);
     }
-    
+
     protected Vec getNormal() {
         Vec normalized = new Vec();
         normalized.init(components.length);

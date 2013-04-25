@@ -10,7 +10,7 @@ package se.kth.csc.indafps;
 public class Hud implements GameComponent {
     // The player instance
     private Player player;
-    
+
     /**
      * Initializes the HUD using the specified player instance.
      * 
@@ -19,7 +19,7 @@ public class Hud implements GameComponent {
     public Hud(Player player) {
         this.player = player;
     }
-    
+
     @Override
     public void update(float dt) {
         // TODO Auto-generated method stub

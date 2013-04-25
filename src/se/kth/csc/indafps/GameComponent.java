@@ -1,8 +1,8 @@
 package se.kth.csc.indafps;
 
 /**
- * This interface declares common methods implemented by game components,
- * such as entities and game states.
+ * This interface declares common methods implemented by game components, such
+ * as entities and game states.
  * 
  * @author Marcus Åbrandt Östergren
  * @author Oscar Friberg
@@ -10,18 +10,18 @@ package se.kth.csc.indafps;
  */
 public interface GameComponent {
     /**
-     * Updates the game component.
-     * Examples of updating can be motion, animation, etc.
+     * Updates the game component. Examples of updating can be motion,
+     * animation, etc.
      * 
      * @param dt The time difference since the last update in seconds
      */
     void update(float dt);
-    
+
     /**
      * Renders the game component to the screen.
      */
     void render();
-    
+
     /**
      * Handles user input and window events.
      */

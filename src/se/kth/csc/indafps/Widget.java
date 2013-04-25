@@ -10,7 +10,7 @@ package se.kth.csc.indafps;
 public abstract class Widget implements GameComponent {
     // The dimensions of the widget
     private Rect rect;
-    
+
     /**
      * Returns the dimensions of the widget as a rectangle.
      * 
@@ -19,7 +19,7 @@ public abstract class Widget implements GameComponent {
     public Rect getRect() {
         return rect;
     }
-    
+
     @Override
     public abstract void update(float dt);
 

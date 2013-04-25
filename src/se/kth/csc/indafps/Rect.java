@@ -1,8 +1,8 @@
 package se.kth.csc.indafps;
 
 /**
- * A simple rectangle class, which can be used to represent the dimensions of
- * an object.
+ * A simple rectangle class, which can be used to represent the dimensions of an
+ * object.
  * 
  * @author Marcus Åbrandt Östergren
  * @author Oscar Friberg
@@ -11,14 +11,14 @@ package se.kth.csc.indafps;
 public class Rect {
     // The coordinates of the rectangle
     public int left, right, top, bottom;
-    
+
     /**
      * Default constructor.
      */
     public Rect() {
         this.left = this.right = this.top = this.bottom = 0;
     }
-    
+
     /**
      * Initializes the rectangle using the specified values.
      * 

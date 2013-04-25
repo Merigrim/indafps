@@ -14,7 +14,7 @@ public class Vec2 extends Vec {
     public Vec2() {
         init(2);
     }
-    
+
     /**
      * Initializes the vector using the specified coordinates.
      * 
@@ -26,7 +26,7 @@ public class Vec2 extends Vec {
         setX(x);
         setY(y);
     }
-    
+
     /**
      * Sets this vector's x coordinate
      * 
@@ -44,7 +44,7 @@ public class Vec2 extends Vec {
     public void setY(float y) {
         set(1, y);
     }
-    
+
     /**
      * Gets this vector's x coordinate
      * 
@@ -62,7 +62,7 @@ public class Vec2 extends Vec {
     public float getY() {
         return get(1);
     }
-    
+
     /**
      * Returns a normalized version of the vector.
      * 

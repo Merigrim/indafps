@@ -1,9 +1,9 @@
 package se.kth.csc.indafps;
 
 /**
- * The main menu is what the player will see when they first start the game.
- * It allows them to either jump into the actual game or take time and set
- * various options by taking them to the options menu.
+ * The main menu is what the player will see when they first start the game. It
+ * allows them to either jump into the actual game or take time and set various
+ * options by taking them to the options menu.
  * 
  * @author Marcus Åbrandt Östergren
  * @author Oscar Friberg
@@ -16,21 +16,21 @@ public class MainMenuState extends State {
     private void newGame() {
         // TODO
     }
-    
+
     /**
      * Loads a saved game.
      */
     private void loadGame() {
         // TODO
     }
-    
+
     /**
      * Opens the options menu.
      */
     private void options() {
         // TODO
     }
-    
+
     /**
      * Quits the game.
      */

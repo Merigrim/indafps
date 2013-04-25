@@ -10,7 +10,7 @@ package se.kth.csc.indafps;
 public class Button extends Image {
     // The button callback associated with this button
     private ButtonCallback callback;
-    
+
     /**
      * Sets the associated callback.
      * 
