@@ -12,7 +12,7 @@ public abstract class Entity implements GameComponent {
     protected Vec3 rotation;
     protected Vec3 scale;
     protected Vec3 velocity;
-    protected Vec3 color;
+    protected Vec4 color;
 
     protected boolean solid;
 
@@ -30,51 +30,96 @@ public abstract class Entity implements GameComponent {
     }
 
     /**
-     * Sets whether the Entity is solid or not.
+     * Sets whether this Entity is solid or not.
      */
-    public void setSolid(boolean solid) {
+    public void setSolid(boolean value) {
+		solid = value;
     }
+
+	/**
+	 * Places this entity at the given position so that the given
+	 * position will have the same position as the center of this
+	 * Entity.
+	 */
+	public void setPosition(Vec3 vec) {
+		position.setX(vec.getX());
+		position.setY(vec.getY());
+		position.setZ(vec.getZ());
+	}
+
+	/**
+	 * Set the scale of this Entity.
+	 */
+	public void setSize(Vec3 vec) {
+		scale.setX(vec.getX());
+		scale.setY(vec.getY());
+		scale.setZ(vec.getZ());
+	}
+
+	/**
+	 * Set the rotation of this Entity.
+	 */
+	public void setRotation(Vec3 vec) {
+		rotation.setX(vec.getX());
+		rotation.setY(vec.getY());
+		rotation.setZ(vec.getZ());
+	}
+
+	/**
+	 * Set the color of the Entity.
+	 */
+	public void setColor(Vec4 vec) {
+		color.setR(vec.getR());
+		color.setG(vec.getG());
+		color.setB(vec.getB());
+		color.setA(vec.getA());
+	}
 
     /**
      * @return The vector representation of the position.
      */
     public Vec3 getPosition() {
-        return null;
+		return new Vec3(position.getX(), position.getY(),
+				position.getZ());
     }
 
     /**
      * @return The vector representation of the rotation.
      */
     public Vec3 getRotation() {
-        return null;
+		return new Vec3(rotation.getX(), rotation.getY(),
+				rotation.getZ());
     }
 
     /**
      * @return The vector representation of the scale.
      */
     public Vec3 getScale() {
-        return null;
+		return new Vec3(scale.getX(), scale.getY(),
+				scale.getZ());
     }
 
     /**
      * @return The vector representation of the velocity.
      */
     public Vec3 getVelocity() {
-        return null;
+		return new Vec3(velocity.getX(), velocity.getY(),
+				velocity.getZ());
     }
 
     /**
      * @return The vector representation of the color.
      */
-    public Vec3 getColor() {
-        return null;
+    public Vec4 getColor() {
+		return new Vec4(color.getR(), color.getG(),
+				color.getB(), color.getA());
     }
 
     /**
      * @return True or false whether the Entity is solid or not.
      */
     public boolean isSolid() {
-        return false;
+        return solid;
     }
 
     /**
