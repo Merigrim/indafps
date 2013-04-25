@@ -20,6 +20,7 @@ public class Vec3 extends Vec {
      * 
      * @param x The x coordinate
      * @param y The y coordinate
+     * @param z The z coordinate
      */
     public Vec3(float x, float y, float z) {
         init(3);
