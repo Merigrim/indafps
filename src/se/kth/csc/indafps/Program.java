@@ -11,6 +11,7 @@ public class Program {
     /**
      * The main function. This is called when the game starts up and is
      * responsible for initializing the engine object.
+     * 
      * @param args The command line arguments passed to the program
      */
     public static void main(String[] args) {
