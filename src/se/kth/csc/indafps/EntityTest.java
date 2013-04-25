@@ -23,8 +23,10 @@ public abstract class EntityTest {
 
 	@Test
 	public void setPosTest() {
-		e1.setPosition(new Vec3(1.0f, 1.0f, -2.0f));
-		Vec3 pos = e1.getPosition();
+		Vec3 v1 = new Vec3(1.0f, 1.0f, -2.0f);
+		e1.setPosition(v1);
+		Vec3 v2 = e1.getPosition();
+		assertTrue(v1.equals(v2));
 	}
 
     @Test

@@ -37,7 +37,7 @@ public abstract class Entity implements GameComponent {
     }
 
 	/**
-	 * Places this entity at the given position so that the given
+	 * Position this Entity at the given position so that the given
 	 * position will have the same position as the center of this
 	 * Entity.
 	 */
