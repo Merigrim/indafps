@@ -22,23 +22,35 @@ public class Gauge {
     }
 
 	/**
+	 * Limits the value to the interval of [0, max] and returns the result.
+	 */
+	private int limit(int value) {
+		value = Math.max(value, 0);
+		value = Math.min(value, max);
+		return value;
+	}
+
+	/**
 	 * Sets the value of this Gauge. The new value of this Gauge is limited to
 	 * the interval of [0, max].
 	 *
 	 * @param value The new value of this Gauge.
 	 */
 	public void setValue(int value) {
-		this.value = value;
+		this.value = limit(value);
 	}
 
 	/**
-	 * Sets the upper limit of this Gauge.
+	 * Sets the upper limit of this Gauge. If the new upper limit is lower than
+	 * the actual value of this Gauge, the value of this Gauge will be set to
+	 * the new upper limit. The new upper limit is negative, the upper limit
+	 * will be set to 0.
 	 *
 	 * @param max The new upper limit of this Gauge
-	 * @throws IllegalArguementException If the new maximum value is negative.
 	 */
 	public void setMaximum(int max) {
-		this.max = max;
+		this.max = Math.max(0, max);
+		value = limit(value);
 	}
 
 	/**
@@ -64,21 +76,22 @@ public class Gauge {
      * @return The new value of this Gauge.
      */
     public int add(int diff) {
-        return 0;
+		value = limit(value + diff);
+		return value;
     }
 
     /**
      * @return True if value is equals to max, otherwise false.
      */
     public boolean isFull() {
-        return false;
+        return value == max;
     }
 
     /**
      * @return True if value is equals to 0, otherwise false.
      */
     public boolean isEmpty() {
-        return false;
+        return value == 0;
     }
 
 	/**

@@ -70,6 +70,9 @@ public class Vec {
         return (float)Math.sqrt(sum);
     }
 
+	/**
+	 * @return The vector normalized
+	 */
     protected Vec getNormal() {
         Vec normalized = new Vec(components.length);
         float length = getLength();
