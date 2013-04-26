@@ -78,6 +78,22 @@ public class MatTest {
     }
 
     @Test
+    public void testOrtho() {
+        Mat4 o2d = Mat4.ortho(0, 640, 0, 480, -1.0f, 1.0f);
+        Vec4 v = new Vec4(160.0f, 120.0f, 10.0f, 1.0f);
+        assertThat(o2d.mul(v), is(new Vec4(-0.5f, 0.5f, -10.0f, 1.0f)));
+        Mat4 o2d2 = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        Vec4 v2 = new Vec4(1280.0f, 0.0f, 1.0f, 1.0f);
+        assertThat(o2d2.mul(v2), is(new Vec4(1.0f, 1.0f, -1.0f, 1.0f)));
+    }
+
+    @Test
+    public void testPerspective() {
+        Mat4 proj = Mat4.perspective(0.1f, 1000.0f, 90.0f);
+        // How to test this?
+    }
+
+    @Test
     public void testToString() {
         assertThat(c.toString(), is("[ 1.0 0.0 0.0 0.0 0.0\n  0.0 1.0 0.0 0.0"
                 + " 0.0\n  0.0 0.0 1.0 0.0 0.0\n  0.0 0.0 0.0 1.0 0.0\n"
