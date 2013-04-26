@@ -44,42 +44,32 @@ public abstract class Entity implements GameComponent {
 	}
 
 	/**
-	 * Position this Entity at the given position so that the given
-	 * position will have the same position as the center of this
-	 * Entity.
+	 * Positions the center of this Entity at the position representation of
+	 * the given vector.
 	 */
 	public final void setPosition(Vec3 vec) {
-		position.setX(vec.getX());
-		position.setY(vec.getY());
-		position.setZ(vec.getZ());
+		position.copy(vec);
 	}
 
 	/**
 	 * Set the scale of this Entity.
 	 */
 	public final void setSize(Vec3 vec) {
-		scale.setX(vec.getX());
-		scale.setY(vec.getY());
-		scale.setZ(vec.getZ());
+		scale.copy(vec);
 	}
 
 	/**
 	 * Set the rotation of this Entity.
 	 */
 	public final void setRotation(Vec3 vec) {
-		rotation.setX(vec.getX());
-		rotation.setY(vec.getY());
-		rotation.setZ(vec.getZ());
+		rotation.copy(vec);
 	}
 
 	/**
 	 * Set the color of the Entity.
 	 */
 	public final void setColor(Vec4 vec) {
-		color.setR(vec.getR());
-		color.setG(vec.getG());
-		color.setB(vec.getB());
-		color.setA(vec.getA());
+		color.copy(vec);
 	}
 
 	/**
