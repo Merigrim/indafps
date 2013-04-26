@@ -13,17 +13,29 @@ public class Door extends Entity {
     private boolean open;
     private int direction;
 
+	/**
+	 * The door will initially be locked.
+	 */
+	public Door(Vec3 position) {
+		super(position);
+		locked = true;
+		open = false;
+		direction = 0;
+	}
+
     /**
      * Unlocks the door.
      */
     public void unlock() {
+		locked = false;
     }
 
     /**
      * Opens the door. Returns false if the door is locked.
      */
     public boolean open() {
-        return false;
+		open = !locked;
+		return open;
     }
 
     /**
@@ -41,21 +53,21 @@ public class Door extends Entity {
      * @return True if the door is locked.
      */
     public boolean isLocked() {
-        return false;
+        return locked;
     }
 
     /**
      * @return True if the door is open.
      */
     public boolean isOpen() {
-        return false;
+        return open;
     }
 
     /**
      * @return The direction of the door.
      */
     public int getDirection() {
-        return 0;
+        return direction;
     }
 
     @Override
