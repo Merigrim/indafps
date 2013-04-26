@@ -33,13 +33,13 @@ public abstract class Entity implements GameComponent {
      * Sets the texture to this Entity. If texture is null, texturing on the
      * object will be disabled.
      */
-    public void setTexture() {
+    public final void setTexture() {
     }
 
     /**
      * Sets whether this Entity is solid or not.
      */
-    public void setSolid(boolean value) {
+    public final void setSolid(boolean value) {
 		solid = value;
     }
 
@@ -48,7 +48,7 @@ public abstract class Entity implements GameComponent {
 	 * position will have the same position as the center of this
 	 * Entity.
 	 */
-	public void setPosition(Vec3 vec) {
+	public final void setPosition(Vec3 vec) {
 		position.setX(vec.getX());
 		position.setY(vec.getY());
 		position.setZ(vec.getZ());
@@ -57,7 +57,7 @@ public abstract class Entity implements GameComponent {
 	/**
 	 * Set the scale of this Entity.
 	 */
-	public void setSize(Vec3 vec) {
+	public final void setSize(Vec3 vec) {
 		scale.setX(vec.getX());
 		scale.setY(vec.getY());
 		scale.setZ(vec.getZ());
@@ -66,7 +66,7 @@ public abstract class Entity implements GameComponent {
 	/**
 	 * Set the rotation of this Entity.
 	 */
-	public void setRotation(Vec3 vec) {
+	public final void setRotation(Vec3 vec) {
 		rotation.setX(vec.getX());
 		rotation.setY(vec.getY());
 		rotation.setZ(vec.getZ());
@@ -75,7 +75,7 @@ public abstract class Entity implements GameComponent {
 	/**
 	 * Set the color of the Entity.
 	 */
-	public void setColor(Vec4 vec) {
+	public final void setColor(Vec4 vec) {
 		color.setR(vec.getR());
 		color.setG(vec.getG());
 		color.setB(vec.getB());
@@ -85,7 +85,7 @@ public abstract class Entity implements GameComponent {
     /**
      * @return The vector representation of the position.
      */
-    public Vec3 getPosition() {
+    public final Vec3 getPosition() {
 		return new Vec3(position.getX(), position.getY(),
 				position.getZ());
     }
@@ -93,7 +93,7 @@ public abstract class Entity implements GameComponent {
     /**
      * @return The vector representation of the rotation.
      */
-    public Vec3 getRotation() {
+    public final Vec3 getRotation() {
 		return new Vec3(rotation.getX(), rotation.getY(),
 				rotation.getZ());
     }
@@ -101,7 +101,7 @@ public abstract class Entity implements GameComponent {
     /**
      * @return The vector representation of the scale.
      */
-    public Vec3 getScale() {
+    public final Vec3 getScale() {
 		return new Vec3(scale.getX(), scale.getY(),
 				scale.getZ());
     }
@@ -109,7 +109,7 @@ public abstract class Entity implements GameComponent {
     /**
      * @return The vector representation of the color.
      */
-    public Vec4 getColor() {
+    public final Vec4 getColor() {
 		return new Vec4(color.getR(), color.getG(),
 				color.getB(), color.getA());
     }
@@ -117,7 +117,7 @@ public abstract class Entity implements GameComponent {
     /**
      * @return True or false whether the Entity is solid or not.
      */
-    public boolean isSolid() {
+    public final boolean isSolid() {
         return solid;
     }
 
@@ -126,7 +126,7 @@ public abstract class Entity implements GameComponent {
      * 
      * @return True if there's an intersection, otherwise false.
      */
-    public boolean testIntersection(Line line) {
+    public final boolean testIntersection(Line line) {
         return false;
     }
 
@@ -136,7 +136,7 @@ public abstract class Entity implements GameComponent {
      * 
      * @return True if there's an intersection, otherwise false.
      */
-    public boolean testIntersection(Entity entity) {
+    public final boolean testIntersection(Entity entity) {
         return false;
     }
 

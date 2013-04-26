@@ -5,15 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 
-public class PlayerTest extends EntityTest {
+public class PlayerTest extends ActorTest {
 
 	@Before
 	public void setUp() {
-		e1 = new Player();
-		e2 = new Player();
+		a1 = new Player();
+		a2 = new Player();
+		super.setUp();
 	}
 
-	@Test
-	public void test() {
-	}
 }

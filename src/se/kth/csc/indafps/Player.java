@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class Player extends Actor {
     private ArrayList<Item> inventory;
 
+	Player() {
+		super(100, 12);
+		inventory = new ArrayList<Item>();
+	}
+
     /**
      * Adds the given item to the Player inventory.
      */
