@@ -25,7 +25,7 @@ public class Vec {
         if (other.components.length != components.length) {
             throw new ArrayIndexOutOfBoundsException(String.format(
                     "Vec component lengths do not match: %d != %d.",
-                    components.length, other.components.length));
+                    dimension(), other.dimension()));
         }
     }
 
@@ -34,7 +34,7 @@ public class Vec {
      */
     public void copy(Vec other) throws ArrayIndexOutOfBoundsException {
         checkComponents(other);
-        System.arraycopy(other.components, 0, components, 0, components.length);
+        System.arraycopy(other.components, 0, components, 0, dimension());
     }
 
     /**
@@ -63,7 +63,7 @@ public class Vec {
      */
     public float getLength() {
         float sum = 0;
-        for (int i = 0; i < components.length; ++i) {
+        for (int i = 0; i < dimension(); ++i) {
             float c = get(i);
             sum += c * c;
         }
@@ -74,9 +74,9 @@ public class Vec {
      * @return The vector normalized
      */
     protected Vec getNormal() {
-        Vec normalized = new Vec(components.length);
+        Vec normalized = new Vec(dimension());
         float length = getLength();
-        for (int i = 0; i < components.length; ++i) {
+        for (int i = 0; i < dimension(); ++i) {
             normalized.set(i, get(i) / length);
         }
         return normalized;
@@ -89,15 +89,52 @@ public class Vec {
     @Override
     public boolean equals(Object other) {
         Vec vec = (Vec)other;
-        if (components.length == vec.components.length) {
-            for (int i = 0; i < components.length; ++i) {
-                if (components[i] != vec.components[i]) {
+        if (dimension() == vec.dimension()) {
+            for (int i = 0; i < dimension(); ++i) {
+                if (get(i) != vec.get(i)) {
                     return false;
                 }
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the dimension of this vector.
+     * 
+     * @return The dimension of this vector
+     */
+    public int dimension() {
+        return components.length;
+    }
+
+    /**
+     * Adds the two vectors.
+     * 
+     * @param other The other vector
+     * @return The sum vector
+     */
+    public Vec add(Vec other) {
+        Vec res = new Vec(dimension());
+        for (int i = 0; i < dimension(); ++i) {
+            res.set(i, get(i) + other.get(i));
+        }
+        return res;
+    }
+
+    /**
+     * Subtracts the two vectors.
+     * 
+     * @param other The other vector
+     * @return The difference vector
+     */
+    public Vec sub(Vec other) {
+        Vec res = new Vec(dimension());
+        for (int i = 0; i < dimension(); ++i) {
+            res.set(i, get(i) - other.get(i));
+        }
+        return res;
     }
 
     /**
@@ -111,9 +148,19 @@ public class Vec {
     public float dot(Vec other) throws ArrayIndexOutOfBoundsException {
         checkComponents(other);
         float sum = 0;
-        for (int i = 0; i < components.length; ++i) {
+        for (int i = 0; i < dimension(); ++i) {
             sum += get(i) * other.get(i);
         }
         return sum;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        for (int i = 0; i < dimension(); ++i) {
+            sb.append(" " + get(i) + (i != dimension() - 1 ? "," : ""));
+        }
+        sb.append(" )");
+        return sb.toString();
     }
 }
