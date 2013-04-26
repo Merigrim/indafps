@@ -10,7 +10,7 @@ import java.util.Stack;
  * 
  * @author Marcus Åbrandt Östergren
  * @author Oscar Friberg
- * @version 2013-04-25
+ * @version 2013-04-26
  */
 public class StateManager implements GameComponent {
     // The state stack. The topmost state is the currently active one
@@ -21,18 +21,35 @@ public class StateManager implements GameComponent {
         // TODO Possible additional constructor work
     }
 
+    public State pushState(State state) {
+        return states.push(state);
+    }
+
+    public State popState() {
+        return states.pop();
+    }
+
     @Override
     public void update(float dt) {
-        // TODO Auto-generated method stub
+        if (states.empty()) {
+            return;
+        }
+        states.peek().update(dt);
     }
 
     @Override
     public void render() {
-        // TODO Auto-generated method stub
+        if (states.empty()) {
+            return;
+        }
+        states.peek().render();
     }
 
     @Override
     public void handleInput() {
-        // TODO Auto-generated method stub
+        if (states.empty()) {
+            return;
+        }
+        states.peek().handleInput();
     }
 }

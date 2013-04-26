@@ -20,15 +20,20 @@ public class Vec {
         components = new float[n];
     }
 
-	/**
-	 * Copies the properties of the other vector to this vector.
-	 */
-    public void copy(Vec other) throws ArrayIndexOutOfBoundsException {
+    private void checkComponents(Vec other)
+            throws ArrayIndexOutOfBoundsException {
         if (other.components.length != components.length) {
             throw new ArrayIndexOutOfBoundsException(String.format(
                     "Vec component lengths do not match: %d != %d.",
                     components.length, other.components.length));
         }
+    }
+
+    /**
+     * Copies the properties of the other vector to this vector.
+     */
+    public void copy(Vec other) throws ArrayIndexOutOfBoundsException {
+        checkComponents(other);
         System.arraycopy(other.components, 0, components, 0, components.length);
     }
 
@@ -91,5 +96,22 @@ public class Vec {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the dot product of this and another vector
+     * 
+     * @param other The other vector
+     * @return The dot product of this and another vector
+     * @throws ArrayIndexOutOfBoundsException If the vectors are not of equal
+     *             dimension.
+     */
+    public float dot(Vec other) throws ArrayIndexOutOfBoundsException {
+        checkComponents(other);
+        float sum = 0;
+        for (int i = 0; i < components.length; ++i) {
+            sum += get(i) + other.get(i);
+        }
+        return sum;
     }
 }

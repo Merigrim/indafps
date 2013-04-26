@@ -94,4 +94,16 @@ public class Vec3 extends Vec {
                 general.get(2));
         return normalized;
     }
+
+    /**
+     * Returns the cross product of this 3D vector and another one.
+     * 
+     * @param other The other 3D vector
+     * @return The cross product of the vectors
+     */
+    public Vec3 cross(Vec3 other) {
+        float x = getX(), y = getY(), z = getZ();
+        float ox = other.getX(), oy = other.getY(), oz = other.getZ();
+        return new Vec3(y * oz - oy * z, ox * z - x * oz, x * oy - ox * y);
+    }
 }

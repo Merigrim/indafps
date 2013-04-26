@@ -8,8 +8,8 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public class Line {
-    // The coordinates of this line
-    private Vec3 position;
+    // The coordinates of this line's origin
+    private Vec3 origin;
 
     // The direction of this line.
     private Vec3 direction;
@@ -17,21 +17,21 @@ public class Line {
     /**
      * Initializes the line with the specified parameters.
      * 
-     * @param position The line's position in space
+     * @param origin The line's origin position in space
      * @param direction The direction of the line
      */
-    public Line(Vec3 position, Vec3 direction) {
-        this.position = position;
+    public Line(Vec3 origin, Vec3 direction) {
+        this.origin = origin;
         this.direction = direction;
     }
 
     /**
-     * Returns this line's position.
+     * Returns this line's origin.
      * 
-     * @return This line's position
+     * @return This line's origin
      */
-    public Vec3 getPosition() {
-        return position;
+    public Vec3 getOrigin() {
+        return origin;
     }
 
     /**
@@ -44,12 +44,12 @@ public class Line {
     }
 
     /**
-     * Sets this line's position.
+     * Sets this line's origin.
      * 
-     * @param position This line's new position
+     * @param origin This line's new origin
      */
-    public void setPosition(Vec3 position) {
-        this.position = position;
+    public void setOrigin(Vec3 origin) {
+        this.origin = origin;
     }
 
     /**
@@ -60,4 +60,20 @@ public class Line {
     public void setDirection(Vec3 direction) {
         this.direction = direction;
     }
+
+    /**
+     * Returns the intersection point of this line and another one.
+     * 
+     * @param other The other line to check for an intersection with
+     * @return The position of the intersection. If no intersection was found,
+     *         return null
+     */
+    /*
+     * public Vec3 intersects(Line other) { // Infinite non-parallel lines will
+     * always intersect at some point
+     * 
+     * Vec3 pos = null;
+     * 
+     * return pos; }
+     */
 }
