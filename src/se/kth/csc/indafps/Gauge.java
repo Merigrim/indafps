@@ -14,9 +14,46 @@ public class Gauge {
 
     /**
      * Constructs a new gauge where max is the upper limit of the gauge.
+	 * The gauge will by default be full.
      */
     Gauge(int max) {
+		this.max = max;
+		this.value = max;
     }
+
+	/**
+	 * Sets the value of this Gauge. The new value of this Gauge is limited to
+	 * the interval of [0, max].
+	 *
+	 * @param value The new value of this Gauge.
+	 */
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	/**
+	 * Sets the upper limit of this Gauge.
+	 *
+	 * @param max The new upper limit of this Gauge
+	 * @throws IllegalArguementException If the new maximum value is negative.
+	 */
+	public void setMaximum(int max) {
+		this.max = max;
+	}
+
+	/**
+	 * @return The current value of this Gauge.
+	 */
+	public int getValue() {
+		return value;
+	}
+
+	/**
+	 * @return The upper limit of this Gauge.
+	 */
+	public int getMaximum() {
+		return max;
+	}
 
     /**
      * Increases the value of this Gauge with diff. The new value of this Gauge
@@ -43,4 +80,18 @@ public class Gauge {
     public boolean isEmpty() {
         return false;
     }
+
+	/**
+	 * Sets the value of this Gauge to max.
+	 */
+	public void refill() {
+		value = max;
+	}
+
+	/**
+	 * Sets the value of this Gauge to 0.
+	 */
+	public void empty() {
+		value = 0;
+	}
 }
