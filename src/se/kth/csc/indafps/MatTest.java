@@ -16,8 +16,7 @@ public class MatTest {
     public void setUp() throws Exception {
         a = new Mat4();
         b = new Mat4();
-        c = new Mat();
-        c.init(5);
+        c = new Mat(5);
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
                 a.set(i, j, i * j);
@@ -39,8 +38,7 @@ public class MatTest {
 
     @Test
     public void testMultiplication() {
-        Mat expected = new Mat();
-        expected.init(4);
+        Mat expected = new Mat4();
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
                 expected.set(i, j, (i * j) * (i + j));

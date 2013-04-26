@@ -16,8 +16,15 @@ public class Vec {
      * 
      * @param n The number of components to use
      */
-    protected void init(int n) {
+    protected Vec(int n) {
         components = new float[n];
+    }
+
+    public void copy(Vec other) {
+        if (other.components.length != components.length) {
+            return;
+        }
+        System.arraycopy(other.components, 0, components, 0, components.length);
     }
 
     /**
@@ -54,8 +61,7 @@ public class Vec {
     }
 
     protected Vec getNormal() {
-        Vec normalized = new Vec();
-        normalized.init(components.length);
+        Vec normalized = new Vec(components.length);
         float length = getLength();
         for (int i = 0; i < components.length; ++i) {
             normalized.set(i, get(i) / length);
@@ -63,19 +69,19 @@ public class Vec {
         return normalized;
     }
 
-	/**
-	 * @return True if the other vector is identical to this vector,
-	 * otherwise false.
-	 */
-	public boolean equals(Vec other) {
-		if (components.length == other.components.length) {
-			for (int i = 0; i < components.length; ++i) {
-				if (components[i] != other.components[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+    /**
+     * @return True if the other vector is identical to this vector, otherwise
+     *         false.
+     */
+    public boolean equals(Vec other) {
+        if (components.length == other.components.length) {
+            for (int i = 0; i < components.length; ++i) {
+                if (components[i] != other.components[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }

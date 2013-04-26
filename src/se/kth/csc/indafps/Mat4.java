@@ -9,16 +9,6 @@ package se.kth.csc.indafps;
  */
 public class Mat4 extends Mat {
     public Mat4() {
-        super.init(4);
-    }
-
-    /**
-     * An ugly hack, but we don't want to change the dimensions of this matrix.
-     * 
-     * @param n The new width/height (ignored)
-     */
-    @Override
-    public void init(int n) {
-        return;
+        super(4);
     }
 }

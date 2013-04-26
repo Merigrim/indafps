@@ -23,7 +23,7 @@ public class Mat {
      * @param n The width/height of the matrix
      * @throws Exception
      */
-    protected void init(int n) {
+    protected Mat(int n) {
         this.n = n;
         mat = new float[n * n];
         setIdentity();
@@ -89,9 +89,7 @@ public class Mat {
                     "Square matrix dimensions do not match: %d != %d.", n,
                     other.n));
         }
-        for (int i = 0; i < n * n; ++i) {
-            mat[i] = other.mat[i];
-        }
+        System.arraycopy(other.mat, 0, mat, 0, mat.length);
     }
 
     /**
@@ -109,8 +107,7 @@ public class Mat {
                     b.n));
         }
         int n = a.n;
-        Mat product = new Mat();
-        product.init(n);
+        Mat product = new Mat(n);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 for (int k = 0; k < n; ++k) {
@@ -140,8 +137,7 @@ public class Mat {
      * @return The minor of the specified row and column
      */
     public float minor(int row, int column) {
-        Mat m = new Mat();
-        m.init(n - 1);
+        Mat m = new Mat(n - 1);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i == row || j == column) {

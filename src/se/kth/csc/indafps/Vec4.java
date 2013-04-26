@@ -12,7 +12,7 @@ public class Vec4 extends Vec {
      * Initializes a default 4D vector.
      */
     public Vec4() {
-        init(4);
+        super(4);
     }
 
     /**
@@ -24,7 +24,7 @@ public class Vec4 extends Vec {
      * @param a The a coordinate
      */
     public Vec4(float r, float g, float b, float a) {
-        init(4);
+        super(4);
         setR(r);
         setG(g);
         setB(b);

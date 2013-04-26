@@ -12,7 +12,7 @@ public class Vec2 extends Vec {
      * Initializes a default 2D vector.
      */
     public Vec2() {
-        init(2);
+        super(2);
     }
 
     /**
@@ -22,7 +22,7 @@ public class Vec2 extends Vec {
      * @param y The y coordinate
      */
     public Vec2(float x, float y) {
-        init(2);
+        super(2);
         setX(x);
         setY(y);
     }

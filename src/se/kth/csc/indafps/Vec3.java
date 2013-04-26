@@ -12,7 +12,7 @@ public class Vec3 extends Vec {
      * Initializes a default 3D vector.
      */
     public Vec3() {
-        init(3);
+        super(3);
     }
 
     /**
@@ -23,7 +23,7 @@ public class Vec3 extends Vec {
      * @param z The z coordinate
      */
     public Vec3(float x, float y, float z) {
-        init(3);
+        super(3);
         setX(x);
         setY(y);
         setZ(z);
