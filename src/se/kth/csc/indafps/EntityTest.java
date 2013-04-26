@@ -55,6 +55,7 @@ public abstract class EntityTest {
 
     @Test
     public void lineIntersectionTest() {
+		//TODO Check the returned vector coordinates if they are correct.
 		e1.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
 		e1.setSize(new Vec3(2.0f, 2.0f, 2.0f));
 		e1.setRotation(new Vec3(0.0f, 0.0f, 0.0f));
@@ -62,23 +63,23 @@ public abstract class EntityTest {
 		// Test intersection where one line end point is inside
 		// the Entity.
 		assertTrue(e1.testIntersection(new Line(new Vec3(0.0f, 0.0f, 0.0f),
-				new Vec3(5.0f, 4.0f, 0.0f))));
+				new Vec3(5.0f, 5.0f, 0.0f))) != null);
 
 		// Test intersection where none of the line end points is 
 		// inside the Entity.
 		assertTrue(e1.testIntersection(new Line(new Vec3(-2.0f, 0.5f, -0.5f),
-				new Vec3(2.0f, -0.5f, 0.5f))));
+				new Vec3(2.0f, -0.5f, 0.5f))) != null);
 
 		// Test intersection where both of the line end points is 
 		// inside the Entity.
 		assertTrue(e1.testIntersection(new Line(new Vec3(0.5f, 0.5f, -0.5f),
-				new Vec3(-0.5f, -0.5f, 0.5f))));
+				new Vec3(-0.5f, -0.5f, 0.5f))) != null);
 
 		// Test some cases where there are no intersection.
 		assertFalse(e1.testIntersection(new Line(new Vec3(2.5f, 0.5f, -0.5f),
-				new Vec3(2.5f, -0.5f, 0.5f))));
+				new Vec3(2.5f, -0.5f, 0.5f))) != null);
 		assertFalse(e1.testIntersection(new Line(new Vec3(0.0f, 2.5f, 0.0f),
-				new Vec3(2.5f, 0.0f, 0.0f))));
+				new Vec3(2.5f, 0.0f, 0.0f))) != null);
     }
 
 	@Test

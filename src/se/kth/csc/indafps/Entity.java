@@ -112,12 +112,14 @@ public abstract class Entity implements GameComponent {
 	}
 
 	/**
-	 * Tests if the line intersects with this Entity.
+	 * Tests if the Line intersects with this Entity and returns the point
+	 * where the Line and this Entity. Null is returned if there is no
+	 * intersection.
 	 * 
-	 * @return True if there's an intersection, otherwise false.
+	 * @return The point where the Line and this Entity intersects.
 	 */
-	public final boolean testIntersection(Line line) {
-		return false;
+	public final Vec3 testIntersection(Line line) {
+		return null;
 	}
 
 	/**
