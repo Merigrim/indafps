@@ -70,9 +70,9 @@ public class Vec {
         return (float)Math.sqrt(sum);
     }
 
-	/**
-	 * @return The vector normalized
-	 */
+    /**
+     * @return The vector normalized
+     */
     protected Vec getNormal() {
         Vec normalized = new Vec(components.length);
         float length = getLength();
@@ -86,10 +86,12 @@ public class Vec {
      * @return True if the other vector is identical to this vector, otherwise
      *         false.
      */
-    public boolean equals(Vec other) {
-        if (components.length == other.components.length) {
+    @Override
+    public boolean equals(Object other) {
+        Vec vec = (Vec)other;
+        if (components.length == vec.components.length) {
             for (int i = 0; i < components.length; ++i) {
-                if (components[i] != other.components[i]) {
+                if (components[i] != vec.components[i]) {
                     return false;
                 }
             }
@@ -110,7 +112,7 @@ public class Vec {
         checkComponents(other);
         float sum = 0;
         for (int i = 0; i < components.length; ++i) {
-            sum += get(i) + other.get(i);
+            sum += get(i) * other.get(i);
         }
         return sum;
     }
