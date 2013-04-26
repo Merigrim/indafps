@@ -56,6 +56,21 @@ public class MatTest {
     }
 
     @Test
+    public void testVectorMultiplication() {
+        Vec4 v = new Vec4(1, 2, 3, 4);
+        assertThat(a.mul(v), is(new Vec4(0.0f, 20.0f, 40.0f, 60.0f)));
+        assertThat(b.mul(v), is(new Vec4(20.0f, 30.0f, 40.0f, 50.0f)));
+        try {
+            Vec v2 = new Vec(5);
+            a.mul(v2);
+            fail("ArithmeticException not thrown on multiplication of square"
+                    + "matrix with vector of different dimension.");
+        } catch (ArithmeticException e) {
+            // Success
+        }
+    }
+
+    @Test
     public void testDeterminant() {
         assertThat(a.det(), is(0.0f));
         assertThat(b.det(), is(0.0f));

@@ -130,6 +130,29 @@ public class Mat {
     }
 
     /**
+     * Multiplies this NxN matrix with the specified R^N vector.
+     * 
+     * @param vec The vector to perform the multiplication with
+     * @return The resulting vector
+     * @throws ArithmeticException If the dimensions do not match
+     */
+    protected Vec mul(Vec vec) throws ArithmeticException {
+        if (vec.dimension() != n) {
+            throw new ArithmeticException(
+                    "Matrix height and vector dimension do not match.");
+        }
+        Vec product = new Vec(n);
+        for (int i = 0; i < n; ++i) {
+            float sum = 0;
+            for (int j = 0; j < n; ++j) {
+                sum += get(i, j) * vec.get(j);
+            }
+            product.set(i, sum);
+        }
+        return product;
+    }
+
+    /**
      * Returns the minor of the specified row and column.
      * 
      * @param row The row of the minor
