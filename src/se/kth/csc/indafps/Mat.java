@@ -83,9 +83,9 @@ public class Mat {
      * 
      * @param other The matrix whose values to copy
      */
-    public void copy(Mat other) {
+    public void copy(Mat other) throws ArrayIndexOutOfBoundsException {
         if (n != other.n) {
-            throw new ArithmeticException(String.format(
+            throw new ArrayIndexOutOfBoundsException(String.format(
                     "Square matrix dimensions do not match: %d != %d.", n,
                     other.n));
         }

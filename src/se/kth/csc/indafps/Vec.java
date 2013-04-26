@@ -20,9 +20,11 @@ public class Vec {
         components = new float[n];
     }
 
-    public void copy(Vec other) {
+    public void copy(Vec other) throws ArrayIndexOutOfBoundsException {
         if (other.components.length != components.length) {
-            return;
+            throw new ArrayIndexOutOfBoundsException(String.format(
+                    "Vec component lengths do not match: %d != %d.",
+                    components.length, other.components.length));
         }
         System.arraycopy(other.components, 0, components, 0, components.length);
     }
