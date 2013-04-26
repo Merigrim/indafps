@@ -8,40 +8,40 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public abstract class Entity implements GameComponent {
-    protected Vec3 position;
-    protected Vec3 rotation;
-    protected Vec3 scale;
-    protected Vec4 color;
+	protected Vec3 position;
+	protected Vec3 rotation;
+	protected Vec3 scale;
+	protected Vec4 color;
 
-    protected boolean solid;
+	protected boolean solid;
 
-    public Entity() {
+	public Entity() {
 		position = new Vec3();
 		rotation = new Vec3();
 		scale = new Vec3();
 		color = new Vec4();
 
 		solid = false;
-    }
+	}
 
-    public Entity(Vec3 position) {
+	public Entity(Vec3 position) {
 		this();
 		setPosition(position);
-    }
+	}
 
-    /**
-     * Sets the texture to this Entity. If texture is null, texturing on the
-     * object will be disabled.
-     */
-    public final void setTexture() {
-    }
+	/**
+	 * Sets the texture to this Entity. If texture is null, texturing on the
+	 * object will be disabled.
+	 */
+	public final void setTexture() {
+	}
 
-    /**
-     * Sets whether this Entity is solid or not.
-     */
-    public final void setSolid(boolean value) {
+	/**
+	 * Sets whether this Entity is solid or not.
+	 */
+	public final void setSolid(boolean value) {
 		solid = value;
-    }
+	}
 
 	/**
 	 * Position this Entity at the given position so that the given
@@ -82,73 +82,73 @@ public abstract class Entity implements GameComponent {
 		color.setA(vec.getA());
 	}
 
-    /**
-     * @return The vector representation of the position.
-     */
-    public final Vec3 getPosition() {
+	/**
+	 * @return The vector representation of the position.
+	 */
+	public final Vec3 getPosition() {
 		return new Vec3(position.getX(), position.getY(),
 				position.getZ());
-    }
+	}
 
-    /**
-     * @return The vector representation of the rotation.
-     */
-    public final Vec3 getRotation() {
+	/**
+	 * @return The vector representation of the rotation.
+	 */
+	public final Vec3 getRotation() {
 		return new Vec3(rotation.getX(), rotation.getY(),
 				rotation.getZ());
-    }
+	}
 
-    /**
-     * @return The vector representation of the scale.
-     */
-    public final Vec3 getScale() {
+	/**
+	 * @return The vector representation of the scale.
+	 */
+	public final Vec3 getScale() {
 		return new Vec3(scale.getX(), scale.getY(),
 				scale.getZ());
-    }
+	}
 
-    /**
-     * @return The vector representation of the color.
-     */
-    public final Vec4 getColor() {
+	/**
+	 * @return The vector representation of the color.
+	 */
+	public final Vec4 getColor() {
 		return new Vec4(color.getR(), color.getG(),
 				color.getB(), color.getA());
-    }
+	}
 
-    /**
-     * @return True or false whether the Entity is solid or not.
-     */
-    public final boolean isSolid() {
-        return solid;
-    }
+	/**
+	 * @return True or false whether the Entity is solid or not.
+	 */
+	public final boolean isSolid() {
+		return solid;
+	}
 
-    /**
-     * Tests if the line intersects with this Entity.
-     * 
-     * @return True if there's an intersection, otherwise false.
-     */
-    public final boolean testIntersection(Line line) {
-        return false;
-    }
+	/**
+	 * Tests if the line intersects with this Entity.
+	 * 
+	 * @return True if there's an intersection, otherwise false.
+	 */
+	public final boolean testIntersection(Line line) {
+		return false;
+	}
 
-    /**
-     * Tests if the other Entity intersects with this Entity. It is guaranteed
-     * that A.testIntersection(B) is equivalence with B.testIntersection(A).
-     * 
-     * @return True if there's an intersection, otherwise false.
-     */
-    public final boolean testIntersection(Entity entity) {
-        return false;
-    }
+	/**
+	 * Tests if the other Entity intersects with this Entity. It is guaranteed
+	 * that A.testIntersection(B) is equivalence with B.testIntersection(A).
+	 * 
+	 * @return True if there's an intersection, otherwise false.
+	 */
+	public final boolean testIntersection(Entity entity) {
+		return false;
+	}
 
-    @Override
-    public void update(float dt) {
-    }
+	@Override
+	public void update(float dt) {
+	}
 
-    @Override
-    public void render() {
-    }
+	@Override
+	public void render() {
+	}
 
-    @Override
-    public void handleInput() {
-    }
+	@Override
+	public void handleInput() {
+	}
 }
