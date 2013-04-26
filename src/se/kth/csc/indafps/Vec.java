@@ -20,6 +20,9 @@ public class Vec {
         components = new float[n];
     }
 
+	/**
+	 * Copies the properties of the other vector to this vector.
+	 */
     public void copy(Vec other) throws ArrayIndexOutOfBoundsException {
         if (other.components.length != components.length) {
             throw new ArrayIndexOutOfBoundsException(String.format(
