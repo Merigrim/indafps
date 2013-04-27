@@ -131,7 +131,7 @@ public abstract class Actor extends Entity {
 	}
 
 	@Override
-	public void render() {
+	public void render(Renderer renderer) {
 	}
 
 	@Override

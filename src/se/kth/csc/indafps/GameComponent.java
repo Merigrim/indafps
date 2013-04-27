@@ -19,8 +19,10 @@ public interface GameComponent {
 
     /**
      * Renders the game component to the screen.
+     * 
+     * @param renderer The renderer instance to use to render
      */
-    void render();
+    void render(Renderer renderer);
 
     /**
      * Handles user input and window events.

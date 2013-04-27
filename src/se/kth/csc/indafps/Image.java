@@ -28,7 +28,7 @@ public class Image extends Widget {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
         // TODO Auto-generated method stub
     }
 

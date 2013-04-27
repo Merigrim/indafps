@@ -13,7 +13,7 @@ public class Key extends Item {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
     }
 
     @Override
