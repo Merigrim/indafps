@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Game object manager.
+ * Level manages the game objects.
  * 
  * @author Marcus Åbrandt Östergren
  * @author Oscar Friberg
@@ -13,7 +13,6 @@ import java.util.Set;
  */
 public class Level implements GameComponent {
     private Map<String, Set<Entity>> entities;
-    private Actor camera;
 
     /**
      * Reads the content on the file with the given filename and builds the
@@ -26,15 +25,8 @@ public class Level implements GameComponent {
     }
 
     /**
-     * Sets the camera view to the view of the given Actor.
-     */
-    public void setCamera(Actor actor) {
-    }
-
-    /**
-     * Adds the given Entity to the level.
-     * 
-     * @throws IllegalArgumentException If the new Entity is null.
+     * Adds the given Entity to this Level and associates the Entity with this
+	 * Level. This function will do nothing if entity is set to null.
      */
     public void addEntity(Entity entity) {
     }
@@ -56,6 +48,14 @@ public class Level implements GameComponent {
 	 */
 	public Set<Entity> getIntersectingEntities(String type, Entity entity) {
 		return null;
+	}
+
+	/**
+	 * Returns the Set of Entites of the given type. Returns null if there
+	 * are no Set for the given type.
+	 */
+	public Set<Entity> getEntities(String type) {
+		return entities.get(type);
 	}
 
 	@Override

@@ -15,12 +15,14 @@ public abstract class Actor extends Entity {
 
 	/**
 	 * Sets the maximum health and ammo, and make the Actor face north.
+	 * @param position The position of the new Actor.
 	 * @param maxHealth The maximum health of the Actor. If it's set to
 	 * a negative value the maximum health will be 0.
 	 * @param maxAmmo The maximum ammunation of the Actor. If it's set to
 	 * a negative value the maximum ammunation will be 0.
 	 */
-	public Actor(int maxHealth, int maxAmmo) {
+	public Actor(Vec3 position, int maxHealth, int maxAmmo) {
+		super(position);
 		health = new Gauge(maxHealth);
 		ammo = new Gauge(maxAmmo);
 		viewDirection = new Vec3(0.0f, 1.0f, 0.0f);
