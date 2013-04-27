@@ -8,6 +8,10 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public class Key extends Item {
+	public Key(Vec3 position) {
+		super(position);
+	}
+
     @Override
     public void update(float dt) {
     }

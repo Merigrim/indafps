@@ -10,7 +10,8 @@ package se.kth.csc.indafps;
 public abstract class Item extends Entity {
     private Entity owner;
 
-	public Item() {
+	public Item(Vec3 position) {
+		super(position);
 		owner = null;
 	}
 

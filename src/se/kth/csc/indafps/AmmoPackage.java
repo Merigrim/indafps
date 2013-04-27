@@ -8,6 +8,10 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public class AmmoPackage extends Package {
+	public AmmoPackage(Vec3 position, int quantity) {
+		super(position, quantity);
+	}
+
     @Override
     public void update(float dt) {
     }

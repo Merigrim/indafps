@@ -31,6 +31,7 @@ public class Level implements GameComponent {
     public void addEntity(Entity entity) {
     }
 
+	//TODO Remove the getIntersectingEntity if they are not used.
 	/**
 	 * Returns the Entity of the given type that intersects with the given
 	 * line and that is closest to the origin point of the given line. Null
