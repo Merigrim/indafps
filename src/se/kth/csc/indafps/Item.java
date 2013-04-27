@@ -10,20 +10,10 @@ package se.kth.csc.indafps;
 public abstract class Item extends Entity {
     private Entity owner;
 
-<<<<<<< HEAD
-	public Item(Vec3 position) {
-		super(position);
-		owner = null;
-	}
-=======
-    public Item() {
-        owner = null;
-    }
-
     public Item(Vec3 position) {
         super(position);
+        owner = null;
     }
->>>>>>> 4cb79aad3e04ba410d2cb915e03d81769db15828
 
     /**
      * @return The current owner of this Item. Null is returned if this Item has
