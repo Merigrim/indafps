@@ -1,6 +1,9 @@
 package se.kth.csc.indafps;
 
+import java.nio.FloatBuffer;
 import java.util.Arrays;
+
+import org.lwjgl.BufferUtils;
 
 /**
  * A matrix class for square matrices of size NxN. N should be properly defined
@@ -12,10 +15,10 @@ import java.util.Arrays;
  */
 public class Mat {
     // The raw float array used to represent the matrix
-    private float[] mat;
+    protected float[] mat;
 
     // The width/height of the matrix
-    private int n;
+    protected int n;
 
     /**
      * Initializes the matrix as a NxN matrix.
@@ -110,9 +113,11 @@ public class Mat {
         Mat product = new Mat(n);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
+                float sum = 0.0f;
                 for (int k = 0; k < n; ++k) {
-                    product.set(j, i, a.get(i, k) * b.get(j, k));
+                    sum += a.get(i, k) * b.get(j, k);
                 }
+                product.set(i, j, sum);
             }
         }
         return product;
@@ -201,6 +206,15 @@ public class Mat {
             d += get(i, 0) * cofactor(i, 0);
         }
         return d;
+    }
+
+    public FloatBuffer toFloatBuffer() {
+        FloatBuffer buf = BufferUtils.createFloatBuffer(n * n);
+        for (int i = 0; i < n * n; ++i) {
+            buf.put(mat[i]);
+        }
+        buf.flip();
+        return buf;
     }
 
     /**

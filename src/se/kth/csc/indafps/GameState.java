@@ -21,6 +21,8 @@ public class GameState extends State {
 
     // TEST
     private float test = 0.0f;
+    private Renderer renderer;
+    private Player p;
 
     public GameState(String levelFilename) {
         init(levelFilename);
@@ -35,6 +37,8 @@ public class GameState extends State {
             e.printStackTrace();
         }
         hud = new Hud(null);
+        renderer = new Renderer();
+        p = new Player(new Vec3(0, 0, 0));
         // TODO
     }
 
@@ -49,16 +53,15 @@ public class GameState extends State {
     @Override
     public void render(Renderer renderer) {
         // Some test code to make sure OpenGL works - remove this later
-        GL11.glBegin(GL11.GL_TRIANGLES);
-        GL11.glColor3f(test, test - 0.5f, test - 1.0f);
-        GL11.glVertex3f(test, 0.0f, 0.0f);
-        GL11.glVertex3f(1.0f, test, 0.0f);
-        GL11.glVertex3f(0.0f, 1.0f, test);
-        GL11.glColor3f(test - 0.5f, test - 1.0f, test);
-        GL11.glVertex3f(-test, 0.0f, 0.0f);
-        GL11.glVertex3f(-1.0f, -test, 0.0f);
-        GL11.glVertex3f(0.0f, -1.0f, -test);
-        GL11.glEnd();
+        /*
+         * GL11.glBegin(GL11.GL_TRIANGLES); GL11.glColor3f(test, test - 0.5f,
+         * test - 1.0f); GL11.glVertex3f(test, 0.0f, 0.0f);
+         * GL11.glVertex3f(1.0f, test, 0.0f); GL11.glVertex3f(0.0f, 1.0f, test);
+         * GL11.glColor3f(test - 0.5f, test - 1.0f, test);
+         * GL11.glVertex3f(-test, 0.0f, 0.0f); GL11.glVertex3f(-1.0f, -test,
+         * 0.0f); GL11.glVertex3f(0.0f, -1.0f, -test); GL11.glEnd();
+         */
+        this.renderer.render(p);
 
         level.render(renderer);
         hud.render(renderer);

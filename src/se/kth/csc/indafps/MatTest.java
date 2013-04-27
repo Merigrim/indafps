@@ -46,6 +46,8 @@ public class MatTest {
         }
         a.mul(b);
         assertThat(a, is(b));
+        Mat id = new Mat4();
+        assertThat(Mat4.mul(id, id), is(id));
         try {
             a.mul(c);
             fail("ArithmeticException not thrown on multiplication of square"
@@ -89,7 +91,7 @@ public class MatTest {
 
     @Test
     public void testPerspective() {
-        Mat4 proj = Mat4.perspective(0.1f, 1000.0f, 90.0f);
+        Mat4 proj = Mat4.perspective(90.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
         // How to test this?
     }
 

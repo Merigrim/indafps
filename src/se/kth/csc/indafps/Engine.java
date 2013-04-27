@@ -31,7 +31,8 @@ public class Engine {
      * @return Whether the initialization was successful or not.
      */
     private boolean initGL() {
-        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        GL11.glEnable(GL11.GL_LIGHTING);
         return true;
     }
 

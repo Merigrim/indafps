@@ -52,20 +52,52 @@ public class Mat4 extends Mat {
     /**
      * Creates a perspective projection matrix.
      * 
+     * @param fov The field of view
+     * @param aspect The aspect ratio of the view
      * @param near The near clipping plane
      * @param far The far clipping plane
-     * @param fov The field of view
      * @return The created perspective projection matrix
      */
-    public static Mat4 perspective(float near, float far, float fov) {
+    public static Mat4 perspective(float fov, float aspect, float near,
+            float far) {
         Mat4 ret = new Mat4();
-        float scale = 1.0f / (float)Math.tan((fov * 0.5) * (Math.PI / 180.0f));
-        ret.set(0, 0, scale);
-        ret.set(1, 1, scale);
-        ret.set(2, 2, -far / (far - near));
+        float range = (float)Math.tan((fov * 0.5f) * (Math.PI / 180.0f)) * near;
+        float left = -range * aspect;
+        float right = range * aspect;
+        float bottom = -range;
+        float top = range;
+
+        ret.set(0, 0, (2.0f * near) / (right - left));
+        ret.set(1, 1, (2.0f * near) / (top - bottom));
+        ret.set(2, 2, -(far + near) / (far - near));
         ret.set(2, 3, -1.0f);
-        ret.set(3, 2, -(far * near) / (far - near));
-        ret.set(3, 3, 0);
+        ret.set(3, 2, -(2.0f * far * near) / (far - near));
         return ret;
+    }
+
+    /**
+     * Translates this matrix by the specified distance.
+     * 
+     * @param delta The distance to translate this matrix by.
+     */
+    public void translate(Vec3 delta) {
+        mat[3] += delta.getX();
+        mat[7] += delta.getY();
+        mat[11] += delta.getZ();
+    }
+
+    /**
+     * Rotates this matrix by the specified angles.
+     * 
+     * @param rotation A vector expressing the rotation along the three axises.
+     */
+    public void rotate(Vec3 rotation) {
+        // TODO Do not use, not done yet
+        float x = rotation.getX();
+        float y = rotation.getY();
+        float z = rotation.getZ();
+        mat[0] = (float)(Math.cos(y) * Math.cos(z));
+        mat[1] = (float)(Math.sin(x) * Math.sin(y) * Math.cos(z) - Math.cos(x)
+                * Math.sin(z));
     }
 }
