@@ -9,7 +9,6 @@ public abstract class ActorTest extends EntityTest {
     protected Actor a1;
     protected Actor a2;
 
-    @Before
     public void setUp() {
         e1 = a1;
         e2 = a2;
@@ -45,8 +44,8 @@ public abstract class ActorTest extends EntityTest {
 
     @Test
     public void setMaximumHealthTest() {
-        a1.restoreHealth(100);
         a1.setMaximumHealth(50);
+        a1.restoreHealth(100);
         assertEquals(50, a1.getMaximumHealth());
         assertEquals(50, a1.getHealth());
 
@@ -57,8 +56,8 @@ public abstract class ActorTest extends EntityTest {
 
     @Test
     public void setMaximumAmmoTest() {
-        a1.restoreAmmo(100);
         a1.setMaximumAmmo(50);
+        a1.restoreAmmo(100);
         assertEquals(50, a1.getMaximumAmmo());
         assertEquals(50, a1.getAmmo());
 

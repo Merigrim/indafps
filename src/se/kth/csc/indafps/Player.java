@@ -36,6 +36,9 @@ public class Player extends Actor {
 	 * @param item The Item to be added.
      */
     public void pickUp(Item item) {
+		if (inventory.add(item)) {
+			item.setOwner(this);
+		}
     }
 
 	/**
@@ -47,6 +50,11 @@ public class Player extends Actor {
 	 * found.
 	 */
 	public Item searchItem(String type) {
+		for (Item item : inventory) {
+			if (item.getClass().getName() == type) {
+				return item;
+			}
+		}
 		return null;
 	}
 
@@ -61,6 +69,13 @@ public class Player extends Actor {
 	 * found.
 	 */
 	public Item requestItem(String type) {
+		for (Item item : inventory) {
+			if (item.getClass().getName() == type) {
+				inventory.remove(item);
+				item.setOwner(null);
+				return item;
+			}
+		}
 		return null;
 	}
 

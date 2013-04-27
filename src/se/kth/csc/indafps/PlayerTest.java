@@ -31,21 +31,20 @@ public class PlayerTest extends ActorTest {
 		p.pickUp(k1);
 		p.pickUp(k2);
 		assertEquals(null, p.searchItem("Candy!"));
-		assertEquals(k1, p.searchItem(k1.getClass().getName()));
-		assertEquals(k2, p.searchItem(k2.getClass().getName()));
+		Item returnedKey = p.searchItem("se.kth.csc.indafps.Key");
+		assertTrue(k1 == returnedKey || k2 == returnedKey);
 	}
 
 	@Test
 	public void requestItemTest() {
 		Key k1 = new Key(new Vec3(0.0f, 0.0f, 0.0f));
 		Key k2 = new Key(new Vec3(0.0f, 0.0f, 0.0f));
-		assertEquals(null, p.searchItem("Rainbows!"));
+		assertEquals(null, p.requestItem("Rainbows!"));
 		p.pickUp(k1);
 		p.pickUp(k2);
-		assertEquals(null, p.searchItem("Candy!"));
-		assertEquals(k1, p.searchItem(k1.getClass().getName()));
-		assertEquals(null, p.searchItem(k1.getClass().getName()));
-		assertEquals(k2, p.searchItem(k2.getClass().getName()));
-		assertEquals(null, p.searchItem(k2.getClass().getName()));
+		assertEquals(null, p.requestItem("Candy!"));
+		Item returnedKey = p.requestItem("se.kth.csc.indafps.Key");
+		assertTrue(k1 == returnedKey || k2 == returnedKey);
+		assertTrue(p.searchItem("se.kth.csc.indafps.Key") != returnedKey);
 	}
 }
