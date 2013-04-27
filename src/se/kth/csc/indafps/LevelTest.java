@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 public class LevelTest {
+<<<<<<< HEAD
 	Level l;
 	@Before
 	public void setUp() {
@@ -28,4 +29,10 @@ public class LevelTest {
 		l.addEntity(new Door(new Vec3(0.0f, 0.0f, 0.0f)));
 		assertEquals(l, e.getLevel());
 	}
+=======
+    @Before
+    public void setUp() {
+        // Set up a level with some Doors, Players and Walls.
+    }
+>>>>>>> 5c118312a8fcdee805412e4e039465b6c0420c8d
 }
