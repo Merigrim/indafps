@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class Player extends Actor {
     private ArrayList<Item> inventory;
 
-	public Player() {
-		super(100, 12);
+	public Player(Vec3 position) {
+		super(position, 100, 12);
 		inventory = new ArrayList<Item>();
 	}
 

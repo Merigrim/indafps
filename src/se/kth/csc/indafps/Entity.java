@@ -30,6 +30,14 @@ public abstract class Entity implements GameComponent {
 	}
 
 	/**
+	 * Associates this Entity with a level. When this Entity has associated
+	 * with a level, it is able to interact with other objects in the level.
+	 */
+	public final void associateLevel(Level level) {
+		this.level = level;
+	}
+
+	/**
 	 * Sets the texture to this Entity. If texture is null, texturing on the
 	 * object will be disabled.
 	 */
