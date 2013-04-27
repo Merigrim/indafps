@@ -79,7 +79,7 @@ public class Engine {
             float dt = currentTime - lastTime;
             lastTime = currentTime;
             manager.update(dt);
-            manager.render();
+            manager.render(null);
 
             Display.update();
         }

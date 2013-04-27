@@ -24,7 +24,7 @@ public abstract class Widget implements GameComponent {
     public abstract void update(float dt);
 
     @Override
-    public abstract void render();
+    public abstract void render(Renderer renderer);
 
     @Override
     public abstract void handleInput();

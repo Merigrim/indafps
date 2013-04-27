@@ -41,10 +41,13 @@ public class GameState extends State {
     @Override
     public void update(float dt) {
         test += dt / 10;
+
+        level.update(dt);
+        hud.update(dt);
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
         // Some test code to make sure OpenGL works - remove this later
         GL11.glBegin(GL11.GL_TRIANGLES);
         GL11.glColor3f(test, test - 0.5f, test - 1.0f);
@@ -56,10 +59,14 @@ public class GameState extends State {
         GL11.glVertex3f(-1.0f, -test, 0.0f);
         GL11.glVertex3f(0.0f, -1.0f, -test);
         GL11.glEnd();
+
+        level.render(renderer);
+        hud.render(renderer);
     }
 
     @Override
     public void handleInput() {
-        // TODO Auto-generated method stub
+        level.handleInput();
+        hud.handleInput();
     }
 }

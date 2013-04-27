@@ -44,7 +44,7 @@ public class MainMenuState extends State {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
         // TODO Auto-generated method stub
     }
 

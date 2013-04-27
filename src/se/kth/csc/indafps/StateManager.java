@@ -38,11 +38,11 @@ public class StateManager implements GameComponent {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
         if (states.empty()) {
             return;
         }
-        states.peek().render();
+        states.peek().render(null);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Enemy extends Actor {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
     }
 
     @Override

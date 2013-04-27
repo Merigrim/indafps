@@ -28,7 +28,7 @@ public class Player extends Actor {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
     }
 
     @Override

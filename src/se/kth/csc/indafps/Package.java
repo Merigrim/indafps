@@ -17,7 +17,7 @@ public class Package extends Entity {
     }
 
     @Override
-    public void render() {
+    public void render(Renderer renderer) {
     }
 
     @Override

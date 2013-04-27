@@ -137,7 +137,7 @@ public abstract class Entity implements GameComponent {
 	}
 
 	@Override
-	public void render() {
+	public void render(Renderer renderer) {
 	}
 
 	@Override
