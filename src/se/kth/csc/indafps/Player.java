@@ -1,6 +1,7 @@
 package se.kth.csc.indafps;
 
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * The actor controlled by the player.
@@ -10,18 +11,58 @@ import java.util.ArrayList;
  * @version 2013-04-25
  */
 public class Player extends Actor {
-    private ArrayList<Item> inventory;
+    private Set<Item> inventory;
 
 	public Player(Vec3 position) {
-		super(position, 100, 12);
-		inventory = new ArrayList<Item>();
+		this(position, 100, 12);
+	}
+
+	/**
+	 * Constructs a Player with specified maximum amount of health and ammo.
+	 *
+	 * @param maxHealth The maximum health of this Player
+	 * @param maxAmmo The maximum ammo of this Player
+	 */
+	public Player(Vec3 position, int maxHealth, int maxAmmo) {
+		super(position, maxHealth, maxAmmo);
+		inventory = new HashSet<Item>();
 	}
 
     /**
-     * Adds the given item to the Player inventory.
+     * Adds the Item to this Player inventory and makes this Player to the
+	 * owner of the Item. The Item will not be added to the inventory if it
+	 * already exist in the inventory.
+	 *
+	 * @param item The Item to be added.
      */
-    public void pickUp(Item iem) {
+    public void pickUp(Item item) {
     }
+
+	/**
+	 * Searches for the Item with the given class name and returns the first
+	 * result. Null is returned if no matching Item was found.
+	 *
+	 * @param type The Class name of the requested Item.
+	 * @return The first found Item of the given type. Null if no item was
+	 * found.
+	 */
+	public Item searchItem(String type) {
+		return null;
+	}
+
+	/**
+	 * Requests for the Item with the given class name and returns the first
+	 * result. The returned Item will be removed from the inventory of this
+	 * Player and the owner of the Item will be set to null. Null is returned
+	 * if no matching Item was found.
+	 *
+	 * @param type The Class name of the requested Item.
+	 * @return The first found Item of the given type. Null if no item was
+	 * found.
+	 */
+	public Item requestItem(String type) {
+		return null;
+	}
 
     @Override
     public void update(float dt) {
