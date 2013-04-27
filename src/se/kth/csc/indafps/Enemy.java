@@ -18,8 +18,8 @@ public class Enemy extends Actor {
      * @param maxHealth Maximum enemy health
      * @param maxAmmo Maximum enemy ammunition
      */
-    public Enemy(int maxHealth, int maxAmmo) {
-        super(maxHealth, maxAmmo);
+    public Enemy(Vec3 position, int maxHealth, int maxAmmo) {
+        super(position, maxHealth, maxAmmo);
     }
 
     /**
