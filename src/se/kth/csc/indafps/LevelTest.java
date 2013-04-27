@@ -2,11 +2,12 @@ package se.kth.csc.indafps;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.Before;
 
 public class LevelTest {
-<<<<<<< HEAD
 	Level l;
 	@Before
 	public void setUp() {
@@ -25,14 +26,16 @@ public class LevelTest {
 
 	@Test
 	public void addEntityTest() {
-		Entity e = new Door(new Vec3(0.0f, 0.0f, 0.0f));
-		l.addEntity(new Door(new Vec3(0.0f, 0.0f, 0.0f)));
+		Entity e = new Key(new Vec3(0.0f, 0.0f, 0.0f));
+		l.addEntity(new Key(new Vec3(0.0f, 0.0f, 0.0f)));
 		assertEquals(l, e.getLevel());
 	}
-=======
-    @Before
-    public void setUp() {
-        // Set up a level with some Doors, Players and Walls.
-    }
->>>>>>> 5c118312a8fcdee805412e4e039465b6c0420c8d
+
+	@Test
+	public void getEntites() {
+		Set<Entity> players = l.getEntities("Player");
+		for (Entity player : players) {
+			player.getPosition().equals(new Vec3(0.0f, 0.0f, 0.0f));
+		}
+	}
 }
