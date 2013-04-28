@@ -84,6 +84,7 @@ public class Renderer {
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, model.getBuffer());
+
         int stride = 4 * 12;
         GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 4 * 3);
