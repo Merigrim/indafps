@@ -38,12 +38,11 @@ public class MatTest {
 
     @Test
     public void testMultiplication() {
-        Mat expected = new Mat4(new float[] { 0, 0, 0, 0, 14, 20, 26, 32, 28,
+        Mat4 expected = new Mat4(new float[] { 0, 0, 0, 0, 14, 20, 26, 32, 28,
                 40, 52, 64, 42, 60, 78, 96 });
-        a.mul(b);
-        assertThat(a, is(expected));
-        Mat id = new Mat4();
-        assertThat(Mat4.mul(id, id), is(id));
+        assertThat(a.mul(b), is(expected));
+        Mat4 id = new Mat4();
+        assertThat(id.mul(id), is(id));
         try {
             a.mul(c);
             fail("ArithmeticException not thrown on multiplication of square"

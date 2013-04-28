@@ -33,4 +33,9 @@ public class Rect {
         this.top = top;
         this.bottom = bottom;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%d, %d, %d, %d)", left, top, right, bottom);
+    }
 }

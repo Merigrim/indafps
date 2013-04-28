@@ -32,6 +32,9 @@ public class Renderer {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        // Test code
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GLU.gluLookAt(5, 0, -10, 0, 0, 0, 0, 1, 0);
     }
 
     /**
@@ -45,12 +48,13 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadMatrix(projection.toFloatBuffer());
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPushMatrix();
         GL11.glLoadMatrix(world.toFloatBuffer());
 
         Rect rect = image.getRect();
         Texture tex = image.getTexture();
-        tex.bind();
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+        tex.bind();
         GL11.glTexCoord2f(0.0f, 0.0f);
         GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(0.0f, 1.0f);
@@ -59,8 +63,9 @@ public class Renderer {
         GL11.glVertex2f(rect.right, rect.bottom);
         GL11.glTexCoord2f(1.0f, 1.0f);
         GL11.glVertex2f(rect.right, rect.top);
-        GL11.glEnd();
         tex.release();
+        GL11.glEnd();
+        GL11.glPopMatrix();
     }
 
     /**
@@ -69,22 +74,35 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, model.getBuffer());
+<<<<<<< HEAD
         int stride = 12;
         GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 3);
         GL11.glNormalPointer(GL11.GL_FLOAT, stride, 5);
         GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 8);
+=======
+        int stride = 4 * 12;
+        GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
+        GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 4 * 3);
+        GL11.glNormalPointer(GL11.GL_FLOAT, stride, 4 * 5);
+        GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 4 * 8);
+>>>>>>> 03b35ea8ff314f5e9411184dbf9c3021198883df
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 36);
-        // GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+<<<<<<< HEAD
+=======
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+>>>>>>> 03b35ea8ff314f5e9411184dbf9c3021198883df
     }
 
     /**
@@ -96,12 +114,15 @@ public class Renderer {
         projection = Mat4.perspective(90.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
         view = new Mat4();
         world = new Mat4();
-        world.translate(new Vec3(0, 0, -10.0f));
+        // world.translate(new Vec3(0, 0, -10.0f));
+        // view.rotate(5.0f, new Vec3(0, 1, 0));
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadMatrix(projection.toFloatBuffer());
-        // GLU.gluPerspective(90.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glLoadMatrix(Mat.mul(view, world).toFloatBuffer());
+        // GL11.glLoadMatrix(view.mul(world).toFloatBuffer());
+
+        // Test code
+        GL11.glRotatef(0.01f, 0, 1, 0);
         render(cube);
     }
 }

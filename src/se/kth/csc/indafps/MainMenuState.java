@@ -1,5 +1,13 @@
 package se.kth.csc.indafps;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+
 /**
  * The main menu is what the player will see when they first start the game. It
  * allows them to either jump into the actual game or take time and set various
@@ -10,6 +18,23 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public class MainMenuState extends State {
+    Image logo;
+
+    public MainMenuState() {
+        logo = new Image();
+        Texture logoTexture;
+        try {
+            logoTexture = TextureLoader.getTexture("PNG", new FileInputStream(
+                    "data/logo.png"), true);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
+        logo.setTexture(logoTexture);
+        logo.setPosition(new Vec2(384.0f, 32.0f));
+    }
+
     /**
      * Starts a new game.
      */
@@ -45,11 +70,14 @@ public class MainMenuState extends State {
 
     @Override
     public void render(Renderer renderer) {
-        // TODO Auto-generated method stub
+        renderer.render(logo);
     }
 
     @Override
     public void handleInput() {
-        // TODO Auto-generated method stub
+        if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+            GameState gameState = new GameState("data/level0.lvl");
+            manager.pushState(gameState);
+        }
     }
 }

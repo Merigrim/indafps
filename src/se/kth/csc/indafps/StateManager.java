@@ -22,10 +22,12 @@ public class StateManager implements GameComponent {
     }
 
     public State pushState(State state) {
+        state.associateWithManager(this);
         return states.push(state);
     }
 
     public State popState() {
+        states.peek().associateWithManager(null);
         return states.pop();
     }
 
@@ -42,7 +44,7 @@ public class StateManager implements GameComponent {
         if (states.empty()) {
             return;
         }
-        states.peek().render(null);
+        states.peek().render(renderer);
     }
 
     @Override
