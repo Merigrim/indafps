@@ -57,7 +57,7 @@ public abstract class Entity implements GameComponent {
      * Positions the center of this Entity at the position representation of the
      * given vector.
      */
-    public final void setPosition(Vec3 vec) {
+    public void setPosition(Vec3 vec) {
         position.copy(vec);
     }
 
@@ -86,28 +86,28 @@ public abstract class Entity implements GameComponent {
      * @return The vector representation of the position.
      */
     public final Vec3 getPosition() {
-        return new Vec3(position.getX(), position.getY(), position.getZ());
+        return new Vec3(position);
     }
 
     /**
      * @return The vector representation of the rotation.
      */
     public final Vec3 getRotation() {
-        return new Vec3(rotation.getX(), rotation.getY(), rotation.getZ());
+        return new Vec3(rotation);
     }
 
     /**
      * @return The vector representation of the scale.
      */
     public final Vec3 getScale() {
-        return new Vec3(scale.getX(), scale.getY(), scale.getZ());
+        return new Vec3(scale);
     }
 
     /**
      * @return The vector representation of the color.
      */
     public final Vec4 getColor() {
-        return new Vec4(color.getR(), color.getG(), color.getB(), color.getA());
+        return new Vec4(color);
     }
 
     /**

@@ -39,7 +39,8 @@ public class MainMenuState extends State {
      * Starts a new game.
      */
     private void newGame() {
-        // TODO
+        GameState gameState = new GameState("data/test.lvl");
+        manager.pushState(gameState);
     }
 
     /**
@@ -76,8 +77,7 @@ public class MainMenuState extends State {
     @Override
     public void handleInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
-            GameState gameState = new GameState("data/level0.lvl");
-            manager.pushState(gameState);
+            newGame();
         }
     }
 }

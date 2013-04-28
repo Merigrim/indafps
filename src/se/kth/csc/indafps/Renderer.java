@@ -16,10 +16,11 @@ import org.newdawn.slick.opengl.Texture;
  * @version 2013-04-27
  */
 public class Renderer {
-    Mat4 projection;
-    Mat4 view;
-    Mat4 world;
-    Model cube;
+    private Mat4 projection;
+    private Mat4 view;
+    private Mat4 world;
+    private Model cube;
+    private Camera camera;
 
     public Renderer() {
         try {
@@ -34,6 +35,10 @@ public class Renderer {
         // Test code
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GLU.gluLookAt(5, 0, -10, 0, 0, 0, 0, 1, 0);
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**
@@ -112,10 +117,22 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadMatrix(projection.toFloatBuffer());
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        // GL11.glLoadMatrix(view.mul(world).toFloatBuffer());
+        GL11.glLoadIdentity();
 
         // Test code
-        GL11.glRotatef(0.01f, 0, 1, 0);
+        /*
+         * GL11.glRotatef(camera.getRotation().getX(), 1, 1, 0);
+         * GL11.glRotatef(camera.getRotation().getY() + 180, 0, 1, 0);
+         * GL11.glRotatef(camera.getRotation().getZ(), 0, 0, 1);
+         * GL11.glTranslatef(camera.getPosition().getX(), camera.getPosition()
+         * .getY(), camera.getPosition().getZ());
+         */
+        Vec3 pos = camera.getPosition();
+        Vec3 target = camera.getTarget();
+        GLU.gluLookAt(pos.getX(), pos.getY(), pos.getZ(), target.getX(),
+                target.getY(), target.getZ(), 0, 1, 0);
+        Vec3 epos = entity.getPosition();
+        GL11.glTranslatef(epos.getX(), epos.getY(), epos.getZ());
         render(cube);
     }
 }

@@ -122,7 +122,8 @@ public class Model {
                     data.put(vn.getY());
                     data.put(vn.getZ());
                     for (int j = 0; j < 4; ++j) {
-                        data.put(1.0f);
+                        data.put((faces.indexOf(f) / 2)
+                                / (float)(faces.size() / 2));
                     }
                 }
             }

@@ -2,6 +2,7 @@ package se.kth.csc.indafps;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -21,8 +22,7 @@ public class GameState extends State {
 
     // TEST
     private float test = 0.0f;
-    private Renderer renderer;
-    private Player p;
+    private Player p, p2;
 
     public GameState(String levelFilename) {
         init(levelFilename);
@@ -37,14 +37,16 @@ public class GameState extends State {
             e.printStackTrace();
         }
         hud = new Hud(null);
-        p = new Player(new Vec3(0, 0, 0));
+        // p = new Player(new Vec3(0, 0, 0));
+        // p2 = new Player(new Vec3(5, 0, 0));
+        Mouse.setGrabbed(true);
         // TODO
     }
 
     @Override
     public void update(float dt) {
         test += dt / 10;
-        p.setRotation(new Vec3(0, test, 0));
+        // p.setRotation(new Vec3(0, test, 0));
 
         level.update(dt);
         hud.update(dt);
@@ -52,7 +54,9 @@ public class GameState extends State {
 
     @Override
     public void render(Renderer renderer) {
-        renderer.render(p);
+        /*
+         * renderer.setCamera(p2.getCamera()); renderer.render(p);
+         */
 
         level.render(renderer);
         hud.render(renderer);
@@ -62,5 +66,6 @@ public class GameState extends State {
     public void handleInput() {
         level.handleInput();
         hud.handleInput();
+        // p2.handleInput();
     }
 }
