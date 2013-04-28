@@ -52,15 +52,6 @@ public class GameState extends State {
 
     @Override
     public void render(Renderer renderer) {
-        // Some test code to make sure OpenGL works - remove this later
-        /*
-         * GL11.glBegin(GL11.GL_TRIANGLES); GL11.glColor3f(test, test - 0.5f,
-         * test - 1.0f); GL11.glVertex3f(test, 0.0f, 0.0f);
-         * GL11.glVertex3f(1.0f, test, 0.0f); GL11.glVertex3f(0.0f, 1.0f, test);
-         * GL11.glColor3f(test - 0.5f, test - 1.0f, test);
-         * GL11.glVertex3f(-test, 0.0f, 0.0f); GL11.glVertex3f(-1.0f, -test,
-         * 0.0f); GL11.glVertex3f(0.0f, -1.0f, -test); GL11.glEnd();
-         */
         this.renderer.render(p);
 
         level.render(renderer);

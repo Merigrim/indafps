@@ -38,14 +38,10 @@ public class MatTest {
 
     @Test
     public void testMultiplication() {
-        Mat expected = new Mat4();
-        for (int i = 0; i < 4; ++i) {
-            for (int j = 0; j < 4; ++j) {
-                expected.set(i, j, (i * j) * (i + j));
-            }
-        }
+        Mat expected = new Mat4(new float[] { 0, 0, 0, 0, 14, 20, 26, 32, 28,
+                40, 52, 64, 42, 60, 78, 96 });
         a.mul(b);
-        assertThat(a, is(b));
+        assertThat(a, is(expected));
         Mat id = new Mat4();
         assertThat(Mat4.mul(id, id), is(id));
         try {

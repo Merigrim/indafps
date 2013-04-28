@@ -22,6 +22,15 @@ public class Image extends Widget {
         this.texture = texture;
     }
 
+    /**
+     * Returns this image's texture.
+     * 
+     * @return This image's texture
+     */
+    public Texture getTexture() {
+        return texture;
+    }
+
     @Override
     public void update(float dt) {
         // TODO Auto-generated method stub

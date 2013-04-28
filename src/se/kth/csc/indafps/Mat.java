@@ -130,8 +130,7 @@ public class Mat {
      * @throws ArithmeticException
      */
     protected void mul(Mat other) throws ArithmeticException {
-        Mat product = mul(this, other);
-        copy(other);
+        copy(mul(this, other));
     }
 
     /**
@@ -208,10 +207,18 @@ public class Mat {
         return d;
     }
 
+    /**
+     * Returns the matrix as a float buffer for passing to OpenGL functions. The
+     * resulting raw matrix will be in column major form.
+     * 
+     * @return The matrix as a column major float buffer
+     */
     public FloatBuffer toFloatBuffer() {
         FloatBuffer buf = BufferUtils.createFloatBuffer(n * n);
-        for (int i = 0; i < n * n; ++i) {
-            buf.put(mat[i]);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                buf.put(mat[j * 4 + i]);
+            }
         }
         buf.flip();
         return buf;
