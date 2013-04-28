@@ -96,41 +96,29 @@ public class Mat {
     }
 
     /**
-     * Multiplies the specified matrices.
+     * Multiplies this matrix with the specified matrix.
      * 
-     * @param a The left matrix of the multiplication
-     * @param b The right matrix of the multiplication
+     * @param other The right matrix of the multiplication
      * @return The product of the matrix multiplication
      * @throws ArithmeticException
      */
-    protected static Mat mul(Mat a, Mat b) throws ArithmeticException {
-        if (a.n != b.n) {
+    public Mat mul(Mat other) throws ArithmeticException {
+        if (n != other.n) {
             throw new ArithmeticException(String.format(
-                    "Square matrix dimensions do not match: %d != %d.", a.n,
-                    b.n));
+                    "Square matrix dimensions do not match: %d != %d.", n,
+                    other.n));
         }
-        int n = a.n;
         Mat product = new Mat(n);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 float sum = 0.0f;
                 for (int k = 0; k < n; ++k) {
-                    sum += a.get(i, k) * b.get(j, k);
+                    sum += get(i, k) * other.get(j, k);
                 }
                 product.set(i, j, sum);
             }
         }
         return product;
-    }
-
-    /**
-     * Multiplies this matrix with the specified matrix.
-     * 
-     * @param other The matrix to perform the multiplication with
-     * @throws ArithmeticException
-     */
-    protected void mul(Mat other) throws ArithmeticException {
-        copy(mul(this, other));
     }
 
     /**

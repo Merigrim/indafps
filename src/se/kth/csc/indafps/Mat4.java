@@ -17,6 +17,25 @@ public class Mat4 extends Mat {
         System.arraycopy(raw, 0, mat, 0, mat.length);
     }
 
+    public void setRow(int row, Vec4 vec) {
+        for (int i = 0; i < 4; ++i) {
+            mat[row * 4 + i] = vec.get(i);
+        }
+    }
+
+    public Vec4 getRow(int row) {
+        Vec4 rowVec = new Vec4(mat[row * 4 + 0], mat[row * 4 + 1],
+                mat[row * 4 + 2], mat[row * 4 + 3]);
+        return rowVec;
+    }
+
+    public Mat4 mul(Mat4 other) throws ArithmeticException {
+        Mat general = super.mul(other);
+        Mat4 product = new Mat4();
+        product.copy(general);
+        return product;
+    }
+
     /**
      * Multiplies this 4x4 matrix with the specified R^4 vector.
      * 
@@ -65,18 +84,25 @@ public class Mat4 extends Mat {
      */
     public static Mat4 perspective(float fov, float aspect, float near,
             float far) {
+        /*
+         * Mat4 ret = new Mat4(); float range = (float)Math.tan((fov * 0.5f) *
+         * (Math.PI / 180.0f)) * near; float left = -range * aspect; float right
+         * = range * aspect; float bottom = -range; float top = range;
+         * 
+         * ret.set(0, 0, (2.0f * near) / (right - left)); ret.set(1, 1, (2.0f *
+         * near) / (top - bottom)); ret.set(2, 2, -(far + near) / (far - near));
+         * ret.set(2, 3, -1.0f); ret.set(3, 2, -(2.0f * far * near) / (far -
+         * near)); return ret;
+         */
         Mat4 ret = new Mat4();
-        float range = (float)Math.tan((fov * 0.5f) * (Math.PI / 180.0f)) * near;
-        float left = -range * aspect;
-        float right = range * aspect;
-        float bottom = -range;
-        float top = range;
-
-        ret.set(0, 0, (2.0f * near) / (right - left));
-        ret.set(1, 1, (2.0f * near) / (top - bottom));
-        ret.set(2, 2, -(far + near) / (far - near));
-        ret.set(2, 3, -1.0f);
-        ret.set(3, 2, -(2.0f * far * near) / (far - near));
+        float d2r = (float)Math.PI / 180.0f;
+        float yScale = 1.0f / (float)Math.tan(d2r * fov / 2.0f);
+        float xScale = yScale / aspect;
+        float clipdif = near - far;
+        ret.setRow(0, new Vec4(xScale, 0, 0, 0));
+        ret.setRow(1, new Vec4(0, yScale, 0, 0));
+        ret.setRow(2, new Vec4(0, 0, far / clipdif, (far * near) / clipdif));
+        ret.setRow(3, new Vec4(0, 0, -1, 0));
         return ret;
     }
 
@@ -96,13 +122,34 @@ public class Mat4 extends Mat {
      * 
      * @param rotation A vector expressing the rotation along the three axises.
      */
-    public void rotate(Vec3 rotation) {
-        // TODO Do not use, not done yet
-        float x = rotation.getX();
-        float y = rotation.getY();
-        float z = rotation.getZ();
-        mat[0] = (float)(Math.cos(y) * Math.cos(z));
-        mat[1] = (float)(Math.sin(x) * Math.sin(y) * Math.cos(z) - Math.cos(x)
-                * Math.sin(z));
+    public void rotate(float angle, Vec3 axis) {
+        float c = (float)Math.cos(angle);
+        float s = (float)Math.sin(angle);
+        Vec3 a = axis.normalize();
+        Vec3 temp = a.mul(1.0f - c);
+
+        Mat4 rot = new Mat4();
+        rot.set(0, 0, c + temp.getX() * a.getX());
+        rot.set(0, 1, 0 + temp.getX() * a.getY() + s * a.getZ());
+        rot.set(0, 2, 0 + temp.getX() * a.getZ() - s * a.getY());
+
+        rot.set(1, 0, 0 + temp.getY() * a.getX() - s * a.getZ());
+        rot.set(1, 1, c + temp.getY() * a.getY());
+        rot.set(1, 2, 0 + temp.getY() * a.getZ() + s * a.getX());
+
+        rot.set(2, 0, 0 + temp.getZ() * a.getX() + s * a.getY());
+        rot.set(2, 1, 0 + temp.getZ() * a.getY() - s * a.getX());
+        rot.set(2, 2, c + temp.getZ() * a.getZ());
+
+        Mat4 res = new Mat4();
+        for (int i = 0; i < 3; ++i) {
+            res.setRow(
+                    i,
+                    getRow(0).mul(rot.get(i, 0)).add(
+                            getRow(1).mul(rot.get(i, 1)).add(
+                                    getRow(2).mul(rot.get(i, 2)))));
+        }
+        res.setRow(3, getRow(3));
+        copy(res);
     }
 }
