@@ -76,4 +76,22 @@ public class Line {
      * 
      * return pos; }
      */
+
+	/**
+	 * Returns the intersection point of this line and the given plane.
+	 *
+	 * @param plane The plane to check for an intersection with.
+	 * @return The position of the intersection. If no intersection was found,
+	 * return null.
+	 */
+	public Vec3 intersects(Plane plane) {
+		Vec3 planeNormal = plane.getNormal();
+		float denominator = direction.dot(planeNormal);
+		if (denominator != 0) {
+			float numerators = plane.getPoint().sub(origin).dot(planeNormal);
+			float d = numerators / denominator;
+			return direction.mul(d).add(origin);
+		}
+		return null;
+	}
 }

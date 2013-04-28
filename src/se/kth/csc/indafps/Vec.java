@@ -115,7 +115,7 @@ public class Vec {
      * @param other The other vector
      * @return The sum vector
      */
-    public Vec add(Vec other) {
+    protected Vec add(Vec other) {
         Vec res = new Vec(dimension());
         for (int i = 0; i < dimension(); ++i) {
             res.set(i, get(i) + other.get(i));
@@ -129,13 +129,27 @@ public class Vec {
      * @param other The other vector
      * @return The difference vector
      */
-    public Vec sub(Vec other) {
+    protected Vec sub(Vec other) {
         Vec res = new Vec(dimension());
         for (int i = 0; i < dimension(); ++i) {
             res.set(i, get(i) - other.get(i));
         }
         return res;
     }
+
+	/**
+	 * Multiplies every element in the vector with the given number.
+	 *
+	 * @param factor The number the elements will be multiplied with.
+	 * @return The multiplied vector.
+	 */
+	protected Vec mul(float factor) {
+		Vec res = new Vec(dimension());
+		for (int i = 0; i < dimension(); ++i) {
+			res.set(i, get(i) * factor);
+		}
+		return res;
+	}
 
     /**
      * Returns the dot product of this and another vector

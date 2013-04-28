@@ -31,6 +31,17 @@ public class Vec4 extends Vec {
         setA(a);
     }
 
+	/**
+	 * Initializes the vector using the specified vector.
+	 */
+	public Vec4(Vec v) {
+		super(4);
+		set(0, v.get(0));
+		set(1, v.get(1));
+		set(2, v.get(2));
+		set(3, v.get(3));
+	}
+
     /**
      * Sets this vector's red component
      * 
@@ -114,4 +125,34 @@ public class Vec4 extends Vec {
                 general.get(2), general.get(3));
         return normalized;
     }
+
+    /**
+     * Adds the two vectors.
+     * 
+     * @param other The other vector
+     * @return The sum vector
+     */
+	public Vec4 add(Vec4 other) {
+		return new Vec4(super.add(other));
+	}
+
+    /**
+     * Subtracts the two vectors.
+     * 
+     * @param other The other vector
+     * @return The difference vector
+     */
+	public Vec4 sub(Vec4 other) {
+		return new Vec4(super.sub(other));
+	}
+
+	/**
+	 * Multiplies every element in the vector with the given number.
+	 *
+	 * @param factor The number the elements will be multiplied with.
+	 * @return The multiplied vector.
+	 */
+	protected Vec4 mul(float factor) {
+		return new Vec4(super.mul(factor));
+	}
 }

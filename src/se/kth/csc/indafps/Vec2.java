@@ -27,6 +27,15 @@ public class Vec2 extends Vec {
         setY(y);
     }
 
+	/**
+	 * Initializes the vector using the specified vector.
+	 */
+	public Vec2(Vec v) {
+		super(2);
+		set(0, v.get(0));
+		set(1, v.get(1));
+	}
+
     /**
      * Sets this vector's x coordinate
      * 
@@ -73,4 +82,34 @@ public class Vec2 extends Vec {
         Vec2 normalized = new Vec2(general.get(0), general.get(1));
         return normalized;
     }
+
+    /**
+     * Adds the two vectors.
+     * 
+     * @param other The other vector
+     * @return The sum vector
+     */
+	public Vec2 add(Vec2 other) {
+		return new Vec2(super.add(other));
+	}
+
+    /**
+     * Subtracts the two vectors.
+     * 
+     * @param other The other vector
+     * @return The difference vector
+     */
+	public Vec2 sub(Vec2 other) {
+		return new Vec2(super.sub(other));
+	}
+
+	/**
+	 * Multiplies every element in the vector with the given number.
+	 *
+	 * @param factor The number the elements will be multiplied with.
+	 * @return The multiplied vector.
+	 */
+	protected Vec2 mul(float factor) {
+		return new Vec2(super.mul(factor));
+	}
 }
