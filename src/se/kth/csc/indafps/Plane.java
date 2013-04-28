@@ -2,6 +2,10 @@ package se.kth.csc.indafps;
 
 /**
  * A 3 dimensional plane.
+ * 
+ * @author Marcus Åbrandt Östergren
+ * @author Oscar Friberg
+ * @version 2013-04-25
  */
 
 public class Plane {
@@ -28,14 +32,14 @@ public class Plane {
 	/**
 	 * Calculates the normal of the plane by using the cross product
 	 * (p2 - p1) x (p3 - p1). The direction of the normal can be determined by
-	 * the "right hand rule".
+	 * the "right hand rule". The returned vector is normalized.
 	 *
 	 * @return The normal of the plane.
 	 */
 	public Vec3 getNormal() {
 		Vec3 p1 = points[1].sub(points[0]);
 		Vec3 p2 = points[2].sub(points[0]);
-		return p1.cross(p2);
+		return p1.cross(p2).normalize();
 	}
 
 	/**

@@ -3,7 +3,6 @@ package se.kth.csc.indafps;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.junit.Before;
 
 public abstract class ActorTest extends EntityTest {
     protected Actor a1;
