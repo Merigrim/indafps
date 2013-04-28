@@ -80,29 +80,19 @@ public class Renderer {
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, model.getBuffer());
-<<<<<<< HEAD
-        int stride = 12;
-        GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
-        GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 3);
-        GL11.glNormalPointer(GL11.GL_FLOAT, stride, 5);
-        GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 8);
-=======
+
         int stride = 4 * 12;
         GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 4 * 3);
         GL11.glNormalPointer(GL11.GL_FLOAT, stride, 4 * 5);
         GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 4 * 8);
->>>>>>> 03b35ea8ff314f5e9411184dbf9c3021198883df
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 36);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-<<<<<<< HEAD
-=======
         GL11.glEnable(GL11.GL_TEXTURE_2D);
->>>>>>> 03b35ea8ff314f5e9411184dbf9c3021198883df
     }
 
     /**
