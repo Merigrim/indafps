@@ -48,12 +48,13 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadMatrix(projection.toFloatBuffer());
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPushMatrix();
         GL11.glLoadMatrix(world.toFloatBuffer());
 
         Rect rect = image.getRect();
         Texture tex = image.getTexture();
-        tex.bind();
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+        tex.bind();
         GL11.glTexCoord2f(0.0f, 0.0f);
         GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(0.0f, 1.0f);
@@ -62,8 +63,9 @@ public class Renderer {
         GL11.glVertex2f(rect.right, rect.bottom);
         GL11.glTexCoord2f(1.0f, 1.0f);
         GL11.glVertex2f(rect.right, rect.top);
-        GL11.glEnd();
         tex.release();
+        GL11.glEnd();
+        GL11.glPopMatrix();
     }
 
     /**
@@ -72,6 +74,7 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
@@ -88,6 +91,7 @@ public class Renderer {
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     /**

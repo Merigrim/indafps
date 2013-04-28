@@ -37,7 +37,6 @@ public class GameState extends State {
             e.printStackTrace();
         }
         hud = new Hud(null);
-        renderer = new Renderer();
         p = new Player(new Vec3(0, 0, 0));
         // TODO
     }
@@ -53,7 +52,7 @@ public class GameState extends State {
 
     @Override
     public void render(Renderer renderer) {
-        this.renderer.render(p);
+        renderer.render(p);
 
         level.render(renderer);
         hud.render(renderer);

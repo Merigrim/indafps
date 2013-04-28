@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class Engine {
     private StateManager manager;
+    private Renderer renderer;
 
     /**
      * Default constructor.
@@ -31,8 +32,14 @@ public class Engine {
      * @return Whether the initialization was successful or not.
      */
     private boolean initGL() {
-        GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        GL11.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
         GL11.glEnable(GL11.GL_DEPTH);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        renderer = new Renderer();
+
         return true;
     }
 
@@ -56,8 +63,9 @@ public class Engine {
         }
 
         manager = new StateManager();
-        GameState gameState = new GameState("levels/test.lvl");
-        manager.pushState(gameState);
+        // GameState gameState = new GameState("levels/test.lvl");
+        // manager.pushState(gameState);
+        manager.pushState(new MainMenuState());
 
         return true;
     }
@@ -80,7 +88,7 @@ public class Engine {
             float dt = currentTime - lastTime;
             lastTime = currentTime;
             manager.update(dt);
-            manager.render(null);
+            manager.render(renderer);
 
             Display.update();
         }

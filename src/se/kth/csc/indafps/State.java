@@ -10,7 +10,7 @@ package se.kth.csc.indafps;
  */
 public abstract class State implements GameComponent {
     // The state manager associated with this state
-    private StateManager manager;
+    protected StateManager manager;
 
     @Override
     public abstract void update(float dt);
