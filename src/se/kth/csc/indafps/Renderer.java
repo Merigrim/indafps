@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
@@ -46,6 +45,7 @@ public class Renderer {
         projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
         world = new Mat4();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPushMatrix();
         GL11.glLoadMatrix(projection.toFloatBuffer());
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
@@ -66,6 +66,9 @@ public class Renderer {
         tex.release();
         GL11.glEnd();
         GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
     }
 
     /**
