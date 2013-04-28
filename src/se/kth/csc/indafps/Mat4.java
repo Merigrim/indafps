@@ -12,6 +12,11 @@ public class Mat4 extends Mat {
         super(4);
     }
 
+    public Mat4(float[] raw) {
+        super(4);
+        System.arraycopy(raw, 0, mat, 0, mat.length);
+    }
+
     /**
      * Multiplies this 4x4 matrix with the specified R^4 vector.
      * 
