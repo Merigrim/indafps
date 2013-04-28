@@ -9,7 +9,7 @@ package se.kth.csc.indafps;
  */
 
 public class Plane {
-	private Vec3 points[];
+	protected Vec3 points[];
 
 	/**
 	 * Constructs a plane containing the three given vectors.
@@ -24,9 +24,9 @@ public class Plane {
 			throw new IllegalArgumentException("Two or all of the given "
 					+ "points are coinciding."); 
 		}
-		points[0] = p1;
-		points[1] = p2;
-		points[2] = p3;
+		points[0] = new Vec3(p1);
+		points[1] = new Vec3(p2);
+		points[2] = new Vec3(p3);
 	}
 
 	/**
