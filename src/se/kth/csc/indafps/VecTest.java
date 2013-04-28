@@ -67,6 +67,7 @@ public class VecTest {
     @Test
     public void testCross() {
         assertThat(a3.cross(b3), is(new Vec3(-3, 6, -3)));
+        assertThat(b3.cross(a3), is(new Vec3(3, -6, 3)));
     }
 
     @Test
@@ -117,6 +118,16 @@ public class VecTest {
                         .sqrt(2.0f / 15.0f), (float)Math.sqrt(3.0f / 10.0f),
                         2.0f * (float)Math.sqrt(2.0f / 15.0f)), 0.001f));
     }
+
+	@Test
+	public void testMul() {
+		assertThat(a2.mul(2.0f), is(new Vec2(2.0f, 4.0f)));
+		assertThat(b2.mul(3.0f), is(new Vec2(9.0f, 12.0f)));
+		assertThat(a3.mul(2.0f), is(new Vec3(2.0f, 4.0f, 6.0f)));
+		assertThat(b3.mul(3.0f), is(new Vec3(12.0f, 15.0f, 18.0f)));
+		assertThat(a4.mul(2.0f), is(new Vec4(2.0f, 4.0f, 6.0f, 8.0f)));
+		assertThat(b4.mul(0.0f), is(new Vec4(0.0f, 0.0f, 0.0f, 0.0f)));
+	}
 
     @Test
     public void testToString() {

@@ -50,4 +50,15 @@ public class Plane {
 	public Vec3 getPoint() {
 		return points[0];
 	}
+
+	/**
+	 * Returns the intersection point of this plane and the given line.
+	 *
+	 * @param line The line to check for an intersection with.
+	 * @return The position of the intersection. If no intersection was found,
+	 * return null.
+	 */
+	public Vec3 intersects(Line line) {
+		return Geometry.intersects(line, this);
+	}
 }

@@ -85,13 +85,6 @@ public class Line {
 	 * return null.
 	 */
 	public Vec3 intersects(Plane plane) {
-		Vec3 planeNormal = plane.getNormal();
-		float denominator = direction.dot(planeNormal);
-		if (denominator != 0) {
-			float numerators = plane.getPoint().sub(origin).dot(planeNormal);
-			float d = numerators / denominator;
-			return direction.mul(d).add(origin);
-		}
-		return null;
+		return Geometry.intersects(this, plane);
 	}
 }
