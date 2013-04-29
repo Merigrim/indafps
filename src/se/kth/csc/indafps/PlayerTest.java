@@ -4,9 +4,30 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.AfterClass;
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 public class PlayerTest extends ActorTest {
 	Player p;
+
+	@BeforeClass
+	public static void createDisplay() {
+        try {
+            Display.setDisplayMode(new DisplayMode(1280, 720));
+            Display.create();
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
+	}
+
+	@AfterClass
+	public static void tearDownDisplay() {
+		Display.destroy();
+	}
 
 	@Before
 	public void setUp() {
