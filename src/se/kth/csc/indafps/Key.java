@@ -19,12 +19,12 @@ public class Key extends Item {
             e.printStackTrace();
         }
         setRotation(new Vec3((float)Math.PI * 0.25f, 0.0f,
-                (float)Math.PI * 0.15f));
+                (float)Math.PI * 1.45f));
     }
 
     @Override
     public void update(float dt) {
-        setRotation(rotation.add(new Vec3(0, dt * (float)Math.PI * 30.0f, 0)));
+        setRotation(rotation.add(new Vec3(0, dt * (float)Math.PI * 2.0f, 0)));
     }
 
     @Override
