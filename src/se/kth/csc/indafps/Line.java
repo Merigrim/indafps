@@ -87,4 +87,15 @@ public class Line {
 	public Vec3 intersects(Plane plane) {
 		return Geometry.intersects(this, plane);
 	}
+
+	/**
+	 * Returns the intersection point of this line and the given parallel.
+	 *
+	 * @param parallel The parallel to check for an intersection with.
+	 * @return The position of the intersection. If no intersection was found,
+	 * return null.
+	 */
+	public Vec3 intersects(Parallelogram parallel) {
+		return Geometry.intersects(this, parallel);
+	}
 }

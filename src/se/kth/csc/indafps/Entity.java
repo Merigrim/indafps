@@ -131,10 +131,41 @@ public abstract class Entity implements GameComponent {
     /**
      * Tests if the Line intersects with this Entity and returns the point where
      * the Line and this Entity. Null is returned if there is no intersection.
+	 * The point closest to the origin of the line is returned.
      * 
      * @return The point where the Line and this Entity intersects.
      */
     public final Vec3 testIntersection(Line line) {
+		Vec3 intersects[] = new Vec3[5];
+		int closest = -1;
+		float closestLength = Float.MAX_VALUE;
+		Vec3 c1 = position.add(scale.mul(-0.5f));
+		Vec3 c2 = c1.add(new Vec3(scale.getX(), 0.0f, 0.0f));
+		Vec3 c3 = c1.add(new Vec3(0.0f, scale.getY(), 0.0f));
+		Vec3 c4 = c1.add(new Vec3(0.0f, 0.0f, scale.getZ()));
+		Vec3 c5 = position.add(scale.mul(0.5f));
+		Vec3 c6 = c1.add(new Vec3(-scale.getX(), 0.0f, 0.0f));
+		Vec3 c7 = c1.add(new Vec3(0.0f, -scale.getY(), 0.0f));
+		Vec3 c8 = c1.add(new Vec3(0.0f, 0.0f, -scale.getZ()));
+		intersects[0] = line.intersects(new Parallelogram(c1, c2, c3));
+		intersects[1] = line.intersects(new Parallelogram(c1, c2, c4));
+		intersects[2] = line.intersects(new Parallelogram(c1, c3, c4));
+		intersects[3] = line.intersects(new Parallelogram(c5, c6, c7));
+		intersects[4] = line.intersects(new Parallelogram(c5, c6, c8));
+		intersects[5] = line.intersects(new Parallelogram(c5, c7, c8));
+		for (int i = 0; i < intersects.length; ++i) {
+			if (intersects[i] != null) {
+				Vec3 distanceVec = intersects[i].sub(line.getOrigin());
+				float length = distanceVec.getLength();
+				if (length < closestLength) {
+					closest = i;
+					closestLength = length;
+				}
+			}
+		}
+		if (closest != -1) {
+			return intersects[closest];
+		}
         return null;
     }
 
