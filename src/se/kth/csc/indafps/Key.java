@@ -1,5 +1,7 @@
 package se.kth.csc.indafps;
 
+import java.io.IOException;
+
 /**
  * Abstract base class for every game object.
  * 
@@ -10,10 +12,19 @@ package se.kth.csc.indafps;
 public class Key extends Item {
     public Key(Vec3 position) {
         super(position);
+        try {
+            model = ModelManager.get("data/key.obj");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        setRotation(new Vec3((float)Math.PI * 0.25f, 0.0f,
+                (float)Math.PI * 0.15f));
     }
 
     @Override
     public void update(float dt) {
+        setRotation(rotation.add(new Vec3(0, dt * (float)Math.PI * 30.0f, 0)));
     }
 
     @Override

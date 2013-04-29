@@ -102,7 +102,6 @@ public class Player extends Actor {
      */
     @Override
     public void update(float dt) {
-        System.out.println(dt);
         Vec3 viewDir = camera.getViewDirection();
         viewDir.setY(0.0f);
         Vec3 complDir = new Vec3(viewDir.getZ(), 0.0f, -viewDir.getX());
@@ -127,7 +126,7 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-            setPosition(position.add(movementDir.mul(dt)));
+            setPosition(position.add(movementDir.normalize().mul(dt)));
         }
     }
 

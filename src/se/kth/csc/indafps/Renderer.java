@@ -138,7 +138,13 @@ public class Renderer {
         GLU.gluLookAt(pos.getX(), pos.getY(), pos.getZ(), target.getX(),
                 target.getY(), target.getZ(), 0, 1, 0);
         Vec3 epos = entity.getPosition();
+        Vec3 erot = entity.getRotation();
+        Vec3 escale = entity.getScale();
+        GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
         GL11.glTranslatef(epos.getX(), epos.getY(), epos.getZ());
+        GL11.glRotatef(erot.getX(), 1, 0, 0);
+        GL11.glRotatef(erot.getY(), 0, 1, 0);
+        GL11.glRotatef(erot.getZ(), 0, 0, 1);
         render(entity.getModel());
     }
 }

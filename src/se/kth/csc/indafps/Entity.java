@@ -24,7 +24,7 @@ public abstract class Entity implements GameComponent {
     public Entity() {
         position = new Vec3();
         rotation = new Vec3();
-        scale = new Vec3();
+        scale = new Vec3(1.0f, 1.0f, 1.0f);
         color = new Vec4();
 
         solid = false;
