@@ -61,14 +61,14 @@ public class Renderer {
         Texture tex = image.getTexture();
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         tex.bind();
-        GL11.glTexCoord2f(0.0f, 0.0f);
-        GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(0.0f, 1.0f);
         GL11.glVertex2f(rect.left, rect.top);
-        GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex2f(rect.right, rect.bottom);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(1.0f, 1.0f);
         GL11.glVertex2f(rect.right, rect.top);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex2f(rect.right, rect.bottom);
         tex.release();
         GL11.glEnd();
         GL11.glPopMatrix();
@@ -83,7 +83,6 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
-        org.newdawn.slick.Color.white.bind();
         if (model.hasTexture()) {
             model.getTexture().bind();
         }
