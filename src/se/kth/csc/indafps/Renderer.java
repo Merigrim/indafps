@@ -1,5 +1,6 @@
 package se.kth.csc.indafps;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -82,7 +83,10 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        org.newdawn.slick.Color.white.bind();
+        if (model.hasTexture()) {
+            model.getTexture().bind();
+        }
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
@@ -100,7 +104,6 @@ public class Renderer {
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
         GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     /**
@@ -109,6 +112,9 @@ public class Renderer {
      * @param entity The entity to render
      */
     public void render(Entity entity) {
+        if (entity.getModel() == null) {
+            return;
+        }
         projection = Mat4.perspective(90.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
         view = new Mat4();
         world = new Mat4();
@@ -133,6 +139,6 @@ public class Renderer {
                 target.getY(), target.getZ(), 0, 1, 0);
         Vec3 epos = entity.getPosition();
         GL11.glTranslatef(epos.getX(), epos.getY(), epos.getZ());
-        render(cube);
+        render(entity.getModel());
     }
 }

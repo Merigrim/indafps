@@ -1,8 +1,11 @@
 package se.kth.csc.indafps;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Set;
 import java.util.HashSet;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -14,9 +17,18 @@ import org.lwjgl.input.Mouse;
  */
 public class Player extends Actor {
     private Set<Item> inventory;
+    // 0: W, 1: A, 2: S, 3: D
+    private boolean[] wasd;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
+        wasd = new boolean[4];
+        try {
+            model = ModelManager.get("data/cube.obj");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -81,8 +93,42 @@ public class Player extends Actor {
         return null;
     }
 
+    /**
+     * Handles movement for the player among other things.
+     * 
+     * TODO: Add "other things".
+     * 
+     * @param dt The time difference since the last frame
+     */
     @Override
     public void update(float dt) {
+        System.out.println(dt);
+        Vec3 viewDir = camera.getViewDirection();
+        viewDir.setY(0.0f);
+        Vec3 complDir = new Vec3(viewDir.getZ(), 0.0f, -viewDir.getX());
+        Vec3 movementDir = null;
+        if (wasd[0] && wasd[1]) {
+            movementDir = viewDir.add(complDir).normalize();
+        } else if (wasd[0] && wasd[3]) {
+            complDir = complDir.negate();
+            movementDir = viewDir.add(complDir).normalize();
+        } else if (wasd[0]) {
+            movementDir = viewDir;
+        } else if (wasd[2] && wasd[1]) {
+            movementDir = viewDir.negate().add(complDir).normalize();
+        } else if (wasd[2] && wasd[3]) {
+            complDir = complDir.negate();
+            movementDir = viewDir.negate().add(complDir).normalize();
+        } else if (wasd[2]) {
+            movementDir = viewDir.negate();
+        } else if (wasd[1]) {
+            movementDir = complDir;
+        } else if (wasd[3]) {
+            movementDir = complDir.negate();
+        }
+        if (movementDir != null) {
+            setPosition(position.add(movementDir.mul(dt)));
+        }
     }
 
     @Override
@@ -94,5 +140,14 @@ public class Player extends Actor {
         float dx = Mouse.getDX();
         float dy = Mouse.getDY();
         camera.move(dx, -dy);
+
+        wasd[0] = Keyboard.isKeyDown(Keyboard.KEY_W)
+                || Keyboard.isKeyDown(Keyboard.KEY_UP);
+        wasd[1] = Keyboard.isKeyDown(Keyboard.KEY_A)
+                || Keyboard.isKeyDown(Keyboard.KEY_LEFT);
+        wasd[2] = Keyboard.isKeyDown(Keyboard.KEY_S)
+                || Keyboard.isKeyDown(Keyboard.KEY_DOWN);
+        wasd[3] = Keyboard.isKeyDown(Keyboard.KEY_D)
+                || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
     }
 }

@@ -1,5 +1,7 @@
 package se.kth.csc.indafps;
 
+import java.io.IOException;
+
 /**
  * Abstract base class for every game object.
  * 
@@ -16,6 +18,8 @@ public abstract class Entity implements GameComponent {
     protected boolean solid;
 
     protected Level level;
+
+    protected Model model;
 
     public Entity() {
         position = new Vec3();
@@ -142,6 +146,15 @@ public abstract class Entity implements GameComponent {
      */
     public final boolean testIntersection(Entity entity) {
         return false;
+    }
+
+    /**
+     * Returns the 3D model associated with this entity.
+     * 
+     * @return The 3D model associated with this entity
+     */
+    public final Model getModel() {
+        return model;
     }
 
     @Override

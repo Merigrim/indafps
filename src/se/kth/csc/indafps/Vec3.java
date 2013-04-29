@@ -29,15 +29,15 @@ public class Vec3 extends Vec {
         setZ(z);
     }
 
-	/**
-	 * Initializes the vector using the specified vector.
-	 */
-	public Vec3(Vec v) {
-		super(3);
-		set(0, v.get(0));
-		set(1, v.get(1));
-		set(2, v.get(2));
-	}
+    /**
+     * Initializes the vector using the specified vector.
+     */
+    public Vec3(Vec v) {
+        super(3);
+        set(0, v.get(0));
+        set(1, v.get(1));
+        set(2, v.get(2));
+    }
 
     /**
      * Sets this vector's x coordinate
@@ -123,9 +123,9 @@ public class Vec3 extends Vec {
      * @param other The other vector
      * @return The sum vector
      */
-	public Vec3 add(Vec3 other) {
-		return new Vec3(super.add(other));
-	}
+    public Vec3 add(Vec3 other) {
+        return new Vec3(super.add(other));
+    }
 
     /**
      * Subtracts the two vectors.
@@ -133,17 +133,28 @@ public class Vec3 extends Vec {
      * @param other The other vector
      * @return The difference vector
      */
-	public Vec3 sub(Vec3 other) {
-		return new Vec3(super.sub(other));
-	}
+    public Vec3 sub(Vec3 other) {
+        return new Vec3(super.sub(other));
+    }
 
-	/**
-	 * Multiplies every element in the vector with the given number.
-	 *
-	 * @param factor The number the elements will be multiplied with.
-	 * @return The multiplied vector.
-	 */
-	protected Vec3 mul(float factor) {
-		return new Vec3(super.mul(factor));
-	}
+    /**
+     * Negates all components of this vector.
+     * 
+     * @return The negated vector.
+     */
+    @Override
+    public Vec3 negate() {
+        return new Vec3(super.negate());
+    }
+
+    /**
+     * Multiplies every element in the vector with the given number.
+     * 
+     * @param factor The number the elements will be multiplied with.
+     * @return The multiplied vector.
+     */
+    @Override
+    protected Vec3 mul(float factor) {
+        return new Vec3(super.mul(factor));
+    }
 }

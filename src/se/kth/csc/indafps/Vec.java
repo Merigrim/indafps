@@ -110,6 +110,19 @@ public class Vec {
     }
 
     /**
+     * Negates all components of this vector.
+     * 
+     * @return The negated vector.
+     */
+    protected Vec negate() {
+        Vec res = new Vec(dimension());
+        for (int i = 0; i < dimension(); ++i) {
+            res.set(i, -get(i));
+        }
+        return res;
+    }
+
+    /**
      * Adds the two vectors.
      * 
      * @param other The other vector
@@ -137,19 +150,19 @@ public class Vec {
         return res;
     }
 
-	/**
-	 * Multiplies every element in the vector with the given number.
-	 *
-	 * @param factor The number the elements will be multiplied with.
-	 * @return The multiplied vector.
-	 */
-	protected Vec mul(float factor) {
-		Vec res = new Vec(dimension());
-		for (int i = 0; i < dimension(); ++i) {
-			res.set(i, get(i) * factor);
-		}
-		return res;
-	}
+    /**
+     * Multiplies every element in the vector with the given number.
+     * 
+     * @param factor The number the elements will be multiplied with.
+     * @return The multiplied vector.
+     */
+    protected Vec mul(float factor) {
+        Vec res = new Vec(dimension());
+        for (int i = 0; i < dimension(); ++i) {
+            res.set(i, get(i) * factor);
+        }
+        return res;
+    }
 
     /**
      * Returns the dot product of this and another vector

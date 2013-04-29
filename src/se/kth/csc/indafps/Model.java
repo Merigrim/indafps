@@ -7,11 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 public class Model {
     private class Face {
@@ -26,7 +29,8 @@ public class Model {
         }
     }
 
-    int buffer;
+    private int buffer;
+    private Texture texture;
 
     private Model() {
         buffer = 0;
@@ -34,6 +38,30 @@ public class Model {
 
     public int getBuffer() {
         return buffer;
+    }
+
+    private static void loadMtl(Model model, String filename)
+            throws IOException {
+        File mtl = new File(filename);
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                new FileInputStream(mtl)));
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith("map_Kd ")) {
+                    System.out.println("Woohoo");
+                    String[] parts = line.split(" ");
+                    String directory = mtl.getParentFile().getAbsolutePath();
+                    model.texture = TextureLoader.getTexture(parts[1]
+                            .substring(parts[1].lastIndexOf('.') + 1)
+                            .toUpperCase(), new FileInputStream(directory + "/"
+                            + parts[1]));
+                }
+            }
+        } finally {
+            br.close();
+        }
     }
 
     /**
@@ -54,13 +82,16 @@ public class Model {
         ArrayList<Face> faces = new ArrayList<Face>();
 
         File obj = new File(filename);
-        BufferedReader r = new BufferedReader(new InputStreamReader(
+        BufferedReader br = new BufferedReader(new InputStreamReader(
                 new FileInputStream(obj)));
         try {
             String line;
-            while ((line = r.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (line.startsWith("v ")) {
+                if (line.startsWith("mtllib ")) {
+                    String directory = obj.getParentFile().getAbsolutePath();
+                    loadMtl(model, directory + "/" + line.split(" ")[1]);
+                } else if (line.startsWith("v ")) {
                     String[] parts = line.split(" ");
                     if (parts.length != 4) {
                         throw new IOException(
@@ -122,8 +153,7 @@ public class Model {
                     data.put(vn.getY());
                     data.put(vn.getZ());
                     for (int j = 0; j < 4; ++j) {
-                        data.put((faces.indexOf(f) / 2)
-                                / (float)(faces.size() / 2));
+                        data.put(1.0f);
                     }
                 }
             }
@@ -132,8 +162,24 @@ public class Model {
             GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
             GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         } finally {
-            r.close();
+            br.close();
         }
         return model;
+    }
+
+    /**
+     * @return True if this model has a texture, otherwise false
+     */
+    public boolean hasTexture() {
+        return texture != null;
+    }
+
+    /**
+     * Returns this model's texture.
+     * 
+     * @return This model's texture
+     */
+    public Texture getTexture() {
+        return texture;
     }
 }

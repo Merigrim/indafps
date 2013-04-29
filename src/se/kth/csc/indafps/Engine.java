@@ -33,7 +33,8 @@ public class Engine {
      */
     private boolean initGL() {
         GL11.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
-        GL11.glEnable(GL11.GL_DEPTH);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -78,19 +79,20 @@ public class Engine {
         if (!init()) {
             return;
         }
-        float lastTime = (float)Sys.getTime() / Sys.getTimerResolution();
+        long lastTime = System.nanoTime();
         while (!Display.isCloseRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
             manager.handleInput();
 
-            float currentTime = (float)Sys.getTime() / Sys.getTimerResolution();
-            float dt = currentTime - lastTime;
+            long currentTime = System.nanoTime();
+            float dt = (currentTime - lastTime) / 1000000000.0f;
             lastTime = currentTime;
             manager.update(dt);
             manager.render(renderer);
 
             Display.update();
+            Display.sync(60);
         }
         close();
     }

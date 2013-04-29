@@ -19,14 +19,21 @@ import java.util.Set;
  */
 public class Level implements GameComponent {
     private Map<String, Set<Entity>> entities;
+    private Vec2 size;
 
+    /**
+     * Initializes the level with an empty set of entities.
+     */
     public Level() {
         entities = new HashMap<String, Set<Entity>>();
+        size = new Vec2();
     }
 
     /**
      * Reads the content on the file with the given filename and builds the
      * level according to it.
+     * 
+     * TODO: Add better error handling
      * 
      * @param filename The name of the file with the level information.
      * @throws IOException If there was an error loading the file.
@@ -48,11 +55,13 @@ public class Level implements GameComponent {
                             addEntity(new Wall(new Vec3(x, 0, y)));
                             break;
                         case '.': // Floor
+                            addEntity(new Floor(new Vec3(x, 0, y)));
                             break;
                         case ' ': // Void
                             break;
                         case '@': // Player
                             addEntity(new Player(new Vec3(x, 0.5f, y)));
+                            addEntity(new Floor(new Vec3(x, 0, y)));
                             break;
                         }
                         ++x;
@@ -63,8 +72,10 @@ public class Level implements GameComponent {
                     String[] parts = line.substring(1).split("=");
                     switch (parts[0]) {
                     case "width":
+                        size.setX(Integer.parseInt(parts[1]));
                         break;
                     case "height":
+                        size.setY(Integer.parseInt(parts[1]));
                         break;
                     case "map":
                         mapBlock = true;
@@ -119,6 +130,15 @@ public class Level implements GameComponent {
      */
     public Set<Entity> getEntities(String type) {
         return entities.get(type);
+    }
+
+    /**
+     * Returns the level size in unit squares.
+     * 
+     * @return The level size in unit squares
+     */
+    public Vec2 getSize() {
+        return new Vec2(size);
     }
 
     @Override

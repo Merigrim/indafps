@@ -21,7 +21,7 @@ public class Camera {
     }
 
     public Vec3 getViewDirection() {
-        return target.sub(position);
+        return target.sub(position).normalize();
     }
 
     public Vec3 getTarget() {
@@ -40,6 +40,5 @@ public class Camera {
         target.setY((float)Math.cos(phi));
         target.setZ((float)Math.sin(theta) * (float)Math.sin(phi));
         target.copy(target.add(position));
-        System.out.println("" + target + ", " + theta + ", " + phi);
     }
 }
