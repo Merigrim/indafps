@@ -87,8 +87,8 @@ public class Geometry {
             Vec3 toPoint = intersection.sub(parallel.getCorner(0));
             float proj1Length = projection(toPoint, edge1).getLength();
             float proj2Length = projection(toPoint, edge2).getLength();
-            if (proj1Length > 0.0f && proj1Length < edge1.getLength()
-                    && proj2Length > 0.0f && proj2Length < edge2.getLength()) {
+            if (proj1Length >= 0.0f && proj1Length <= edge1.getLength()
+                    && proj2Length >= 0.0f && proj2Length <= edge2.getLength()) {
                 return intersection;
             }
         }
