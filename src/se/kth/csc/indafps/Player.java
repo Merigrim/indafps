@@ -22,6 +22,7 @@ public class Player extends Actor {
 
     public Player(Vec3 position) {
         this(position, 100, 12);
+		setScale(new Vec3(0.3f, 0.3f, 0.3f));
         wasd = new boolean[4];
         try {
             model = ModelManager.get("data/cube.obj");

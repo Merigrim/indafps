@@ -94,15 +94,19 @@ public abstract class EntityTest {
 		biIntersectionTest(e1, e2, true);
 
 		// The center point isn't inside
-		e1.setPosition(new Vec3(1.5f, 1.5f, 0.0f));
+		e1.setPosition(new Vec3(1.5f, 0.0f, 1.5f));
 		biIntersectionTest(e1, e2, true);
 
 		// They collide at the corners
-		e1.setPosition(new Vec3(2.0f, 2.0f, 0.0f));
+		e1.setPosition(new Vec3(2.0f, 0.0f, 2.0f));
 		biIntersectionTest(e1, e2, true);
 
 		// No intersection
-		e1.setPosition(new Vec3(2.5f, 2.5f, 0.0f));
+		e1.setPosition(new Vec3(2.5f, 0.0f, 0.0f));
+		biIntersectionTest(e1, e2, false);
+
+		// No intersection
+		e1.setPosition(new Vec3(0.0f, 0.0f, 2.5f));
 		biIntersectionTest(e1, e2, false);
 	}
 }

@@ -68,8 +68,8 @@ public class Geometry {
 		Vec3 corners2[] = box2.getCorners();
 		if (corners1[0].getX() > corners2[1].getX()) return false;
 		if (corners1[1].getX() < corners2[0].getX()) return false;
-		if (corners1[0].getY() > corners2[2].getY()) return false;
-		if (corners1[2].getY() < corners2[0].getY()) return false;
+		if (corners1[0].getZ() > corners2[3].getZ()) return false;
+		if (corners1[3].getZ() < corners2[0].getZ()) return false;
 		return true;
 	}
 

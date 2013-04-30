@@ -64,7 +64,7 @@ public abstract class Entity implements GameComponent {
     /**
      * Set the scale of this Entity.
      */
-    public void setSize(Vec3 vec) {
+    public void setScale(Vec3 vec) {
 		box.setScale(vec);
     }
 
