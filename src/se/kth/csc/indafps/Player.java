@@ -22,7 +22,7 @@ public class Player extends Actor {
 
     public Player(Vec3 position) {
         this(position, 100, 12);
-		setScale(new Vec3(0.3f, 0.3f, 0.3f));
+        setScale(new Vec3(0.3f, 0.3f, 0.3f));
         wasd = new boolean[4];
         try {
             model = ModelManager.get("data/cube.obj");
@@ -131,11 +131,27 @@ public class Player extends Actor {
         }
 
         for (Entity e : level.getEntities("Key")) {
+            if (e.getPosition().sub(getPosition()).getLength() > 10.0f) {
+                continue;
+            }
             Vec3 v;
-            if ((v = Geometry.intersects(
-                    new Line(camera.getPosition(), camera.getViewDirection()),
-                    e.getBoundingSphere())) != null) {
-                System.out.println("Item in sight: " + v);
+            Line ray = new Line(camera.getPosition(), camera.getViewDirection());
+            if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
+                float distance = v.sub(camera.getPosition()).getLength();
+                boolean wallBlocking = false;
+                for (Entity w : level.getEntities("Wall")) {
+                    Vec3 v2;
+                    if ((v2 = w.testIntersection(ray)) != null
+                            && v2.sub(camera.getPosition()).getLength() < distance) {
+                        wallBlocking = true;
+                        System.out.println("Wall blocking at " + v2
+                                + ", Item at " + v);
+                        break;
+                    }
+                }
+                if (!wallBlocking) {
+                    System.out.println("Item in sight: " + v);
+                }
             }
         }
     }
