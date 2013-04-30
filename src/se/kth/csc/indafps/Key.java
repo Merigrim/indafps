@@ -20,6 +20,7 @@ public class Key extends Item {
         }
         setRotation(new Vec3((float)Math.PI * 0.25f, 0.0f,
                 (float)Math.PI * 1.45f));
+        setBoundingSphereRadius(0.25f);
     }
 
     @Override

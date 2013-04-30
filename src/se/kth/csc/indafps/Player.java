@@ -128,6 +128,15 @@ public class Player extends Actor {
         if (movementDir != null) {
             setPosition(box.getPosition().add(movementDir.normalize().mul(dt)));
         }
+
+        for (Entity e : level.getEntities("Key")) {
+            Vec3 v;
+            if ((v = Geometry.intersects(
+                    new Line(camera.getPosition(), camera.getViewDirection()),
+                    e.getBoundingSphere())) != null) {
+                System.out.println("Item in sight: " + v);
+            }
+        }
     }
 
     @Override

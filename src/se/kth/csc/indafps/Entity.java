@@ -8,7 +8,8 @@ package se.kth.csc.indafps;
  * @version 2013-04-25
  */
 public abstract class Entity implements GameComponent {
-	protected Box box;
+    protected Box box;
+    protected Sphere boundingSphere;
     protected Vec3 rotation;
     protected Vec4 color;
 
@@ -19,7 +20,8 @@ public abstract class Entity implements GameComponent {
     protected Model model;
 
     public Entity() {
-		box = new Box(new Vec3(0.0f, 0.0f, 0.0f), new Vec3(1.0f, 1.0f, 1.0f));
+        box = new Box(new Vec3(0.0f, 0.0f, 0.0f), new Vec3(1.0f, 1.0f, 1.0f));
+        boundingSphere = new Sphere(new Vec3(0.0f, 0.0f, 0.0f), 0.5f);
         rotation = new Vec3();
         color = new Vec4();
 
@@ -58,14 +60,15 @@ public abstract class Entity implements GameComponent {
      * given vector.
      */
     public void setPosition(Vec3 vec) {
-		box.setPosition(vec);
+        box.setPosition(vec);
+        boundingSphere.setCenter(vec);
     }
 
     /**
      * Set the scale of this Entity.
      */
     public void setSize(Vec3 vec) {
-		box.setScale(vec);
+        box.setScale(vec);
     }
 
     /**
@@ -80,6 +83,15 @@ public abstract class Entity implements GameComponent {
      */
     public void setColor(Vec4 vec) {
         color.copy(vec);
+    }
+
+    /**
+     * Sets the radius of this Entity's bounding sphere.
+     * 
+     * @param radius The new radius
+     */
+    public void setBoundingSphereRadius(float radius) {
+        boundingSphere.setRadius(radius);
     }
 
     /**
@@ -118,6 +130,13 @@ public abstract class Entity implements GameComponent {
     }
 
     /**
+     * @return The bounding sphere of this entity
+     */
+    public Sphere getBoundingSphere() {
+        return boundingSphere;
+    }
+
+    /**
      * @return True or false whether the Entity is solid or not.
      */
     public boolean isSolid() {
@@ -127,34 +146,34 @@ public abstract class Entity implements GameComponent {
     /**
      * Tests if the Line intersects with this Entity and returns the point where
      * the Line and this Entity. Null is returned if there is no intersection.
-	 * The point closest to the origin of the line is returned.
+     * The point closest to the origin of the line is returned.
      * 
      * @return The point where the Line and this Entity intersects.
      */
     public Vec3 testIntersection(Line line) {
-		Vec3 intersects[] = new Vec3[6];
-		int closest = -1;
-		float closestLength = Float.MAX_VALUE;
-		Vec3 c[] = box.getCorners();
-		intersects[0] = line.intersects(new Parallelogram(c[1], c[2], c[3]));
-		intersects[1] = line.intersects(new Parallelogram(c[1], c[2], c[4]));
-		intersects[2] = line.intersects(new Parallelogram(c[1], c[3], c[4]));
-		intersects[3] = line.intersects(new Parallelogram(c[5], c[6], c[7]));
-		intersects[4] = line.intersects(new Parallelogram(c[5], c[6], c[8]));
-		intersects[5] = line.intersects(new Parallelogram(c[5], c[7], c[8]));
-		for (int i = 0; i < intersects.length; ++i) {
-			if (intersects[i] != null) {
-				Vec3 distanceVec = intersects[i].sub(line.getOrigin());
-				float length = distanceVec.dot(line.getDirection());
-				if (length < closestLength && length >= 0.0f) {
-					closest = i;
-					closestLength = length;
-				}
-			}
-		}
-		if (closest != -1) {
-			return intersects[closest];
-		}
+        Vec3 intersects[] = new Vec3[6];
+        int closest = -1;
+        float closestLength = Float.MAX_VALUE;
+        Vec3 c[] = box.getCorners();
+        intersects[0] = line.intersects(new Parallelogram(c[1], c[2], c[3]));
+        intersects[1] = line.intersects(new Parallelogram(c[1], c[2], c[4]));
+        intersects[2] = line.intersects(new Parallelogram(c[1], c[3], c[4]));
+        intersects[3] = line.intersects(new Parallelogram(c[5], c[6], c[7]));
+        intersects[4] = line.intersects(new Parallelogram(c[5], c[6], c[8]));
+        intersects[5] = line.intersects(new Parallelogram(c[5], c[7], c[8]));
+        for (int i = 0; i < intersects.length; ++i) {
+            if (intersects[i] != null) {
+                Vec3 distanceVec = intersects[i].sub(line.getOrigin());
+                float length = distanceVec.dot(line.getDirection());
+                if (length < closestLength && length >= 0.0f) {
+                    closest = i;
+                    closestLength = length;
+                }
+            }
+        }
+        if (closest != -1) {
+            return intersects[closest];
+        }
         return null;
     }
 
@@ -165,7 +184,7 @@ public abstract class Entity implements GameComponent {
      * @return True if there's an intersection, otherwise false.
      */
     public boolean testIntersection(Entity entity) {
-		return box.testIntersection(entity.box);
+        return box.testIntersection(entity.box);
     }
 
     /**
