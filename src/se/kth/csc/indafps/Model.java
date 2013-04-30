@@ -29,6 +29,8 @@ public class Model {
         }
     }
 
+    private int faceCount;
+
     private int buffer;
     private Texture texture;
 
@@ -56,7 +58,7 @@ public class Model {
                     model.texture = TextureLoader.getTexture(parts[1]
                             .substring(parts[1].lastIndexOf('.') + 1)
                             .toUpperCase(), new FileInputStream(directory + "/"
-                            + parts[1]));
+                            + parts[1]), true);
                 }
             }
         } finally {
@@ -137,6 +139,7 @@ public class Model {
                     faces.add(f);
                 }
             }
+            model.faceCount = faces.size();
             FloatBuffer data = BufferUtils
                     .createFloatBuffer(faces.size() * 12 * 3);
             for (Face f : faces) {
@@ -181,5 +184,15 @@ public class Model {
      */
     public Texture getTexture() {
         return texture;
+    }
+
+    /**
+     * Return the number of faces in this model.
+     * 
+     * @return The number of faces in this model
+     * 
+     */
+    public int getFaceCount() {
+        return faceCount;
     }
 }

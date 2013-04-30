@@ -61,14 +61,14 @@ public class Renderer {
         Texture tex = image.getTexture();
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         tex.bind();
-        GL11.glTexCoord2f(0.0f, 0.0f);
-        GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(0.0f, 1.0f);
         GL11.glVertex2f(rect.left, rect.top);
-        GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex2f(rect.right, rect.bottom);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex2f(rect.left, rect.bottom);
         GL11.glTexCoord2f(1.0f, 1.0f);
         GL11.glVertex2f(rect.right, rect.top);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex2f(rect.right, rect.bottom);
         tex.release();
         GL11.glEnd();
         GL11.glPopMatrix();
@@ -83,7 +83,6 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
-        org.newdawn.slick.Color.white.bind();
         if (model.hasTexture()) {
             model.getTexture().bind();
         }
@@ -98,7 +97,7 @@ public class Renderer {
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 4 * 3);
         GL11.glNormalPointer(GL11.GL_FLOAT, stride, 4 * 5);
         GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 4 * 8);
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 36);
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getFaceCount() * 3);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
@@ -142,9 +141,9 @@ public class Renderer {
         Vec3 escale = entity.getScale();
         GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
         GL11.glTranslatef(epos.getX(), epos.getY(), epos.getZ());
-        GL11.glRotatef(erot.getX(), 1, 0, 0);
-        GL11.glRotatef(erot.getY(), 0, 1, 0);
-        GL11.glRotatef(erot.getZ(), 0, 0, 1);
+        GL11.glRotatef(erot.getX() / (float)Math.PI * 180.0f, 1, 0, 0);
+        GL11.glRotatef(erot.getY() / (float)Math.PI * 180.0f, 0, 1, 0);
+        GL11.glRotatef(erot.getZ() / (float)Math.PI * 180.0f, 0, 0, 1);
         render(entity.getModel());
     }
 }
