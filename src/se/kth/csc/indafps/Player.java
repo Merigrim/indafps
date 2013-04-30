@@ -126,7 +126,7 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-            setPosition(position.add(movementDir.normalize().mul(dt)));
+            setPosition(box.getPosition().add(movementDir.normalize().mul(dt)));
         }
     }
 

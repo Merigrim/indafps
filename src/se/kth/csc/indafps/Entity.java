@@ -1,7 +1,5 @@
 package se.kth.csc.indafps;
 
-import java.io.IOException;
-
 /**
  * Abstract base class for every game object.
  * 
@@ -10,9 +8,8 @@ import java.io.IOException;
  * @version 2013-04-25
  */
 public abstract class Entity implements GameComponent {
-    protected Vec3 position;
+	protected Box box;
     protected Vec3 rotation;
-    protected Vec3 scale;
     protected Vec4 color;
 
     protected boolean solid;
@@ -22,9 +19,8 @@ public abstract class Entity implements GameComponent {
     protected Model model;
 
     public Entity() {
-        position = new Vec3();
+		box = new Box(new Vec3(0.0f, 0.0f, 0.0f), new Vec3(1.0f, 1.0f, 1.0f));
         rotation = new Vec3();
-        scale = new Vec3(1.0f, 1.0f, 1.0f);
         color = new Vec4();
 
         solid = false;
@@ -39,7 +35,7 @@ public abstract class Entity implements GameComponent {
      * Associates this Entity with a level. When this Entity has associated with
      * a level, it is able to interact with other objects in the level.
      */
-    public final void associateLevel(Level level) {
+    public void associateLevel(Level level) {
         this.level = level;
     }
 
@@ -47,13 +43,13 @@ public abstract class Entity implements GameComponent {
      * Sets the texture to this Entity. If texture is null, texturing on the
      * object will be disabled.
      */
-    public final void setTexture() {
+    public void setTexture() {
     }
 
     /**
      * Sets whether this Entity is solid or not.
      */
-    public final void setSolid(boolean value) {
+    public void setSolid(boolean value) {
         solid = value;
     }
 
@@ -62,69 +58,69 @@ public abstract class Entity implements GameComponent {
      * given vector.
      */
     public void setPosition(Vec3 vec) {
-        position.copy(vec);
+		box.setPosition(vec);
     }
 
     /**
      * Set the scale of this Entity.
      */
-    public final void setSize(Vec3 vec) {
-        scale.copy(vec);
+    public void setSize(Vec3 vec) {
+		box.setScale(vec);
     }
 
     /**
      * Set the rotation of this Entity.
      */
-    public final void setRotation(Vec3 vec) {
+    public void setRotation(Vec3 vec) {
         rotation.copy(vec);
     }
 
     /**
      * Set the color of the Entity.
      */
-    public final void setColor(Vec4 vec) {
+    public void setColor(Vec4 vec) {
         color.copy(vec);
     }
 
     /**
      * @return The vector representation of the position.
      */
-    public final Vec3 getPosition() {
-        return new Vec3(position);
+    public Vec3 getPosition() {
+        return box.getPosition();
     }
 
     /**
      * @return The vector representation of the rotation.
      */
-    public final Vec3 getRotation() {
+    public Vec3 getRotation() {
         return new Vec3(rotation);
     }
 
     /**
      * @return The vector representation of the scale.
      */
-    public final Vec3 getScale() {
-        return new Vec3(scale);
+    public Vec3 getScale() {
+        return box.getScale();
     }
 
     /**
      * @return The vector representation of the color.
      */
-    public final Vec4 getColor() {
+    public Vec4 getColor() {
         return new Vec4(color);
     }
 
     /**
      * @return The level instance associated with this entity.
      */
-    public final Level getLevel() {
+    public Level getLevel() {
         return level;
     }
 
     /**
      * @return True or false whether the Entity is solid or not.
      */
-    public final boolean isSolid() {
+    public boolean isSolid() {
         return solid;
     }
 
@@ -135,29 +131,22 @@ public abstract class Entity implements GameComponent {
      * 
      * @return The point where the Line and this Entity intersects.
      */
-    public final Vec3 testIntersection(Line line) {
-		Vec3 intersects[] = new Vec3[5];
+    public Vec3 testIntersection(Line line) {
+		Vec3 intersects[] = new Vec3[6];
 		int closest = -1;
 		float closestLength = Float.MAX_VALUE;
-		Vec3 c1 = position.add(scale.mul(-0.5f));
-		Vec3 c2 = c1.add(new Vec3(scale.getX(), 0.0f, 0.0f));
-		Vec3 c3 = c1.add(new Vec3(0.0f, scale.getY(), 0.0f));
-		Vec3 c4 = c1.add(new Vec3(0.0f, 0.0f, scale.getZ()));
-		Vec3 c5 = position.add(scale.mul(0.5f));
-		Vec3 c6 = c1.add(new Vec3(-scale.getX(), 0.0f, 0.0f));
-		Vec3 c7 = c1.add(new Vec3(0.0f, -scale.getY(), 0.0f));
-		Vec3 c8 = c1.add(new Vec3(0.0f, 0.0f, -scale.getZ()));
-		intersects[0] = line.intersects(new Parallelogram(c1, c2, c3));
-		intersects[1] = line.intersects(new Parallelogram(c1, c2, c4));
-		intersects[2] = line.intersects(new Parallelogram(c1, c3, c4));
-		intersects[3] = line.intersects(new Parallelogram(c5, c6, c7));
-		intersects[4] = line.intersects(new Parallelogram(c5, c6, c8));
-		intersects[5] = line.intersects(new Parallelogram(c5, c7, c8));
+		Vec3 c[] = box.getCorners();
+		intersects[0] = line.intersects(new Parallelogram(c[1], c[2], c[3]));
+		intersects[1] = line.intersects(new Parallelogram(c[1], c[2], c[4]));
+		intersects[2] = line.intersects(new Parallelogram(c[1], c[3], c[4]));
+		intersects[3] = line.intersects(new Parallelogram(c[5], c[6], c[7]));
+		intersects[4] = line.intersects(new Parallelogram(c[5], c[6], c[8]));
+		intersects[5] = line.intersects(new Parallelogram(c[5], c[7], c[8]));
 		for (int i = 0; i < intersects.length; ++i) {
 			if (intersects[i] != null) {
 				Vec3 distanceVec = intersects[i].sub(line.getOrigin());
-				float length = distanceVec.getLength();
-				if (length < closestLength) {
+				float length = distanceVec.dot(line.getDirection());
+				if (length < closestLength && length >= 0.0f) {
 					closest = i;
 					closestLength = length;
 				}
@@ -175,8 +164,8 @@ public abstract class Entity implements GameComponent {
      * 
      * @return True if there's an intersection, otherwise false.
      */
-    public final boolean testIntersection(Entity entity) {
-        return false;
+    public boolean testIntersection(Entity entity) {
+		return box.testIntersection(entity.box);
     }
 
     /**
@@ -184,7 +173,7 @@ public abstract class Entity implements GameComponent {
      * 
      * @return The 3D model associated with this entity
      */
-    public final Model getModel() {
+    public Model getModel() {
         return model;
     }
 

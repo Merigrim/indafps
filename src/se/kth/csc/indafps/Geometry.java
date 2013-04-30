@@ -40,6 +40,7 @@ public class Geometry {
 	 * return null.
 	 */
 	public static Vec3 intersects(Line line, Parallelogram parallel) {
+		//TODO This formula does only work on rectangles.
 		Vec3 intersection = intersects(line, (Plane) parallel);
 		if (intersection != null) {
 			Vec3 edge1 = parallel.getCorner(1).sub(parallel.getCorner(0));
@@ -53,6 +54,23 @@ public class Geometry {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * box = new Box(new Vec3(), new Vec3(1.0f, 1.0f, 1.0f));
+	 * Tests if the the two boxes intersects with each other.
+	 *
+	 * @return True if the two boxes intersect, otherwise false.
+	 */
+	public static boolean intersects(Box box1, Box box2) {
+		//TODO This formula only detects if the boxes are colliding in 2D
+		Vec3 corners1[] = box1.getCorners();
+		Vec3 corners2[] = box2.getCorners();
+		if (corners1[0].getX() > corners2[1].getX()) return false;
+		if (corners1[1].getX() < corners2[0].getX()) return false;
+		if (corners1[0].getY() > corners2[2].getY()) return false;
+		if (corners1[2].getY() < corners2[0].getY()) return false;
+		return true;
 	}
 
 	/**

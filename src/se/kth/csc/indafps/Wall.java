@@ -1,6 +1,7 @@
 package se.kth.csc.indafps;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * A game object that blocks the movement of Actors.
@@ -20,8 +21,17 @@ public class Wall extends Entity {
         }
     }
 
+	public void actorCollision(Set <Entity> actors) {
+		for (Entity actor : actors) {
+			if (testIntersection(actor)) {
+				System.out.printf("HAHA");
+			}
+		}
+	}
+
     @Override
     public void update(float dt) {
+		actorCollision(level.getEntities("Player"));
     }
 
     @Override

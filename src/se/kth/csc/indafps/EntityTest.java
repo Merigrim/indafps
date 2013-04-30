@@ -1,5 +1,6 @@
 package se.kth.csc.indafps;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -62,18 +63,18 @@ public abstract class EntityTest {
 
 		// Test intersection where one line end point is inside
 		// the Entity.
-		assertTrue(e1.testIntersection(new Line(new Vec3(0.0f, 0.0f, 0.0f),
-				new Vec3(5.0f, 5.0f, 0.0f))) != null);
+		assertThat(e1.testIntersection(new Line(new Vec3(0.0f, 0.0f, 0.0f),
+				new Vec3(4.0f, 0.0f, 0.0f))), is(new Vec3(1.0f, 0.0f, 0.0f)));
 
 		// Test intersection where none of the line end points is 
 		// inside the Entity.
-		assertTrue(e1.testIntersection(new Line(new Vec3(-2.0f, 0.5f, -0.5f),
-				new Vec3(2.0f, -0.5f, 0.5f))) != null);
+		assertThat(e1.testIntersection(new Line(new Vec3(-2.0f, 0.5f, -0.5f),
+				new Vec3(2.0f, -0.5f, 0.5f))), is(new Vec3(0.0f, 0.0f, 0.0f)));
 
 		// Test intersection where both of the line end points is 
 		// inside the Entity.
-		assertTrue(e1.testIntersection(new Line(new Vec3(0.5f, 0.5f, -0.5f),
-				new Vec3(-0.5f, -0.5f, 0.5f))) != null);
+		assertThat(e1.testIntersection(new Line(new Vec3(0.5f, 0.5f, -0.5f),
+				new Vec3(-0.5f, -0.5f, 0.5f))), is(new Vec3(0.0f, 0.0f, 0.0f)));
 
 		// Test some cases where there are no intersection.
 		assertFalse(e1.testIntersection(new Line(new Vec3(2.5f, 0.5f, -0.5f),
@@ -93,15 +94,15 @@ public abstract class EntityTest {
 		biIntersectionTest(e1, e2, true);
 
 		// The center point isn't inside
-		e1.setPosition(new Vec3(1.5f, 1.5f, 1.5f));
+		e1.setPosition(new Vec3(1.5f, 1.5f, 0.0f));
 		biIntersectionTest(e1, e2, true);
 
 		// They collide at the corners
-		e1.setPosition(new Vec3(2.0f, 2.0f, 2.0f));
+		e1.setPosition(new Vec3(2.0f, 2.0f, 0.0f));
 		biIntersectionTest(e1, e2, true);
 
 		// No intersection
-		e1.setPosition(new Vec3(2.5f, 2.5f, 2.5f));
-		biIntersectionTest(e1, e2, true);
+		e1.setPosition(new Vec3(2.5f, 2.5f, 0.0f));
+		biIntersectionTest(e1, e2, false);
 	}
 }
