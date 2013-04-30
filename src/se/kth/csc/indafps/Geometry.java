@@ -85,10 +85,12 @@ public class Geometry {
             Vec3 edge1 = parallel.getCorner(1).sub(parallel.getCorner(0));
             Vec3 edge2 = parallel.getCorner(2).sub(parallel.getCorner(0));
             Vec3 toPoint = intersection.sub(parallel.getCorner(0));
-            float proj1Length = projection(toPoint, edge1).getLength();
-            float proj2Length = projection(toPoint, edge2).getLength();
-            if (proj1Length > 0.0f && proj1Length < edge1.getLength()
-                    && proj2Length > 0.0f && proj2Length < edge2.getLength()) {
+			Vec3 proj1 = projection(toPoint, edge1);
+			Vec3 proj2 = projection(toPoint, edge2);
+			float proj1Length = proj1.getLength();
+			float proj2Length = proj2.getLength();
+            if (proj1.dot(edge1) >= 0.0f && proj1Length <= edge1.getLength()
+                    && proj2.dot(edge2) >= 0.0f && proj2Length <= edge2.getLength()) {
                 return intersection;
             }
         }
