@@ -20,26 +20,7 @@ public class Geometry {
         float b = 2.0f * dir.dot(org.sub(center));
         float c = oc.dot(oc) - rad * rad;
 
-<<<<<<< HEAD
-	/**
-	 * box = new Box(new Vec3(), new Vec3(1.0f, 1.0f, 1.0f));
-	 * Tests if the the two boxes intersects with each other.
-	 *
-	 * @return True if the two boxes intersect, otherwise false.
-	 */
-	public static boolean intersects(Box box1, Box box2) {
-		//TODO This formula only detects if the boxes are colliding in 2D
-		Vec3 corners1[] = box1.getCorners();
-		Vec3 corners2[] = box2.getCorners();
-		if (corners1[0].getX() > corners2[1].getX()) return false;
-		if (corners1[1].getX() < corners2[0].getX()) return false;
-		if (corners1[0].getZ() > corners2[3].getZ()) return false;
-		if (corners1[3].getZ() < corners2[0].getZ()) return false;
-		return true;
-	}
-=======
         float discriminant = b * b - 4 * a * c;
->>>>>>> 7f63c49a677ac74a350102c5a94e88a21229cb38
 
         if (discriminant < 0) {
             return null;

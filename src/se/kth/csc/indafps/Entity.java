@@ -67,13 +67,8 @@ public abstract class Entity implements GameComponent {
     /**
      * Set the scale of this Entity.
      */
-<<<<<<< HEAD
     public void setScale(Vec3 vec) {
 		box.setScale(vec);
-=======
-    public void setSize(Vec3 vec) {
-        box.setScale(vec);
->>>>>>> 7f63c49a677ac74a350102c5a94e88a21229cb38
     }
 
     /**
@@ -156,7 +151,6 @@ public abstract class Entity implements GameComponent {
      * @return The point where the Line and this Entity intersects.
      */
     public Vec3 testIntersection(Line line) {
-<<<<<<< HEAD
 		Vec3 intersects[] = new Vec3[6];
 		int closest = -1;
 		float closestLength = Float.MAX_VALUE;
@@ -180,31 +174,6 @@ public abstract class Entity implements GameComponent {
 		if (closest != -1) {
 			return intersects[closest];
 		}
-=======
-        Vec3 intersects[] = new Vec3[6];
-        int closest = -1;
-        float closestLength = Float.MAX_VALUE;
-        Vec3 c[] = box.getCorners();
-        intersects[0] = line.intersects(new Parallelogram(c[1], c[2], c[3]));
-        intersects[1] = line.intersects(new Parallelogram(c[1], c[2], c[4]));
-        intersects[2] = line.intersects(new Parallelogram(c[1], c[3], c[4]));
-        intersects[3] = line.intersects(new Parallelogram(c[5], c[6], c[7]));
-        intersects[4] = line.intersects(new Parallelogram(c[5], c[6], c[8]));
-        intersects[5] = line.intersects(new Parallelogram(c[5], c[7], c[8]));
-        for (int i = 0; i < intersects.length; ++i) {
-            if (intersects[i] != null) {
-                Vec3 distanceVec = intersects[i].sub(line.getOrigin());
-                float length = distanceVec.dot(line.getDirection());
-                if (length < closestLength && length >= 0.0f) {
-                    closest = i;
-                    closestLength = length;
-                }
-            }
-        }
-        if (closest != -1) {
-            return intersects[closest];
-        }
->>>>>>> 7f63c49a677ac74a350102c5a94e88a21229cb38
         return null;
     }
 
