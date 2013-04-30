@@ -52,7 +52,6 @@ public class Model {
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.startsWith("map_Kd ")) {
-                    System.out.println("Woohoo");
                     String[] parts = line.split(" ");
                     String directory = mtl.getParentFile().getAbsolutePath();
                     model.texture = TextureLoader.getTexture(parts[1]
@@ -134,8 +133,6 @@ public class Model {
                         f.vt[i] = Integer.parseInt(indices[1]) - 1;
                         f.vn[i] = Integer.parseInt(indices[2]) - 1;
                     }
-                    System.out.printf("Face: %s %s %s\n", Arrays.toString(f.v),
-                            Arrays.toString(f.vt), Arrays.toString(f.vn));
                     faces.add(f);
                 }
             }

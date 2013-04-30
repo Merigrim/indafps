@@ -144,7 +144,7 @@ public class Player extends Actor {
                     if ((v2 = w.testIntersection(ray)) != null
                             && v2.sub(camera.getPosition()).getLength() < distance) {
                         wallBlocking = true;
-                        System.out.println("Wall blocking at " + v2
+                        System.out.println("Wall blocking at " + w.getPosition()
                                 + ", Item at " + v);
                         break;
                     }

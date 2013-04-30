@@ -49,11 +49,11 @@ public class GeometryTest {
 
 	@Test
 	public void projectionTest() {
-		Vec3 p1 = new Vec3(5.0f, 1.0f, 3.0f);
-		Vec3 p2 = new Vec3(-5.0f, 3.0f, -2.0f);
+		Vec3 p1 = new Vec3(15.0f, 10.0f, 3.0f);
+		Vec3 p2 = new Vec3(-5.0f, 3.0f, -15.0f);
 
 		Vec3 proj1 = Geometry.projection(p1, p2);
-		assertEquals(0.0, proj1.cross(p2).getLength(), 0.000001);
-		assertEquals(0.0, p1.sub(proj1).dot(p2), 0.000001);
+		assertEquals(0.0, proj1.cross(p2).getLength(), 0.00001);
+		assertEquals(0.0, p1.sub(proj1).dot(p2), 0.00001);
 	}
 }
