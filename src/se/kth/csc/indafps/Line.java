@@ -22,7 +22,7 @@ public class Line {
      */
     public Line(Vec3 origin, Vec3 direction) {
         this.origin = origin;
-        this.direction = direction;
+        this.direction = direction.normalize();
     }
 
     /**
@@ -58,7 +58,7 @@ public class Line {
      * @param direction This line's new direction
      */
     public void setDirection(Vec3 direction) {
-        this.direction = direction;
+        this.direction = direction.normalize();
     }
 
     /**
@@ -77,25 +77,25 @@ public class Line {
      * return pos; }
      */
 
-	/**
-	 * Returns the intersection point of this line and the given plane.
-	 *
-	 * @param plane The plane to check for an intersection with.
-	 * @return The position of the intersection. If no intersection was found,
-	 * return null.
-	 */
-	public Vec3 intersects(Plane plane) {
-		return Geometry.intersects(this, plane);
-	}
+    /**
+     * Returns the intersection point of this line and the given plane.
+     * 
+     * @param plane The plane to check for an intersection with.
+     * @return The position of the intersection. If no intersection was found,
+     *         return null.
+     */
+    public Vec3 intersects(Plane plane) {
+        return Geometry.intersects(this, plane);
+    }
 
-	/**
-	 * Returns the intersection point of this line and the given parallel.
-	 *
-	 * @param parallel The parallel to check for an intersection with.
-	 * @return The position of the intersection. If no intersection was found,
-	 * return null.
-	 */
-	public Vec3 intersects(Parallelogram parallel) {
-		return Geometry.intersects(this, parallel);
-	}
+    /**
+     * Returns the intersection point of this line and the given parallel.
+     * 
+     * @param parallel The parallel to check for an intersection with.
+     * @return The position of the intersection. If no intersection was found,
+     *         return null.
+     */
+    public Vec3 intersects(Parallelogram parallel) {
+        return Geometry.intersects(this, parallel);
+    }
 }

@@ -66,8 +66,7 @@ public class Level implements GameComponent {
                             addEntity(new Roof(new Vec3(x, 1.0f, y)));
                             break;
                         case 'k': // Key
-                            addEntity(new Key(new Vec3(x + 0.5f, 0.35f,
-                                    y + 0.5f)));
+                            addEntity(new Key(new Vec3(x, 0.35f, y)));
                             addEntity(new Floor(new Vec3(x, 0, y)));
                             addEntity(new Roof(new Vec3(x, 1.0f, y)));
                             break;
