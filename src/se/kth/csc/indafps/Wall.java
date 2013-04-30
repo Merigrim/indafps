@@ -21,6 +21,7 @@ public class Wall extends Entity {
         }
     }
 
+<<<<<<< HEAD
 	public void entityCollision(Set <Entity> entities) {
 		for (Entity entity : entities) {
 			if (testIntersection(entity)) {
@@ -32,6 +33,19 @@ public class Wall extends Entity {
     @Override
     public void update(float dt) {
 		entityCollision(level.getEntities("Player"));
+=======
+    public void actorCollision(Set<Entity> actors) {
+        for (Entity actor : actors) {
+            if (testIntersection(actor)) {
+                // System.out.printf("HAHA");
+            }
+        }
+    }
+
+    @Override
+    public void update(float dt) {
+        actorCollision(level.getEntities("Player"));
+>>>>>>> a94df21db57226d8382f91b97a4840a511ce068b
     }
 
     @Override
