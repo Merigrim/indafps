@@ -33,7 +33,7 @@ public abstract class EntityTest {
 	@Test
 	public void setScaleTest() {
 		Vec3 v1 = new Vec3(1.0f, 1.0f, -2.0f);
-		e1.setSize(v1);
+		e1.setScale(v1);
 		Vec3 v2 = e1.getScale();
 		assertTrue(v1.equals(v2));
 	}
@@ -58,7 +58,7 @@ public abstract class EntityTest {
     public void lineIntersectionTest() {
 		//TODO Check the returned vector coordinates if they are correct.
 		e1.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
-		e1.setSize(new Vec3(2.0f, 2.0f, 2.0f));
+		e1.setScale(new Vec3(2.0f, 2.0f, 2.0f));
 		e1.setRotation(new Vec3(0.0f, 0.0f, 0.0f));
 
 		// Test intersection where one line end point is inside
@@ -86,9 +86,9 @@ public abstract class EntityTest {
 	@Test
 	public void entityIntersectionTest() {
 		e1.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
-		e1.setSize(new Vec3(2.0f, 2.0f, 2.0f));
+		e1.setScale(new Vec3(2.0f, 2.0f, 2.0f));
 		e2.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
-		e2.setSize(new Vec3(2.0f, 2.0f, 2.0f));
+		e2.setScale(new Vec3(2.0f, 2.0f, 2.0f));
 
 		// Same position
 		biIntersectionTest(e1, e2, true);

@@ -21,31 +21,62 @@ public class Wall extends Entity {
         }
     }
 
-<<<<<<< HEAD
-	public void entityCollision(Set <Entity> entities) {
+	private boolean toNorth(Vec3 position) {
+		Vec3 wallPos = getPosition();
+		return position.getX() > -position.getZ() + wallPos.getX() + wallPos.getZ()
+			&& position.getX() < position.getZ() + wallPos.getX() - wallPos.getZ();
+	}
+
+	private boolean toWest(Vec3 position) {
+		Vec3 wallPos = getPosition();
+		return position.getZ() > -position.getX() + wallPos.getZ() + wallPos.getX()
+			&& position.getZ() < position.getX() + wallPos.getZ() - wallPos.getX();
+	}
+
+	private boolean toSouth(Vec3 position) {
+		Vec3 wallPos = getPosition();
+		return position.getX() < -position.getZ() + wallPos.getX() + wallPos.getZ()
+			&& position.getX() > position.getZ() + wallPos.getX() - wallPos.getZ();
+	}
+
+	private boolean toEast(Vec3 position) {
+		Vec3 wallPos = getPosition();
+		return position.getZ() < -position.getX() + wallPos.getZ() + wallPos.getX()
+			&& position.getZ() > position.getX() + wallPos.getZ() - wallPos.getX();
+	}
+
+	/**
+	 * Positions the actor so that it doesn't collide with the wall
+	 * anymore.
+	 */
+	private void positionActor(Actor actor) {
+		Vec3 actorPos = actor.getPosition();
+		Vec3 actorScale = actor.getScale();
+		Vec3 wallPos = getPosition();
+		Vec3 wallScale = getScale();
+		if (toNorth(actorPos)) {
+			actorPos.setZ(wallPos.getZ() + (wallScale.getZ() + actorScale.getZ()) * 0.5f);
+		} else if (toWest(actorPos)) {
+			actorPos.setX(wallPos.getX() + (wallScale.getX() + actorScale.getX()) * 0.5f);
+		} else if (toSouth(actorPos)) {
+			actorPos.setZ(wallPos.getZ() - (wallScale.getZ() + actorScale.getZ()) * 0.5f);
+		} else if (toEast(actorPos)) {
+			actorPos.setX(wallPos.getX() - (wallScale.getX() + actorScale.getX()) * 0.5f);
+		}
+		actor.setPosition(actorPos);
+	}
+
+	private void actorCollision(Set <Entity> entities) {
 		for (Entity entity : entities) {
 			if (testIntersection(entity)) {
-				System.out.printf("HAHA");
+				positionActor((Actor) entity);
 			}
 		}
 	}
 
     @Override
     public void update(float dt) {
-		entityCollision(level.getEntities("Player"));
-=======
-    public void actorCollision(Set<Entity> actors) {
-        for (Entity actor : actors) {
-            if (testIntersection(actor)) {
-                // System.out.printf("HAHA");
-            }
-        }
-    }
-
-    @Override
-    public void update(float dt) {
-        actorCollision(level.getEntities("Player"));
->>>>>>> a94df21db57226d8382f91b97a4840a511ce068b
+		actorCollision(level.getEntities("Player"));
     }
 
     @Override
