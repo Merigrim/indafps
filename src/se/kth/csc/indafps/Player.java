@@ -127,7 +127,8 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-            setPosition(box.getPosition().add(movementDir.normalize().mul(dt)));
+            setPosition(box.getPosition().add(
+                    movementDir.normalize().mul(dt * 1.5f)));
         }
 
         for (Entity e : level.getEntities("Key")) {
@@ -138,6 +139,7 @@ public class Player extends Actor {
             Line ray = new Line(camera.getPosition(), camera.getViewDirection());
             if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
                 float distance = v.sub(camera.getPosition()).getLength();
+                System.out.println(distance);
                 boolean wallBlocking = false;
                 for (Entity w : level.getEntities("Wall")) {
                     Vec3 v2;
