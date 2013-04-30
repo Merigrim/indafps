@@ -96,8 +96,7 @@ public class Geometry {
     }
 
     /**
-     * box = new Box(new Vec3(), new Vec3(1.0f, 1.0f, 1.0f)); Tests if the the
-     * two boxes intersects with each other.
+     * Tests if the the two boxes intersects with each other.
      * 
      * @return True if the two boxes intersect, otherwise false.
      */
@@ -109,9 +108,9 @@ public class Geometry {
             return false;
         if (corners1[1].getX() < corners2[0].getX())
             return false;
-        if (corners1[0].getY() > corners2[2].getY())
+        if (corners1[0].getZ() > corners2[3].getZ())
             return false;
-        if (corners1[2].getY() < corners2[0].getY())
+        if (corners1[3].getZ() < corners2[0].getZ())
             return false;
         return true;
     }
