@@ -1,6 +1,7 @@
 package se.kth.csc.indafps;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -83,7 +84,7 @@ public class Engine {
         while (!Display.isCloseRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            manager.handleInput();
+            handleInput();
 
             long currentTime = System.nanoTime();
             float dt = (currentTime - lastTime) / 1000000000.0f;
@@ -95,6 +96,58 @@ public class Engine {
             Display.sync(60);
         }
         close();
+    }
+
+    private void toggleFullscreen() {
+        try {
+            DisplayMode target = null;
+            if (Display.isFullscreen()) {
+                target = new DisplayMode(1280, 720);
+            } else {
+                DisplayMode[] modes = Display.getAvailableDisplayModes();
+                DisplayMode desktop = Display.getDesktopDisplayMode();
+                int freq = 0;
+                for (DisplayMode mode : modes) {
+                    if (mode.getWidth() == desktop.getWidth()
+                            && mode.getHeight() == desktop.getHeight()) {
+                        if (target == null || mode.getFrequency() > freq) {
+                            if (target == null
+                                    || mode.getBitsPerPixel() > target
+                                            .getBitsPerPixel()) {
+                                target = mode;
+                                freq = target.getFrequency();
+                            }
+                        }
+                        if (mode.getBitsPerPixel() == desktop.getBitsPerPixel()
+                                && mode.getFrequency() == desktop
+                                        .getFrequency()) {
+                            target = mode;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (target == null) {
+                System.err
+                        .println("Couldn't set display mode. No compatible modes found.");
+                return;
+            }
+            Display.setDisplayMode(target);
+            Display.setFullscreen(!Display.isFullscreen());
+            GL11.glViewport(0, 0, target.getWidth(), target.getHeight());
+        } catch (LWJGLException e) {
+            System.err.println("Couln't set display mode.");
+        }
+    }
+
+    private void handleInput() {
+        while (Keyboard.next()) {
+            if (Keyboard.getEventKey() == Keyboard.KEY_F11
+                    && Keyboard.getEventKeyState()) {
+                toggleFullscreen();
+            }
+        }
+        manager.handleInput();
     }
 
     /**

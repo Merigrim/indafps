@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -32,7 +33,8 @@ public class MainMenuState extends State {
             return;
         }
         logo.setTexture(logoTexture);
-        logo.setPosition(new Vec2(384.0f, 32.0f));
+        logo.setPosition(new Vec2((Display.getWidth() - 512.0f) / 2.0f, Display
+                .getHeight() / 22.5f));
     }
 
     /**
