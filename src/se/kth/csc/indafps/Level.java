@@ -52,7 +52,7 @@ public class Level implements GameComponent {
                     for (char c : line.toCharArray()) {
                         switch (c) {
                         case '#': // Wall
-                            addEntity(new Wall(new Vec3(x, 0, y)));
+                            addEntity(new Wall(new Vec3(x, 0.5f, y)));
                             break;
                         case '.': // Floor
                             addEntity(new Floor(new Vec3(x, 0, y)));

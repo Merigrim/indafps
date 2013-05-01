@@ -42,6 +42,40 @@ public class Renderer {
         this.camera = camera;
     }
 
+    public void render(String text, Vec2 position) {
+        if (text.length() == 0) {
+            return;
+        }
+        projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        world = new Mat4();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPushMatrix();
+        GL11.glLoadMatrix(projection.toFloatBuffer());
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPushMatrix();
+        GL11.glLoadMatrix(world.toFloatBuffer());
+
+        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+        char c = text.charAt(0);
+        float tx = ((c - 32) % 8) / 8.0f;
+        float ty = ((c - 32) / 8) / 12.0f;
+        float tw = 1.0f / 8.0f;
+        float th = 1.0f / 12.0f;
+
+        GL11.glTexCoord2f(tx, ty + th);
+        GL11.glVertex2f(position.getX(), position.getY());
+        for (int i = 1; i < text.length(); ++i) {
+
+        }
+
+        GL11.glEnd();
+
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+    }
+
     /**
      * Renders the specified image.
      * 
