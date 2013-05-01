@@ -65,6 +65,11 @@ public class Level implements GameComponent {
                             addEntity(new Floor(new Vec3(x, 0, y)));
                             addEntity(new Roof(new Vec3(x, 1.0f, y)));
                             break;
+                        case 'e': // Enemy
+                            addEntity(new Enemy(new Vec3(x, 0.5f, y)));
+                            addEntity(new Floor(new Vec3(x, 0, y)));
+                            addEntity(new Roof(new Vec3(x, 1.0f, y)));
+                            break;
                         case 'k': // Key
                             addEntity(new Key(new Vec3(x, 0.35f, y)));
                             addEntity(new Floor(new Vec3(x, 0, y)));
@@ -111,15 +116,35 @@ public class Level implements GameComponent {
         entity.associateLevel(this);
     }
 
-    // TODO Remove the getIntersectingEntity if they are not used.
     /**
      * Returns the Entity of the given type that intersects with the given line
      * and that is closest to the origin point of the given line. Null is
      * returned if no Entity intersected with the line. Entities in the opposite
      * direction of the Line will not be included.
+	 * 
+	 * @param type The type of entities to be tested.
+	 * @param line The line that will be tested.
+	 * @param exclusion An entity that will not be included in the tests. Often
+	 * this will be the Entity that calls this function. If it's null no one
+	 * of the entities will be excluded.
      */
-    public Entity getIntersectingEntity(String type, Line line) {
-        return null;
+    public Entity getIntersectingEntity(String type, Line line, Entity exclusion) {
+		Entity closestEntity = null;
+		float closestDistance = Float.MAX_VALUE;
+        for (Entity entity : entities.get(type)) {
+			if (entity == exclusion) {
+				continue;
+			}
+			Vec3 intersection = entity.testIntersection(line);
+			if (intersection != null) {
+				float distance = intersection.sub(line.getOrigin()).getLength();
+				if (distance < closestDistance) {
+					closestEntity = entity;
+					closestDistance = distance;
+				}
+			}
+		}
+		return closestEntity;
     }
 
     /**

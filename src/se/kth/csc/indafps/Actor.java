@@ -41,13 +41,16 @@ public abstract class Actor extends Entity {
     /**
      * Restores the health of the Actor. If amount is negative, the health will
      * be decreased instead. This Actor will not be able to restore its health
-     * if it is dead.
+     * if it is dead. The Actor will be colored green if the health is
+	 * increased. Otherwise if the health is decreased, the Actor will be
+	 * colored red.
      * 
      * @param amount The amount of recovered health.
      * @return The new amount of health of the actor.
      */
     public final int restoreHealth(int amount) {
         if (isAlive()) {
+			color = new Vec4(1.0f, 0.0f, 0.0f, 1.0f);
             return health.add(amount);
         }
         return 0;
@@ -141,8 +144,37 @@ public abstract class Actor extends Entity {
         return !ammo.isEmpty();
     }
 
+	/**
+	 * Fires a bullet in the direction of the view. Actors hit by the bullet will
+	 * take damage. Walls blocks bullets. When shot, the amount of bullets left
+	 * will be decreased by one. If there are no bullets left, no bullet will be
+	 * fired.
+	 */
+	public void fireBullet() {
+		Vec3 viewDirection = camera.getViewDirection();
+		Line shootLine = new Line(getPosition(), viewDirection);
+		Entity closestPlayer = level.getIntersectingEntity("Player", shootLine, this);
+		Entity closestEnemy = level.getIntersectingEntity("Enemy", shootLine, this);
+		Entity closestWall = level.getIntersectingEntity("Wall", shootLine, this);
+		if (closestEnemy != null) {
+			((Actor) closestEnemy).restoreHealth(-10);
+		}
+	}
+
     @Override
     public void update(float dt) {
+		Vec4 colorAdd = new Vec4(0.1f, 0.1f, 0.1f, 0.0f);
+		colorAdd.mul(dt);
+		color.copy(color.add(colorAdd));
+		if (color.getR() > 1.0f) {
+			color.setR(1.0f);
+		}
+		if (color.getG() > 1.0f) {
+			color.setG(1.0f);
+		}
+		if (color.getB() > 1.0f) {
+			color.setB(1.0f);
+		}
     }
 
     @Override

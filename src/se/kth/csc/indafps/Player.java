@@ -22,12 +22,11 @@ public class Player extends Actor {
 
     public Player(Vec3 position) {
         this(position, 100, 12);
-        setScale(new Vec3(0.3f, 0.3f, 0.3f));
+        setScale(new Vec3(0.3f, 1.0f, 0.3f));
         wasd = new boolean[4];
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -94,15 +93,12 @@ public class Player extends Actor {
         return null;
     }
 
-    /**
-     * Handles movement for the player among other things.
-     * 
-     * TODO: Add "other things".
-     * 
+	/**
+	 * Moves the player according to the given keyboard input.
+	 *
      * @param dt The time difference since the last frame
-     */
-    @Override
-    public void update(float dt) {
+	 */
+	private void keyboardControl(float dt) {
         Vec3 viewDir = camera.getViewDirection();
         viewDir.setY(0.0f);
         Vec3 complDir = new Vec3(viewDir.getZ(), 0.0f, -viewDir.getX());
@@ -130,6 +126,18 @@ public class Player extends Actor {
             setPosition(box.getPosition().add(
                     movementDir.normalize().mul(dt * 1.5f)));
         }
+	}
+
+    /**
+     * Handles movement for the player among other things.
+     * 
+     * TODO: Add "other things".
+     * 
+     * @param dt The time difference since the last frame
+     */
+    @Override
+    public void update(float dt) {
+		keyboardControl(dt);
 
         for (Entity e : level.getEntities("Key")) {
             if (e.getPosition().sub(getPosition()).getLength() > 10.0f) {
@@ -176,5 +184,9 @@ public class Player extends Actor {
                 || Keyboard.isKeyDown(Keyboard.KEY_DOWN);
         wasd[3] = Keyboard.isKeyDown(Keyboard.KEY_D)
                 || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
+
+		if (Mouse.isButtonDown(0)) {
+			fireBullet();
+		}
     }
 }
