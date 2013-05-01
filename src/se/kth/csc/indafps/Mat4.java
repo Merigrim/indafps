@@ -51,6 +51,19 @@ public class Mat4 extends Mat {
     }
 
     /**
+     * Multiplies the 3x3 part of the matrix with the specified R^3 vector.
+     * 
+     * @param vec The vector to perform the multiplication with
+     * @return The resulting vector
+     * @throws ArithmeticException If the dimensions do not match
+     */
+    public Vec3 mul(Vec3 vec) throws ArithmeticException {
+		Vec4 vec4 = new Vec4(vec.getX(), vec.getY(), vec.getZ(), 1.0f);
+		Vec4 result = mul(vec4);
+		return new Vec3(result.getR(), result.getG(), result.getB());
+    }
+
+    /**
      * Creates an orthographic projection matrix.
      * 
      * @param left The left vertical clipping plane

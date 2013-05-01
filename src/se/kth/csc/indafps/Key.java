@@ -25,7 +25,7 @@ public class Key extends Item {
 
     @Override
     public void update(float dt) {
-        setRotation(rotation.add(new Vec3(0, dt * (float)Math.PI * 2.0f, 0)));
+        setRotation(getRotation().add(new Vec3(0, dt * (float)Math.PI * 2.0f, 0)));
     }
 
     @Override

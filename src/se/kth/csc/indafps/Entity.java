@@ -10,7 +10,6 @@ package se.kth.csc.indafps;
 public abstract class Entity implements GameComponent {
     protected Box box;
     protected Sphere boundingSphere;
-    protected Vec3 rotation;
     protected Vec4 color;
 
     protected boolean solid;
@@ -20,9 +19,11 @@ public abstract class Entity implements GameComponent {
     protected Model model;
 
     public Entity() {
-        box = new Box(new Vec3(0.0f, 0.0f, 0.0f), new Vec3(1.0f, 1.0f, 1.0f));
+		Vec3 position = new Vec3(0.0f, 0.0f, 0.0f);
+		Vec3 scale = new Vec3(1.0f, 1.0f, 1.0f);
+		Vec3 rotation = new Vec3(0.0f, 0.0f, 0.0f);
+        box = new Box(position, scale, rotation);
         boundingSphere = new Sphere(new Vec3(0.0f, 0.0f, 0.0f), 0.5f);
-        rotation = new Vec3();
         color = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
         solid = false;
@@ -75,7 +76,7 @@ public abstract class Entity implements GameComponent {
      * Set the rotation of this Entity.
      */
     public void setRotation(Vec3 vec) {
-        rotation.copy(vec);
+        box.setRotation(vec);
     }
 
     /**
@@ -98,21 +99,21 @@ public abstract class Entity implements GameComponent {
      * @return The vector representation of the position.
      */
     public Vec3 getPosition() {
-        return box.getPosition();
+        return new Vec3(box.getPosition());
     }
 
     /**
      * @return The vector representation of the rotation.
      */
     public Vec3 getRotation() {
-        return new Vec3(rotation);
+        return new Vec3(box.getRotation());
     }
 
     /**
      * @return The vector representation of the scale.
      */
     public Vec3 getScale() {
-        return box.getScale();
+        return new Vec3(box.getScale());
     }
 
     /**

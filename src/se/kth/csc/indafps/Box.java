@@ -10,10 +10,12 @@ package se.kth.csc.indafps;
 public class Box {
 	private Vec3 position;
 	private Vec3 scale;
+	private Vec3 rotation;
 
-	public Box(Vec3 position, Vec3 scale) {
+	public Box(Vec3 position, Vec3 scale, Vec3 rotation) {
 		this.position = new Vec3(position);
 		this.scale = new Vec3(scale);
+		this.rotation = new Vec3(rotation);
 	}
 
 	/**
@@ -31,17 +33,31 @@ public class Box {
 	}
 
 	/**
-	 * @return The position of the Box.
+	 * Sets the rotation of this Box.
 	 */
-	public Vec3 getPosition() {
-		return new Vec3(position);
+	public void setRotation(Vec3 vec) {
+		rotation.copy(vec);
 	}
 
 	/**
-	 * @return The scale of the Box.
+	 * @return The reference to the position of the Box.
+	 */
+	public Vec3 getPosition() {
+		return position;
+	}
+
+	/**
+	 * @return The reference to the scale of the Box.
 	 */
 	public Vec3 getScale() {
-		return new Vec3(scale);
+		return scale;
+	}
+
+	/**
+	 * @return The reference to the rotation of the Box.
+	 */
+	public Vec3 getRotation() {
+		return rotation;
 	}
 
 	/**
@@ -51,15 +67,20 @@ public class Box {
 	 * box.
 	 */
 	public Vec3[] getCorners() {
+		Mat4 rotMat = new Mat4();
 		Vec3 corners[] = new Vec3[8];
-		corners[0] = position.sub(scale.mul(0.5f));
-		corners[1] = corners[0].add(new Vec3(scale.getX(), 0.0f, 0.0f));
-		corners[2] = corners[0].add(new Vec3(0.0f, scale.getY(), 0.0f));
-		corners[3] = corners[0].add(new Vec3(0.0f, 0.0f, scale.getZ()));
-		corners[4] = position.add(scale.mul(0.5f));
-		corners[5] = corners[4].sub(new Vec3(scale.getX(), 0.0f, 0.0f));
-		corners[6] = corners[4].sub(new Vec3(0.0f, scale.getY(), 0.0f));
-		corners[7] = corners[4].sub(new Vec3(0.0f, 0.0f, scale.getZ()));
+		rotMat.rotate(rotation.getX(), new Vec3(1.0f, 0.0f, 0.0f));
+		rotMat.rotate(rotation.getY(), new Vec3(0.0f, 1.0f, 0.0f));
+		rotMat.rotate(rotation.getZ(), new Vec3(0.0f, 0.0f, 1.0f));
+		Vec3 rotScale = rotMat.mul(scale);
+		corners[0] = position.sub(rotScale.mul(0.5f));
+		corners[1] = corners[0].add(new Vec3(rotScale.getX(), 0.0f, 0.0f));
+		corners[2] = corners[0].add(new Vec3(0.0f, rotScale.getY(), 0.0f));
+		corners[3] = corners[0].add(new Vec3(0.0f, 0.0f, rotScale.getZ()));
+		corners[4] = position.add(rotScale.mul(0.5f));
+		corners[5] = corners[4].sub(new Vec3(rotScale.getX(), 0.0f, 0.0f));
+		corners[6] = corners[4].sub(new Vec3(0.0f, rotScale.getY(), 0.0f));
+		corners[7] = corners[4].sub(new Vec3(0.0f, 0.0f, rotScale.getZ()));
 		return corners;
 	}
 

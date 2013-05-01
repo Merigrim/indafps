@@ -49,8 +49,8 @@ public abstract class Actor extends Entity {
      * @return The new amount of health of the actor.
      */
     public final int restoreHealth(int amount) {
+		color = new Vec4(1.0f, 0.0f, 0.0f, 1.0f);
         if (isAlive()) {
-			color = new Vec4(1.0f, 0.0f, 0.0f, 1.0f);
             return health.add(amount);
         }
         return 0;
@@ -174,6 +174,11 @@ public abstract class Actor extends Entity {
 		}
 		if (color.getB() > 1.0f) {
 			color.setB(1.0f);
+		}
+
+		if (!isAlive()) {
+			box.getPosition().setY(box.getScale().getX() * 0.5f);
+			box.getRotation().setZ((float)Math.PI * 0.5f);
 		}
     }
 

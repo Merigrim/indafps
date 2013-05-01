@@ -21,12 +21,16 @@ public class Player extends Actor {
     // 0: W, 1: A, 2: S, 3: D
     private boolean[] wasd;
     private Item itemInSight;
+	private boolean mouseButtonDown;
+	private float firingDelay;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
         setScale(new Vec3(0.3f, 1.0f, 0.3f));
         wasd = new boolean[4];
         itemInSight = null;
+		mouseButtonDown = false;
+		firingDelay = 0.0f;
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
@@ -166,6 +170,17 @@ public class Player extends Actor {
                 }
             }
         }
+
+		if (mouseButtonDown) {
+			if (firingDelay == 0.0f) {
+				fireBullet();
+			} else if (firingDelay > 20.0f) {
+				firingDelay = 0.0f;
+			}
+			firingDelay += 1.0f * dt;
+		} else {
+			firingDelay = 0.0f;
+		}
     }
 
     @Override
@@ -194,9 +209,8 @@ public class Player extends Actor {
         wasd[3] = Keyboard.isKeyDown(Keyboard.KEY_D)
                 || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
 
-		if (Mouse.isButtonDown(0)) {
-			fireBullet();
-		}
+		mouseButtonDown = Mouse.isButtonDown(0);
+
         if (Keyboard.isKeyDown(Keyboard.KEY_E) && itemInSight != null) {
             pickUp(itemInSight);
         }

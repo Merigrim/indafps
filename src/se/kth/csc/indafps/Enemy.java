@@ -23,7 +23,7 @@ public class Enemy extends Actor {
 
 	public Enemy(Vec3 position) {
 		this(position, 100, 12);
-        setScale(new Vec3(0.5f, 1.0f, 0.5f));
+        setScale(new Vec3(0.3f, 1.0f, 0.3f));
 		phase = Phase.IDLE;
         try {
             model = ModelManager.get("data/cube.obj");

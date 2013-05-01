@@ -13,7 +13,8 @@ public class BoxTest {
 	public void setUp() {
 		Vec3 pos = new Vec3(1.0f, 3.0f, 4.0f);
 		Vec3 scale = new Vec3(2.0f, 1.0f, 4.0f);
-		b = new Box(pos, scale);
+		Vec3 rotation = new Vec3(0.0f, 0.0f, 0.0f);
+		b = new Box(pos, scale, rotation);
 	}
 
 	@Test
