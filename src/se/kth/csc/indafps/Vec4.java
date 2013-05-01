@@ -31,16 +31,18 @@ public class Vec4 extends Vec {
         setA(a);
     }
 
-	/**
-	 * Initializes the vector using the specified vector.
-	 */
-	public Vec4(Vec v) {
-		super(4);
-		set(0, v.get(0));
-		set(1, v.get(1));
-		set(2, v.get(2));
-		set(3, v.get(3));
-	}
+    /**
+     * Initializes the vector using the specified vector.
+     */
+    public Vec4(Vec v) {
+        super(4);
+        if (v.dimension() > dimension()) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        for (int i = 0; i < v.dimension(); ++i) {
+            set(i, v.get(i));
+        }
+    }
 
     /**
      * Sets this vector's red component
@@ -132,9 +134,9 @@ public class Vec4 extends Vec {
      * @param other The other vector
      * @return The sum vector
      */
-	public Vec4 add(Vec4 other) {
-		return new Vec4(super.add(other));
-	}
+    public Vec4 add(Vec4 other) {
+        return new Vec4(super.add(other));
+    }
 
     /**
      * Subtracts the two vectors.
@@ -142,17 +144,18 @@ public class Vec4 extends Vec {
      * @param other The other vector
      * @return The difference vector
      */
-	public Vec4 sub(Vec4 other) {
-		return new Vec4(super.sub(other));
-	}
+    public Vec4 sub(Vec4 other) {
+        return new Vec4(super.sub(other));
+    }
 
-	/**
-	 * Multiplies every element in the vector with the given number.
-	 *
-	 * @param factor The number the elements will be multiplied with.
-	 * @return The multiplied vector.
-	 */
-	protected Vec4 mul(float factor) {
-		return new Vec4(super.mul(factor));
-	}
+    /**
+     * Multiplies every element in the vector with the given number.
+     * 
+     * @param factor The number the elements will be multiplied with.
+     * @return The multiplied vector.
+     */
+    @Override
+    protected Vec4 mul(float factor) {
+        return new Vec4(super.mul(factor));
+    }
 }

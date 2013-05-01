@@ -41,6 +41,12 @@ public class Engine {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_LIGHT0);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        GL11.glLightf(GL11.GL_LIGHT0, GL11.GL_LUMINANCE, 0.5f);
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, new Vec4(0.0f, 0.0f,
+                0.0f, 1.0f).toBuffer());
 
         renderer = new Renderer();
 

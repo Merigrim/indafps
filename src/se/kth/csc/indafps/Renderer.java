@@ -74,6 +74,7 @@ public class Renderer {
      * @param anchor The anchor position to use when rendering the text
      */
     public void render(String text, Vec2 position, Vec2 anchor) {
+        GL11.glDisable(GL11.GL_LIGHTING);
         if (text.length() == 0) {
             return;
         }
@@ -126,6 +127,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glEnable(GL11.GL_LIGHTING);
     }
 
     /**
@@ -134,6 +136,7 @@ public class Renderer {
      * @param image The image to render
      */
     public void render(Image image) {
+        GL11.glDisable(GL11.GL_LIGHTING);
         projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
         world = new Mat4();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -161,6 +164,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glEnable(GL11.GL_LIGHTING);
     }
 
     /**
@@ -169,27 +173,27 @@ public class Renderer {
      * @param model The model to render
      */
     public void render(Model model) {
-        if (model.hasTexture()) {
-            model.getTexture().bind();
-        }
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-        //GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
+        // GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, model.getBuffer());
+        if (model.hasTexture()) {
+            model.getTexture().bind();
+        }
 
         int stride = 4 * 12;
         GL11.glVertexPointer(3, GL11.GL_FLOAT, stride, 0);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, stride, 4 * 3);
         GL11.glNormalPointer(GL11.GL_FLOAT, stride, 4 * 5);
-		//TODO Color pointer disabled
-        //GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 4 * 8);
+        // TODO Color pointer disabled
+        // GL11.glColorPointer(4, GL11.GL_FLOAT, stride, 4 * 8);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getFaceCount() * 3);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
-        //GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+        // GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
     }
 
     /**
@@ -225,7 +229,8 @@ public class Renderer {
         GL11.glRotatef(erot.getY() / (float)Math.PI * 180.0f, 0, 1, 0);
         GL11.glRotatef(erot.getZ() / (float)Math.PI * 180.0f, 0, 0, 1);
         GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
-		GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(), ecolor.getA());
+        GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(),
+                ecolor.getA());
         render(entity.getModel());
     }
 }

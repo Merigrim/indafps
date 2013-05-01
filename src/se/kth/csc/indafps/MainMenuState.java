@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 /**
@@ -39,6 +40,9 @@ public class MainMenuState extends State {
      */
     private void newGame() {
         GameState gameState = new GameState("data/test.lvl");
+        // Reset mouse movement
+        Mouse.getDX();
+        Mouse.getDY();
         manager.pushState(gameState);
     }
 

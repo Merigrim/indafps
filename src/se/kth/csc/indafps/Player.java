@@ -8,6 +8,7 @@ import java.util.HashSet;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 /**
  * The actor controlled by the player.
@@ -21,16 +22,16 @@ public class Player extends Actor {
     // 0: W, 1: A, 2: S, 3: D
     private boolean[] wasd;
     private Item itemInSight;
-	private boolean mouseButtonDown;
-	private float firingDelay;
+    private boolean mouseButtonDown;
+    private float firingDelay;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
         setScale(new Vec3(0.3f, 1.0f, 0.3f));
         wasd = new boolean[4];
         itemInSight = null;
-		mouseButtonDown = false;
-		firingDelay = 0.0f;
+        mouseButtonDown = false;
+        firingDelay = 0.0f;
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
@@ -101,12 +102,12 @@ public class Player extends Actor {
         return null;
     }
 
-	/**
-	 * Moves the player according to the given keyboard input.
-	 *
+    /**
+     * Moves the player according to the given keyboard input.
+     * 
      * @param dt The time difference since the last frame
-	 */
-	private void keyboardControl(float dt) {
+     */
+    private void keyboardControl(float dt) {
         Vec3 viewDir = camera.getViewDirection();
         viewDir.setY(0.0f);
         Vec3 complDir = new Vec3(viewDir.getZ(), 0.0f, -viewDir.getX());
@@ -134,7 +135,7 @@ public class Player extends Actor {
             setPosition(box.getPosition().add(
                     movementDir.normalize().mul(dt * 1.5f)));
         }
-	}
+    }
 
     /**
      * Handles movement for the player among other things.
@@ -145,7 +146,7 @@ public class Player extends Actor {
      */
     @Override
     public void update(float dt) {
-		keyboardControl(dt);
+        keyboardControl(dt);
 
         itemInSight = null;
         for (Entity e : level.getEntities("Key")) {
@@ -171,16 +172,19 @@ public class Player extends Actor {
             }
         }
 
-		if (mouseButtonDown) {
-			if (firingDelay == 0.0f) {
-				fireBullet();
-			} else if (firingDelay > 20.0f) {
-				firingDelay = 0.0f;
-			}
-			firingDelay += 1.0f * dt;
-		} else {
-			firingDelay = 0.0f;
-		}
+        if (mouseButtonDown) {
+            if (firingDelay == 0.0f) {
+                fireBullet();
+            } else if (firingDelay > 20.0f) {
+                firingDelay = 0.0f;
+            }
+            firingDelay += 1.0f * dt;
+        } else {
+            firingDelay = 0.0f;
+        }
+
+        // GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, new
+        // Vec4(getPosition()).toBuffer());
     }
 
     @Override
@@ -209,7 +213,7 @@ public class Player extends Actor {
         wasd[3] = Keyboard.isKeyDown(Keyboard.KEY_D)
                 || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
 
-		mouseButtonDown = Mouse.isButtonDown(0);
+        mouseButtonDown = Mouse.isButtonDown(0);
 
         if (Keyboard.isKeyDown(Keyboard.KEY_E) && itemInSight != null) {
             pickUp(itemInSight);

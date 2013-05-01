@@ -1,5 +1,9 @@
 package se.kth.csc.indafps;
 
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
+
 /**
  * A vector class for vector's of length N.
  * 
@@ -189,5 +193,14 @@ public class Vec {
         }
         sb.append(" )");
         return sb.toString();
+    }
+
+    public FloatBuffer toBuffer() {
+        FloatBuffer ret = BufferUtils.createFloatBuffer(dimension());
+        for (int i = 0; i < dimension(); ++i) {
+            ret.put(get(i));
+        }
+        ret.flip();
+        return ret;
     }
 }
