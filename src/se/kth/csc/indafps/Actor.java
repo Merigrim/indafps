@@ -145,6 +145,14 @@ public abstract class Actor extends Entity {
     }
 
 	/**
+	 * Moves this Actor at the given speed and direction. The direction will
+	 * automatically be normalized.
+	 */
+	public void move(Vec3 direction, float speed) {
+		setPosition(getPosition().add(direction.normalize().mul(speed)));
+	}
+
+	/**
 	 * Searches for an entity that is inside the field of view of this Actor.
 	 * Entities blocked by walls will be excluded.
 	 */

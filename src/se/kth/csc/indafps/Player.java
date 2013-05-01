@@ -132,8 +132,7 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-            setPosition(getPosition().add(
-                    movementDir.normalize().mul(dt * 1.5f)));
+			move(movementDir, 1.5f * dt);
         }
     }
 

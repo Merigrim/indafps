@@ -94,7 +94,7 @@ public class Enemy extends Actor {
 				setRotation(new Vec3(0.0f, (float) -Math.acos(angle)
 							* Math.signum(viewDir.getZ()), 0.0f));
 				if (target.getPosition().sub(getPosition()).getLength() >= 1.5f) {
-					setPosition(getPosition().add(viewDir.normalize().mul(dt * 0.5f)));
+					move(viewDir, 0.5f * dt);
 				}
 				fireDelay += 1.0f * dt;
 				if (fireDelay > 1.0f) {
