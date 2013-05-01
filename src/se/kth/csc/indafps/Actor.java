@@ -10,6 +10,7 @@ package se.kth.csc.indafps;
 public abstract class Actor extends Entity {
     private Gauge health;
     private Gauge ammo;
+	private float healthEffect;
 
     protected Camera camera;
 
@@ -28,6 +29,7 @@ public abstract class Actor extends Entity {
         ammo = new Gauge(maxAmmo);
         camera = new Camera();
         camera.setPosition(position);
+		healthEffect = 0.0f;
     }
 
     @Override
@@ -49,7 +51,7 @@ public abstract class Actor extends Entity {
      * @return The new amount of health of the actor.
      */
     public final int restoreHealth(int amount) {
-		color = new Vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		healthEffect = Math.signum(amount);
         if (isAlive()) {
             return health.add(amount);
         }
@@ -123,6 +125,14 @@ public abstract class Actor extends Entity {
         return camera.getViewDirection();
     }
 
+	/**
+	 * @return The current level of the color effect that happens when the
+	 * health of the Actor has changed.
+	 */
+	public float getHealthEffect() {
+		return healthEffect;
+	}
+
     /**
      * @return The camera associated with this actor
      */
@@ -155,14 +165,22 @@ public abstract class Actor extends Entity {
 	/**
 	 * Searches for an entity that is inside the field of view of this Actor.
 	 * Entities blocked by walls will be excluded.
+	 * @param type The type of Entity to search for.
+	 * @param maxDistance The maximum distance allowed between this Actor and
+	 * the Entities.
+	 * @param angle The maximum angle allowed between the line between this
+	 * Actor and the Entities, and the view direction of the camera of this
+	 * Actor.
+	 * @return A Entity inside the field of view of this Actor.
 	 */
-	public Entity getEntityInSight(String type) {
+	public Entity getEntityInSight(String type, float maxDistance, float angle) {
         for (Entity e : level.getEntities(type)) {
-            if (e.getPosition().sub(getPosition()).getLength() > 1.0f) {
+			Vec3 toEntity = e.getPosition().sub(getPosition());
+            if (toEntity.getLength() > maxDistance || toEntity.angle(camera.getViewDirection()) > angle) {
                 continue;
             }
             Vec3 v;
-            Line ray = new Line(camera.getPosition(), camera.getViewDirection());
+            Line ray = new Line(getPosition(), toEntity);
             if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
                 float distance = v.sub(camera.getPosition()).getLength();
                 boolean wallBlocking = false;
@@ -224,17 +242,14 @@ public abstract class Actor extends Entity {
 
     @Override
     public void update(float dt) {
-		Vec4 colorAdd = new Vec4(0.1f, 0.1f, 0.1f, 0.0f);
-		colorAdd.mul(dt);
-		color.copy(color.add(colorAdd));
-		if (color.getR() > 1.0f) {
-			color.setR(1.0f);
+		healthEffect *= 0.9f;
+		if (healthEffect < 0.0f) {
+			setColor(new Vec4(1.0f, 1.0f + healthEffect,
+						1.0f + healthEffect, 1.0f));
 		}
-		if (color.getG() > 1.0f) {
-			color.setG(1.0f);
-		}
-		if (color.getB() > 1.0f) {
-			color.setB(1.0f);
+		if (healthEffect > 0.0f) {
+			setColor(new Vec4(1.0f + healthEffect, 1.0f,
+						1.0f - healthEffect, 1.0f));
 		}
 
 		if (!isAlive()) {

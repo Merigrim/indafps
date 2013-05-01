@@ -36,7 +36,7 @@ public class GameState extends State {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        hud = new Hud(null);
+        hud = new Hud((Player) level.getEntities("Player").iterator().next());
         // p = new Player(new Vec3(0, 0, 0));
         // p2 = new Player(new Vec3(5, 0, 0));
         Mouse.setGrabbed(true);

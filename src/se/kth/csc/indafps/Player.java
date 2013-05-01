@@ -145,9 +145,10 @@ public class Player extends Actor {
      */
     @Override
     public void update(float dt) {
+		super.update(dt);
         keyboardControl(dt);
 
-        itemInSight = (Item) getEntityInSight("Key");
+        itemInSight = (Item) getEntityInSight("Key", 1.0f, 0.5f);
 
         if (mouseButtonDown) {
             if (firingDelay == 0.0f) {

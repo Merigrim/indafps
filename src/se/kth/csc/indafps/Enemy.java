@@ -74,7 +74,7 @@ public class Enemy extends Actor {
 	 * is found, this Enemy will be set to alert mode and target the Player.
 	 */
 	private void findPlayer(){
-		Actor foundActor = (Actor) getEntityInSight("Player");
+		Actor foundActor = (Actor) getEntityInSight("Player", 3.0f, (float) Math.PI / 4);
 		if (foundActor != null) {
 			target = foundActor;
 			phase = Phase.ALERT;

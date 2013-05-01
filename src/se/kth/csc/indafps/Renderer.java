@@ -168,6 +168,38 @@ public class Renderer {
     }
 
     /**
+     * Renders the specified rectangle.
+     * 
+     * @param rect The rectangle to be drawn.
+     * @param color The color of the rectangle to be drawn.
+     */
+    public void render(Rect rect, Vec4 color) {
+        GL11.glDisable(GL11.GL_LIGHTING);
+        projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        world = new Mat4();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPushMatrix();
+        GL11.glLoadMatrix(projection.toFloatBuffer());
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPushMatrix();
+        GL11.glLoadMatrix(world.toFloatBuffer());
+
+		GL11.glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
+        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+        GL11.glVertex2f(rect.left, rect.top);
+        GL11.glVertex2f(rect.left, rect.bottom);
+        GL11.glVertex2f(rect.right, rect.top);
+        GL11.glVertex2f(rect.right, rect.bottom);
+        GL11.glEnd();
+
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glEnable(GL11.GL_LIGHTING);
+    }
+
+    /**
      * Renders the specified model.
      * 
      * @param model The model to render

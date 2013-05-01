@@ -203,4 +203,14 @@ public class Vec {
         ret.flip();
         return ret;
     }
+
+	/**
+	 * Returns the angle in radians between this vector and the other vector.
+	 * @param other The other vector.
+	 * @return The angle between this vector and the other vector.
+	 */
+	public float angle(Vec other) throws ArrayIndexOutOfBoundsException{
+		checkComponents(other);
+		return (float) Math.acos(dot(other) / (getLength() * other.getLength()));
+	}
 }

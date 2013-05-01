@@ -1,5 +1,8 @@
 package se.kth.csc.indafps;
 
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
 /**
  * The HUD shows data such as health, ammo, etc. on the screen.
  * 
@@ -27,7 +30,17 @@ public class Hud implements GameComponent {
 
     @Override
     public void render(Renderer renderer) {
-        // TODO Auto-generated method stub
+		if (player != null) {
+			Rect rect = new Rect(0, Display.getWidth(), 0, Display.getHeight());
+			float tintLevel = player.getHealthEffect() * 0.9f;
+			if (tintLevel < 0.0f) {
+				// Player has taken damage
+				renderer.render(rect, new Vec4(1.0f, 0.0f, 0.0f, -tintLevel));
+			} else if (tintLevel > 0.0f) {
+				// Player has recovered some health
+				renderer.render(rect, new Vec4(0.0f, 1.0f, 0.0f, tintLevel));
+			}
+		}
     }
 
     @Override
