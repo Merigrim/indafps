@@ -76,6 +76,7 @@ public class Wall extends Entity {
     @Override
     public void update(float dt) {
 		actorCollision(level.getEntities("Player"));
+		actorCollision(level.getEntities("Enemy"));
     }
 
     @Override

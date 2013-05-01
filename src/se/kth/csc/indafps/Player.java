@@ -132,7 +132,7 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-            setPosition(box.getPosition().add(
+            setPosition(getPosition().add(
                     movementDir.normalize().mul(dt * 1.5f)));
         }
     }
@@ -148,29 +148,7 @@ public class Player extends Actor {
     public void update(float dt) {
         keyboardControl(dt);
 
-        itemInSight = null;
-        for (Entity e : level.getEntities("Key")) {
-            if (e.getPosition().sub(getPosition()).getLength() > 1.0f) {
-                continue;
-            }
-            Vec3 v;
-            Line ray = new Line(camera.getPosition(), camera.getViewDirection());
-            if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
-                float distance = v.sub(camera.getPosition()).getLength();
-                boolean wallBlocking = false;
-                for (Entity w : level.getEntities("Wall")) {
-                    Vec3 v2;
-                    if ((v2 = w.testIntersection(ray)) != null
-                            && v2.sub(camera.getPosition()).getLength() < distance) {
-                        wallBlocking = true;
-                        break;
-                    }
-                }
-                if (!wallBlocking) {
-                    itemInSight = (Item)e;
-                }
-            }
-        }
+        itemInSight = (Item) getEntityInSight("Key");
 
         if (mouseButtonDown) {
             if (firingDelay == 0.0f) {

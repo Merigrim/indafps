@@ -145,6 +145,36 @@ public abstract class Actor extends Entity {
     }
 
 	/**
+	 * Searches for an entity that is inside the field of view of this Actor.
+	 * Entities blocked by walls will be excluded.
+	 */
+	public Entity getEntityInSight(String type) {
+        for (Entity e : level.getEntities(type)) {
+            if (e.getPosition().sub(getPosition()).getLength() > 1.0f) {
+                continue;
+            }
+            Vec3 v;
+            Line ray = new Line(camera.getPosition(), camera.getViewDirection());
+            if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
+                float distance = v.sub(camera.getPosition()).getLength();
+                boolean wallBlocking = false;
+                for (Entity w : level.getEntities("Wall")) {
+                    Vec3 v2;
+                    if ((v2 = w.testIntersection(ray)) != null
+                            && v2.sub(camera.getPosition()).getLength() < distance) {
+                        wallBlocking = true;
+                        break;
+                    }
+                }
+                if (!wallBlocking) {
+					return e;
+                }
+            }
+        }
+		return null;
+	}
+
+	/**
 	 * Fires a bullet in the direction of the view. Actors hit by the bullet will
 	 * take damage. Walls blocks bullets. When shot, the amount of bullets left
 	 * will be decreased by one. If there are no bullets left, no bullet will be
@@ -153,11 +183,34 @@ public abstract class Actor extends Entity {
 	public void fireBullet() {
 		Vec3 viewDirection = camera.getViewDirection();
 		Line shootLine = new Line(getPosition(), viewDirection);
+		Entity closestActor = null;
 		Entity closestPlayer = level.getIntersectingEntity("Player", shootLine, this);
 		Entity closestEnemy = level.getIntersectingEntity("Enemy", shootLine, this);
 		Entity closestWall = level.getIntersectingEntity("Wall", shootLine, this);
+		float playerDistance = Float.MAX_VALUE;
+		float enemyDistance = Float.MAX_VALUE;
+		float wallDistance = Float.MAX_VALUE;
+		if (closestPlayer != null) {
+			Vec3 toPlayer = closestPlayer.getPosition().sub(getPosition());
+			playerDistance = toPlayer.getLength();
+		}
 		if (closestEnemy != null) {
-			((Actor) closestEnemy).restoreHealth(-10);
+			Vec3 toEnemy = closestEnemy.getPosition().sub(getPosition());
+			enemyDistance = toEnemy.getLength();
+		}
+		if (closestWall != null) {
+			Vec3 toWall = closestWall.getPosition().sub(getPosition());
+			wallDistance = toWall.getLength();
+		}
+		if (playerDistance < enemyDistance && playerDistance < wallDistance) {
+			closestActor = closestPlayer;
+		} else if (enemyDistance < playerDistance && enemyDistance < wallDistance) {
+			closestActor = closestEnemy;
+		}
+		if (closestActor != null) {
+			((Actor) closestActor).restoreHealth(-10);
+			System.out.printf("%s shot %s\n", getClass().getSimpleName(),
+					closestActor.getClass().getSimpleName());
 		}
 	}
 

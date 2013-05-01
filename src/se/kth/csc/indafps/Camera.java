@@ -28,6 +28,10 @@ public class Camera {
         return new Vec3(target);
     }
 
+	public void setTarget(Vec3 position) {
+		target = position;
+	}
+
     public void move(float dx, float dy) {
         theta += dx * 0.01f;
         phi += dy * 0.01f;

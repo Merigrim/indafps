@@ -12,6 +12,8 @@ import java.io.IOException;
 public class Enemy extends Actor {
     private Item itemDrop;
 	private Phase phase;
+	private float fireDelay;
+	private Actor target;
 
 	/**
 	 * The phases of the Enemy.
@@ -25,6 +27,7 @@ public class Enemy extends Actor {
 		this(position, 100, 12);
         setScale(new Vec3(0.3f, 1.0f, 0.3f));
 		phase = Phase.IDLE;
+		fireDelay = 0.0f;
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
@@ -66,17 +69,40 @@ public class Enemy extends Actor {
 		return phase;
 	}
 
-    /**
-     * @return True if the given Entity is inside the field of view of this
-     *         Enemy.
-     */
-    private boolean isInSight(Entity entity) {
-        return false;
-    }
+	/**
+	 * Searches for a Player in the field of view of this Enemy. If a Player
+	 * is found, this Enemy will be set to alert mode and target the Player.
+	 */
+	private void findPlayer(){
+		Actor foundActor = (Actor) getEntityInSight("Player");
+		if (foundActor != null) {
+			target = foundActor;
+			phase = Phase.ALERT;
+		}
+	}
 
     @Override
     public void update(float dt) {
 		super.update(dt);
+		if (isAlive()) {
+			if (phase == Phase.IDLE) {
+				findPlayer();
+			} else if (phase == Phase.ALERT) {
+				camera.setTarget(target.getPosition());
+				Vec3 viewDir = camera.getViewDirection();
+				float angle = viewDir.dot(new Vec3(1.0f, 0.0f, 0.0f));
+				setRotation(new Vec3(0.0f, (float) -Math.acos(angle)
+							* Math.signum(viewDir.getZ()), 0.0f));
+				if (target.getPosition().sub(getPosition()).getLength() >= 1.5f) {
+					setPosition(getPosition().add(viewDir.normalize().mul(dt * 0.5f)));
+				}
+				fireDelay += 1.0f * dt;
+				if (fireDelay > 1.0f) {
+					fireBullet();
+					fireDelay = 0.0f;
+				}
+			}
+		}
     }
 
     @Override
