@@ -69,6 +69,8 @@ public abstract class EntityTest {
 		// inside the Entity.
 		assertThat(e1.testIntersection(new Line(new Vec3(-2.0f, 0.5f, -0.5f),
 				new Vec3(2.0f, -0.5f, 0.5f))), is(new Vec3(-1.0f, 0.25f, -0.25f)));
+		assertThat(e1.testIntersection(new Line(new Vec3(0.0f, 0.0f, -4.0f),
+				new Vec3(0.0f, 0.0f, 2.0f))), is(new Vec3(0.0f, 0.0f, -1.0f)));
 
 		// Test intersection where both of the line end points is 
 		// inside the Entity.

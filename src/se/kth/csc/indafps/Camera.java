@@ -7,7 +7,7 @@ public class Camera {
 
     public Camera() {
         position = new Vec3(0.0f, 0.0f, 0.0f);
-        target = new Vec3(0.0f, 0.0f, 0.0f);
+        target = new Vec3(1.0f, 0.0f, 0.0f);
         theta = 0.0f;
         phi = (float)Math.PI * 0.5f;
     }
