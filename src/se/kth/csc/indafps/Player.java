@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 /**
  * The actor controlled by the player.
@@ -19,11 +20,13 @@ public class Player extends Actor {
     private Set<Item> inventory;
     // 0: W, 1: A, 2: S, 3: D
     private boolean[] wasd;
+    private Item itemInSight;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
         setScale(new Vec3(0.3f, 1.0f, 0.3f));
         wasd = new boolean[4];
+        itemInSight = null;
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
@@ -53,6 +56,7 @@ public class Player extends Actor {
         if (inventory.add(item)) {
             item.setOwner(this);
         }
+        level.removeEntity(item);
     }
 
     /**
@@ -139,28 +143,26 @@ public class Player extends Actor {
     public void update(float dt) {
 		keyboardControl(dt);
 
+        itemInSight = null;
         for (Entity e : level.getEntities("Key")) {
-            if (e.getPosition().sub(getPosition()).getLength() > 10.0f) {
+            if (e.getPosition().sub(getPosition()).getLength() > 1.0f) {
                 continue;
             }
             Vec3 v;
             Line ray = new Line(camera.getPosition(), camera.getViewDirection());
             if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
                 float distance = v.sub(camera.getPosition()).getLength();
-                System.out.println(distance);
                 boolean wallBlocking = false;
                 for (Entity w : level.getEntities("Wall")) {
                     Vec3 v2;
                     if ((v2 = w.testIntersection(ray)) != null
                             && v2.sub(camera.getPosition()).getLength() < distance) {
                         wallBlocking = true;
-                        System.out.println("Wall blocking at " + w.getPosition()
-                                + ", Item at " + v);
                         break;
                     }
                 }
                 if (!wallBlocking) {
-                    System.out.println("Item in sight: " + v);
+                    itemInSight = (Item)e;
                 }
             }
         }
@@ -168,6 +170,13 @@ public class Player extends Actor {
 
     @Override
     public void render(Renderer renderer) {
+        if (itemInSight != null) {
+            renderer.render("[E] Pick up "
+                    + itemInSight.getClass().getSimpleName(),
+                    new Vec2(Display.getWidth() / 2.0f,
+                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
+                            0.0f));
+        }
     }
 
     @Override
@@ -188,5 +197,8 @@ public class Player extends Actor {
 		if (Mouse.isButtonDown(0)) {
 			fireBullet();
 		}
+        if (Keyboard.isKeyDown(Keyboard.KEY_E) && itemInSight != null) {
+            pickUp(itemInSight);
+        }
     }
 }

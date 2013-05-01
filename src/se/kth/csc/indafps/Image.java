@@ -1,7 +1,5 @@
 package se.kth.csc.indafps;
 
-import org.newdawn.slick.opengl.Texture;
-
 /**
  * A simple image which can be rendered onto the screen.
  * 

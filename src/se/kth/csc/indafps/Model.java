@@ -7,14 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 public class Model {
     private class Face {
@@ -54,10 +50,8 @@ public class Model {
                 if (line.startsWith("map_Kd ")) {
                     String[] parts = line.split(" ");
                     String directory = mtl.getParentFile().getAbsolutePath();
-                    model.texture = TextureLoader.getTexture(parts[1]
-                            .substring(parts[1].lastIndexOf('.') + 1)
-                            .toUpperCase(), new FileInputStream(directory + "/"
-                            + parts[1]), true);
+                    model.texture = TextureManager.get(directory + "/"
+                            + parts[1]);
                 }
             }
         } finally {

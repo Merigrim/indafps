@@ -116,6 +116,18 @@ public class Level implements GameComponent {
         entity.associateLevel(this);
     }
 
+    public Entity removeEntity(Entity entity) {
+        if (entity == null) {
+            return null;
+        }
+        String key = entity.getClass().getSimpleName();
+        if (!entities.containsKey(key)) {
+            return null;
+        }
+        entities.get(key).remove(entity);
+        return entity;
+    }
+
     /**
      * Returns the Entity of the given type that intersects with the given line
      * and that is closest to the origin point of the given line. Null is
@@ -192,6 +204,13 @@ public class Level implements GameComponent {
                 if (!e.getClass().getSimpleName().equals("Player")) {
                     renderer.render(e);
                 }
+            }
+        }
+        for (Set<Entity> vals : entities.values()) {
+            // TODO: Fix this small hack, used to make sure player renders text
+            // on top of entities
+            for (Entity e : vals) {
+                e.render(renderer);
             }
         }
     }
