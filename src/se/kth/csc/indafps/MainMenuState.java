@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 /**
  * The main menu is what the player will see when they first start the game. It
@@ -25,8 +23,7 @@ public class MainMenuState extends State {
         logo = new Image();
         Texture logoTexture;
         try {
-            logoTexture = TextureLoader.getTexture("PNG", new FileInputStream(
-                    "data/logo.png"), true);
+            logoTexture = TextureManager.get("data/logo.png");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

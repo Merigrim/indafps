@@ -1,13 +1,14 @@
 package se.kth.csc.indafps;
 
-import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.opengl.Texture;
 
 /**
  * The Renderer class is responsible for rendering all game components.
@@ -22,27 +23,57 @@ public class Renderer {
     private Mat4 world;
     private Model cube;
     private Camera camera;
+    private Texture font;
+    private int[] charWidths;
+    private int widthOffset;
 
     public Renderer() {
+        BufferedReader br;
         try {
-            cube = Model.loadObj("data/cube.obj");
-        } catch (FileNotFoundException e) {
+            font = TextureManager.get("data/font.png");
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    "data/font.csv")));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
+        charWidths = new int[95];
+        try {
+            for (int i = 0; i < 95; ++i) {
+                charWidths[i] = Integer.parseInt(br.readLine());
+            }
+            widthOffset = Integer.parseInt(br.readLine());
+        } catch (NumberFormatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // Test code
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GLU.gluLookAt(5, 0, -10, 0, 0, 0, 0, 1, 0);
     }
 
+    /**
+     * Sets the camera to use when rendering the scene.
+     * 
+     * @param camera The camera to use
+     */
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
 
     public void render(String text, Vec2 position) {
+        render(text, position, new Vec2(0, 0));
+    }
+
+    /**
+     * Render a string of text using a bitmap font.
+     * 
+     * @param text The text to render
+     * @param position The position to render the text at
+     * @param anchor The anchor position to use when rendering the text
+     */
+    public void render(String text, Vec2 position, Vec2 anchor) {
         if (text.length() == 0) {
             return;
         }
@@ -55,20 +86,41 @@ public class Renderer {
         GL11.glPushMatrix();
         GL11.glLoadMatrix(world.toFloatBuffer());
 
-        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
-        char c = text.charAt(0);
-        float tx = ((c - 32) % 8) / 8.0f;
-        float ty = ((c - 32) / 8) / 12.0f;
-        float tw = 1.0f / 8.0f;
-        float th = 1.0f / 12.0f;
-
-        GL11.glTexCoord2f(tx, ty + th);
-        GL11.glVertex2f(position.getX(), position.getY());
-        for (int i = 1; i < text.length(); ++i) {
-
+        font.bind();
+        GL11.glBegin(GL11.GL_TRIANGLES);
+        int totalWidth = -widthOffset;
+        int textWidth = 0;
+        for (int i = 0; i < text.length(); ++i) {
+            int c = text.charAt(i) - 32;
+            textWidth += charWidths[c];
         }
+        int textHeight = 32;
+        int x = (int)(position.getX() - anchor.getX() * textWidth);
+        int y = (int)(position.getY() - anchor.getY() * textHeight);
+        for (int i = 0; i < text.length(); ++i) {
+            int c = text.charAt(i) - 32;
+            int charWidth = charWidths[c] + widthOffset * 2;
+            float tx = ((c % 8) * 32.0f) / 256.0f;
+            float ty = 1.0f - (c / 8) / 16.0f;
+            float tw = (float)(charWidth) / font.getImageWidth();
+            float th = -1.0f / 16.0f;
+            GL11.glTexCoord2f(tx, ty + th);
+            GL11.glVertex2f(x + totalWidth, y + 32);
+            GL11.glTexCoord2f(tx + tw, ty);
+            GL11.glVertex2f(x + totalWidth + charWidth, position.getY());
+            GL11.glTexCoord2f(tx, ty);
+            GL11.glVertex2f(x + totalWidth, y);
 
+            GL11.glTexCoord2f(tx, ty + th);
+            GL11.glVertex2f(x + totalWidth, y + 32);
+            GL11.glTexCoord2f(tx + tw, ty + th);
+            GL11.glVertex2f(x + totalWidth + charWidth, y + 32);
+            GL11.glTexCoord2f(tx + tw, ty);
+            GL11.glVertex2f(x + totalWidth + charWidth, y);
+            totalWidth += charWidth - widthOffset * 2;
+        }
         GL11.glEnd();
+        font.release();
 
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -93,8 +145,8 @@ public class Renderer {
 
         Rect rect = image.getRect();
         Texture tex = image.getTexture();
-        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         tex.bind();
+        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         GL11.glTexCoord2f(0.0f, 1.0f);
         GL11.glVertex2f(rect.left, rect.top);
         GL11.glTexCoord2f(0.0f, 0.0f);
@@ -103,8 +155,8 @@ public class Renderer {
         GL11.glVertex2f(rect.right, rect.top);
         GL11.glTexCoord2f(1.0f, 0.0f);
         GL11.glVertex2f(rect.right, rect.bottom);
-        tex.release();
         GL11.glEnd();
+        tex.release();
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
@@ -159,13 +211,6 @@ public class Renderer {
         GL11.glLoadIdentity();
 
         // Test code
-        /*
-         * GL11.glRotatef(camera.getRotation().getX(), 1, 1, 0);
-         * GL11.glRotatef(camera.getRotation().getY() + 180, 0, 1, 0);
-         * GL11.glRotatef(camera.getRotation().getZ(), 0, 0, 1);
-         * GL11.glTranslatef(camera.getPosition().getX(), camera.getPosition()
-         * .getY(), camera.getPosition().getZ());
-         */
         Vec3 pos = camera.getPosition();
         Vec3 target = camera.getTarget();
         GLU.gluLookAt(pos.getX(), pos.getY(), pos.getZ(), target.getX(),
