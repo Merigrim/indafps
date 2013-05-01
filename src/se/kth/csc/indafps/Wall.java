@@ -16,7 +16,6 @@ public class Wall extends Entity {
         try {
             model = ModelManager.get("data/cube.obj");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

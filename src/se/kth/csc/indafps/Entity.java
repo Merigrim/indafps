@@ -23,7 +23,7 @@ public abstract class Entity implements GameComponent {
         box = new Box(new Vec3(0.0f, 0.0f, 0.0f), new Vec3(1.0f, 1.0f, 1.0f));
         boundingSphere = new Sphere(new Vec3(0.0f, 0.0f, 0.0f), 0.5f);
         rotation = new Vec3();
-        color = new Vec4();
+        color = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
         solid = false;
     }

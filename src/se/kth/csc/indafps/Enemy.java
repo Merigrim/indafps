@@ -1,5 +1,7 @@
 package se.kth.csc.indafps;
 
+import java.io.IOException;
+
 /**
  * Enemy object that are hostile to the Player.
  * 
@@ -21,7 +23,13 @@ public class Enemy extends Actor {
 
 	public Enemy(Vec3 position) {
 		this(position, 100, 12);
+        setScale(new Vec3(0.5f, 1.0f, 0.5f));
 		phase = Phase.IDLE;
+        try {
+            model = ModelManager.get("data/cube.obj");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
     /**
@@ -68,6 +76,7 @@ public class Enemy extends Actor {
 
     @Override
     public void update(float dt) {
+		super.update(dt);
     }
 
     @Override
