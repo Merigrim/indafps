@@ -1,14 +1,11 @@
 package se.kth.csc.indafps;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Set;
 import java.util.HashSet;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 /**
  * The actor controlled by the player.
@@ -32,11 +29,7 @@ public class Player extends Actor {
         itemInSight = null;
         mouseButtonDown = false;
         firingDelay = 0.0f;
-        try {
-            model = ModelManager.get("data/cube.obj");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		model = ModelManager.get("data/cube.obj");
     }
 
     /**

@@ -28,11 +28,7 @@ public class Enemy extends Actor {
         setScale(new Vec3(0.3f, 1.0f, 0.3f));
 		phase = Phase.IDLE;
 		fireDelay = 0.0f;
-        try {
-            model = ModelManager.get("data/cube.obj");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		model = ModelManager.get("data/cube.obj");
 	}
 
     /**

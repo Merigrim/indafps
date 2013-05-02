@@ -15,13 +15,28 @@ import java.util.Map;
 public class ModelManager {
     private static Map<String, Model> models;
 
-    public static Model get(String filename) throws IOException {
-        if (models == null) {
-            models = new HashMap<String, Model>();
+	/**
+	 * Returns a reference to the model inside the specified file. If there
+	 * was an error accessing the model, an error message will be printed to
+	 * the stderr and null is returned.
+	 *
+	 * @param filename The name of the file containing the model.
+	 * @return A reference to the requested model. Null is returned if there
+	 * was an error accessing the file.
+	 */
+    public static Model get(String filename) {
+        try {
+			if (models == null) {
+				models = new HashMap<String, Model>();
+			}
+			if (!models.containsKey(filename)) {
+				models.put(filename, Model.loadObj(filename));
+			}
+			return models.get(filename);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        if (!models.containsKey(filename)) {
-            models.put(filename, Model.loadObj(filename));
-        }
-        return models.get(filename);
+		return null;
     }
 }
