@@ -22,6 +22,7 @@ public class Player extends Actor {
     private Door doorInSight;
     private boolean mouseButtonDown;
     private float firingDelay;
+    private Image crosshair;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
@@ -43,6 +44,10 @@ public class Player extends Actor {
         firingDelay = 0.0f;
         inventory = new HashSet<Item>();
         model = ModelManager.get("data/cube.obj");
+        crosshair = new Image();
+        crosshair.setPosition(new Vec2(Display.getWidth() / 2.0f - 24.0f,
+                Display.getHeight() / 2.0f - 24.0f));
+        crosshair.setTexture(TextureManager.get("data/crosshair.png"));
     }
 
     /**
@@ -171,6 +176,7 @@ public class Player extends Actor {
                     doorInSight.isLocked() ? "Unlock"
                             : !doorInSight.isOpen() ? "Open" : "Close"));
         }
+        renderer.render(crosshair);
     }
 
     @Override

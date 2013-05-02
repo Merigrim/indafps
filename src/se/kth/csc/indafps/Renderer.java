@@ -72,18 +72,18 @@ public class Renderer {
 
     /**
      * Renders text at the position of subtitles.
-     *
+     * 
      * @param text The text to render
      */
 
     public void render(String text) {
         render(text, new Vec2(Display.getWidth() / 2.0f,
-                    Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f, 0));
+                Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f, 0));
     }
 
     /**
      * Renders centered text at the given position.
-     *
+     * 
      * @param text The text to render
      * @param position The position to render the text at
      */
@@ -100,6 +100,7 @@ public class Renderer {
      */
     public void render(String text, Vec2 position, Vec2 anchor) {
         GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         if (text.length() == 0) {
             return;
         }
@@ -153,6 +154,7 @@ public class Renderer {
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     /**
@@ -162,6 +164,7 @@ public class Renderer {
      */
     public void render(Image image) {
         GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
         world = new Mat4();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -190,6 +193,7 @@ public class Renderer {
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     /**

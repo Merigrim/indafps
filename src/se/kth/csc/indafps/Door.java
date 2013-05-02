@@ -23,12 +23,8 @@ public class Door extends Solid {
         locked = true;
         open = false;
         direction = 0;
-        try {
-            model = ModelManager.get("data/cube.obj");
-            setTexture(TextureManager.get("data/door.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        model = ModelManager.get("data/cube.obj");
+        setTexture(TextureManager.get("data/door.jpg"));
     }
 
     /**

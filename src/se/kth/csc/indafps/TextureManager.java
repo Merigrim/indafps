@@ -15,12 +15,17 @@ import java.util.Map;
 public class TextureManager {
     private static Map<String, Texture> textures;
 
-    public static Texture get(String filename) throws IOException {
-        if (textures == null) {
-            textures = new HashMap<String, Texture>();
-        }
-        if (!textures.containsKey(filename)) {
-            textures.put(filename, Texture.load(filename));
+    public static Texture get(String filename) {
+        try {
+            if (textures == null) {
+                textures = new HashMap<String, Texture>();
+            }
+            if (!textures.containsKey(filename)) {
+                textures.put(filename, Texture.load(filename));
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return textures.get(filename);
     }

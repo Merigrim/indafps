@@ -22,14 +22,7 @@ public class MainMenuState extends State {
 
     public MainMenuState() {
         logo = new Image();
-        Texture logoTexture;
-        try {
-            logoTexture = TextureManager.get("data/logo.png");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return;
-        }
+        Texture logoTexture = TextureManager.get("data/logo.png");
         logo.setTexture(logoTexture);
         logo.setPosition(new Vec2((Display.getWidth() - 512.0f) / 2.0f, Display
                 .getHeight() / 22.5f));
