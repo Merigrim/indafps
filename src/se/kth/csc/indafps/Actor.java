@@ -1,5 +1,7 @@
 package se.kth.csc.indafps;
 
+import java.util.Set;
+
 /**
  * Abstract base class for moving game objects.
  * 
@@ -10,7 +12,7 @@ package se.kth.csc.indafps;
 public abstract class Actor extends Entity {
     private Gauge health;
     private Gauge ammo;
-	private float healthEffect;
+    private float healthEffect;
 
     protected Camera camera;
 
@@ -29,7 +31,7 @@ public abstract class Actor extends Entity {
         ammo = new Gauge(maxAmmo);
         camera = new Camera();
         camera.setPosition(position);
-		healthEffect = 0.0f;
+        healthEffect = 0.0f;
     }
 
     @Override
@@ -44,14 +46,14 @@ public abstract class Actor extends Entity {
      * Restores the health of the Actor. If amount is negative, the health will
      * be decreased instead. This Actor will not be able to restore its health
      * if it is dead. The Actor will be colored green if the health is
-	 * increased. Otherwise if the health is decreased, the Actor will be
-	 * colored red.
+     * increased. Otherwise if the health is decreased, the Actor will be
+     * colored red.
      * 
      * @param amount The amount of recovered health.
      * @return The new amount of health of the actor.
      */
     public final int restoreHealth(int amount) {
-		healthEffect = Math.signum(amount);
+        healthEffect = Math.signum(amount);
         if (isAlive()) {
             return health.add(amount);
         }
@@ -125,13 +127,13 @@ public abstract class Actor extends Entity {
         return camera.getViewDirection();
     }
 
-	/**
-	 * @return The current level of the color effect that happens when the
-	 * health of the Actor has changed.
-	 */
-	public float getHealthEffect() {
-		return healthEffect;
-	}
+    /**
+     * @return The current level of the color effect that happens when the
+     *         health of the Actor has changed.
+     */
+    public float getHealthEffect() {
+        return healthEffect;
+    }
 
     /**
      * @return The camera associated with this actor
@@ -154,120 +156,126 @@ public abstract class Actor extends Entity {
         return !ammo.isEmpty();
     }
 
-	/**
-	 * Moves this Actor at the given speed and direction. The direction will
-	 * automatically be normalized.
-	 */
-	public void move(Vec3 direction, float speed) {
-		setPosition(getPosition().add(direction.normalize().mul(speed)));
-	}
+    /**
+     * Moves this Actor at the given speed and direction. The direction will
+     * automatically be normalized.
+     */
+    public void move(Vec3 direction, float speed) {
+        setPosition(getPosition().add(direction.normalize().mul(speed)));
+    }
 
-	/**
-	 * Tests if the given Entity is inside the field of view of this Actor.
-	 * Entities blocked by walls will be excluded.
-	 * @param entity The Entity that will be tested.
-	 * @param maxDistance The maximum distance allowed between this Actor and
-	 * the Entities.
-	 * @param angle The maximum angle allowed between the line between this
-	 * Actor and the Entities, and the view direction of the camera of this
-	 * Actor.
-	 * @return True if the Entity is inside the field of view of this Actor,
-	 * otherwise false is returned.
-	 */
-	public boolean isInSight(Entity entity, float maxDistance, float angle) {
-		Vec3 toEntity = entity.getPosition().sub(getPosition());
-		if (toEntity.getLength() > maxDistance || toEntity.angle(camera.getViewDirection()) > angle) {
-			return false;
-		}
-		Line ray = new Line(getPosition(), toEntity);
-		Vec3 v = Geometry.intersects(ray, entity.getBoundingSphere());
-		if (v == null) {
-			return false;
-		}
-		float distance = v.sub(camera.getPosition()).getLength();
-		for (Entity wall : level.getEntities("Wall")) {
-			Vec3 v2 = wall.testIntersection(ray);
-			if (v2 != null && v2.sub(camera.getPosition()).getLength() < distance) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Searches for an entity that is inside the field of view of this Actor.
-	 * Entities blocked by walls will be excluded.
-	 * @param type The type of Entity to search for.
-	 * @param maxDistance The maximum distance allowed between this Actor and
-	 * the Entities.
-	 * @param angle The maximum angle allowed between the line between this
-	 * Actor and the Entities, and the view direction of the camera of this
-	 * Actor.
-	 * @return A Entity inside the field of view of this Actor.
-	 */
-	public Entity getEntityInSight(String type, float maxDistance, float angle) {
-        for (Entity entity : level.getEntities(type)) {
-			if (isInSight(entity, maxDistance, angle)) {
-				return entity;
-			}
+    /**
+     * Tests if the given Entity is inside the field of view of this Actor.
+     * Entities blocked by walls will be excluded.
+     *
+     * @param entity The Entity that will be tested.
+     * @param maxDistance The maximum distance allowed between this Actor and
+     * the Entities.
+     * @param angle The maximum angle allowed between the line between this
+     * Actor and the Entities, and the view direction of the camera of this
+     * Actor.
+     * @return True if the Entity is inside the field of view of this Actor,
+     * otherwise false is returned.
+     */
+    public boolean isInSight(Entity entity, float maxDistance, float angle) {
+        Vec3 toEntity = entity.getPosition().sub(getPosition());
+        if (toEntity.getLength() > maxDistance
+                || toEntity.angle(camera.getViewDirection()) > angle) {
+            return false;
         }
-		return null;
-	}
+        Line ray = new Line(getPosition(), toEntity);
+        Vec3 v = Geometry.intersects(ray, entity.getBoundingSphere());
+        if (v == null) {
+            return false;
+        }
+        float distance = v.sub(camera.getPosition()).getLength();
+        for (Entity wall : level.getEntities("Wall")) {
+            Vec3 v2 = wall.testIntersection(ray);
+            if (v2 != null && v2.sub(camera.getPosition()).getLength() < distance) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	/**
-	 * Fires a bullet in the direction of the view. Actors hit by the bullet will
-	 * take damage. Walls blocks bullets. When shot, the amount of bullets left
-	 * will be decreased by one. If there are no bullets left, no bullet will be
-	 * fired.
-	 */
-	public void fireBullet() {
-		Vec3 viewDirection = camera.getViewDirection();
-		Line shootLine = new Line(getPosition(), viewDirection);
-		Entity closestActor = null;
-		Entity closestPlayer = level.getIntersectingEntity("Player", shootLine, this);
-		Entity closestEnemy = level.getIntersectingEntity("Enemy", shootLine, this);
-		Entity closestWall = level.getIntersectingEntity("Wall", shootLine, this);
-		float playerDistance = Float.MAX_VALUE;
-		float enemyDistance = Float.MAX_VALUE;
-		float wallDistance = Float.MAX_VALUE;
-		if (closestPlayer != null) {
-			Vec3 toPlayer = closestPlayer.getPosition().sub(getPosition());
-			playerDistance = toPlayer.getLength();
-		}
-		if (closestEnemy != null) {
-			Vec3 toEnemy = closestEnemy.getPosition().sub(getPosition());
-			enemyDistance = toEnemy.getLength();
-		}
-		if (closestWall != null) {
-			Vec3 toWall = closestWall.getPosition().sub(getPosition());
-			wallDistance = toWall.getLength();
-		}
-		if (playerDistance < enemyDistance && playerDistance < wallDistance) {
-			closestActor = closestPlayer;
-		} else if (enemyDistance < playerDistance && enemyDistance < wallDistance) {
-			closestActor = closestEnemy;
-		}
-		if (closestActor != null) {
-			((Actor) closestActor).restoreHealth(-10);
-		}
-	}
+    /**
+     * Searches for an entity that is inside the field of view of this Actor.
+     * Entities blocked by walls will be excluded.
+     *
+     * @param type The type of Entity to search for.
+     * @param maxDistance The maximum distance allowed between this Actor and
+     * the Entities.
+     * @param angle The maximum angle allowed between the line between this
+     * Actor and the Entities, and the view direction of the camera of this
+     * Actor.
+     * @return A Entity inside the field of view of this Actor.
+     */
+    public Entity getEntityInSight(String type, float maxDistance, float angle) {
+        for (Entity entity : level.getEntities(type)) {
+            if (isInSight(entity, maxDistance, angle)) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Fires a bullet in the direction of the view. Actors hit by the bullet will
+     * take damage. Walls blocks bullets. When shot, the amount of bullets left
+     * will be decreased by one. If there are no bullets left, no bullet will be
+     * fired.
+     */
+    public void fireBullet() {
+        Vec3 viewDirection = camera.getViewDirection();
+        Line shootLine = new Line(getPosition(), viewDirection);
+        Entity closestActor = null;
+        Entity closestPlayer = level.getIntersectingEntity("Player", shootLine,
+                this);
+        Entity closestEnemy = level.getIntersectingEntity("Enemy", shootLine,
+                this);
+        Entity closestWall = level.getIntersectingEntity("Wall", shootLine,
+                this);
+        float playerDistance = Float.MAX_VALUE;
+        float enemyDistance = Float.MAX_VALUE;
+        float wallDistance = Float.MAX_VALUE;
+        if (closestPlayer != null) {
+            Vec3 toPlayer = closestPlayer.getPosition().sub(getPosition());
+            playerDistance = toPlayer.getLength();
+        }
+        if (closestEnemy != null) {
+            Vec3 toEnemy = closestEnemy.getPosition().sub(getPosition());
+            enemyDistance = toEnemy.getLength();
+        }
+        if (closestWall != null) {
+            Vec3 toWall = closestWall.getPosition().sub(getPosition());
+            wallDistance = toWall.getLength();
+        }
+        if (playerDistance < enemyDistance && playerDistance < wallDistance) {
+            closestActor = closestPlayer;
+        } else if (enemyDistance < playerDistance && enemyDistance < wallDistance) {
+            closestActor = closestEnemy;
+        }
+        if (closestActor != null) {
+            ((Actor) closestActor).restoreHealth(-10);
+        }
+    }
 
     @Override
     public void update(float dt) {
-		healthEffect *= 0.9f;
-		if (healthEffect < 0.0f) {
-			setColor(new Vec4(1.0f, 1.0f + healthEffect,
-						1.0f + healthEffect, 1.0f));
-		}
-		if (healthEffect > 0.0f) {
-			setColor(new Vec4(1.0f + healthEffect, 1.0f,
-						1.0f - healthEffect, 1.0f));
-		}
+        healthEffect *= 0.9f;
+        if (healthEffect < 0.0f) {
+            setColor(new Vec4(1.0f, 1.0f + healthEffect, 1.0f + healthEffect,
+                    1.0f));
+        }
+        if (healthEffect > 0.0f) {
+            setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
+                    1.0f));
+        }
 
-		if (!isAlive()) {
-			box.getPosition().setY(box.getScale().getX() * 0.5f);
-			box.getRotation().setZ((float)Math.PI * 0.5f);
-		}
+        if (!isAlive()) {
+            box.getPosition().setY(box.getScale().getX() * 0.5f);
+            box.getRotation().setZ((float)Math.PI * 0.5f);
+        }
     }
 
     @Override

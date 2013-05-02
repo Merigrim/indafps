@@ -19,6 +19,7 @@ import java.util.Set;
  */
 public class Level implements GameComponent {
     private Map<String, Set<Entity>> entities;
+    private Set<Entity> removedEntities;
     private Vec2 size;
 
     /**
@@ -26,6 +27,7 @@ public class Level implements GameComponent {
      */
     public Level() {
         entities = new HashMap<String, Set<Entity>>();
+        removedEntities = new HashSet<Entity>();
         size = new Vec2();
     }
 
@@ -63,6 +65,10 @@ public class Level implements GameComponent {
 							addFloorAndRoof(x, y);
                             break;
                         case ' ': // Void
+                            break;
+                        case '+': // Door
+                            addEntity(new Door(new Vec3(x, 0.5f, y)));
+                            addEntity(new Floor(new Vec3(x, 0, y)));
                             break;
                         case '@': // Player
                             addEntity(new Player(new Vec3(x, 0.5f, y)));
@@ -105,6 +111,18 @@ public class Level implements GameComponent {
     }
 
     /**
+     * Returns the player instance.
+     * 
+     * @return The player instance
+     */
+    public Player getPlayer() {
+        if (entities.get("Player").isEmpty()) {
+            return null;
+        }
+        return (Player)entities.get("Player").iterator().next();
+    }
+
+    /**
      * Adds the given Entity to this Level and associates the Entity with this
      * Level. This function will do nothing if entity is set to null.
      */
@@ -112,23 +130,35 @@ public class Level implements GameComponent {
         if (entity == null) {
             return;
         }
-        String key = entity.getClass().getSimpleName();
-        if (!entities.containsKey(key)) {
-            entities.put(key, new HashSet<Entity>());
+        Class<?> c = entity.getClass();
+        while (c != Object.class) {
+            String key = c.getSimpleName();
+            if (!entities.containsKey(key)) {
+                entities.put(key, new HashSet<Entity>());
+            }
+            entities.get(key).add(entity);
+            c = c.getSuperclass();
         }
-        entities.get(key).add(entity);
         entity.associateLevel(this);
     }
 
     public Entity removeEntity(Entity entity) {
+        removedEntities.add(entity);
+        return entity;
+    }
+
+    public Entity cleanUpEntity(Entity entity) {
         if (entity == null) {
             return null;
         }
-        String key = entity.getClass().getSimpleName();
-        if (!entities.containsKey(key)) {
-            return null;
+        Class<?> c = entity.getClass();
+        while (c != Object.class) {
+            String key = c.getSimpleName();
+            if (entities.containsKey(key)) {
+                entities.get(key).remove(entity);
+            }
+            c = c.getSuperclass();
         }
-        entities.get(key).remove(entity);
         return entity;
     }
 
@@ -137,30 +167,30 @@ public class Level implements GameComponent {
      * and that is closest to the origin point of the given line. Null is
      * returned if no Entity intersected with the line. Entities in the opposite
      * direction of the Line will not be included.
-	 * 
-	 * @param type The type of entities to be tested.
-	 * @param line The line that will be tested.
-	 * @param exclusion An entity that will not be included in the tests. Often
-	 * this will be the Entity that calls this function. If it's null no one
-	 * of the entities will be excluded.
+     * 
+     * @param type The type of entities to be tested.
+     * @param line The line that will be tested.
+     * @param exclusion An entity that will not be included in the tests. Often
+     *            this will be the Entity that calls this function. If it's null
+     *            no one of the entities will be excluded.
      */
     public Entity getIntersectingEntity(String type, Line line, Entity exclusion) {
-		Entity closestEntity = null;
-		float closestDistance = Float.MAX_VALUE;
+        Entity closestEntity = null;
+        float closestDistance = Float.MAX_VALUE;
         for (Entity entity : entities.get(type)) {
-			if (entity == exclusion) {
-				continue;
-			}
-			Vec3 intersection = entity.testIntersection(line);
-			if (intersection != null) {
-				float distance = intersection.sub(line.getOrigin()).getLength();
-				if (distance < closestDistance) {
-					closestEntity = entity;
-					closestDistance = distance;
-				}
-			}
-		}
-		return closestEntity;
+            if (entity == exclusion) {
+                continue;
+            }
+            Vec3 intersection = entity.testIntersection(line);
+            if (intersection != null) {
+                float distance = intersection.sub(line.getOrigin()).getLength();
+                if (distance < closestDistance) {
+                    closestEntity = entity;
+                    closestDistance = distance;
+                }
+            }
+        }
+        return closestEntity;
     }
 
     /**
@@ -177,7 +207,14 @@ public class Level implements GameComponent {
      * no Set for the given type.
      */
     public Set<Entity> getEntities(String type) {
-        return entities.get(type);
+        Set<Entity> ret = new HashSet<Entity>();
+        for (Entity e : entities.get(type)) {
+            if (removedEntities.contains(e)) {
+                continue;
+            }
+            ret.add(e);
+        }
+        return ret;
     }
 
     /**
@@ -191,40 +228,36 @@ public class Level implements GameComponent {
 
     @Override
     public void update(float dt) {
-        for (Set<Entity> vals : entities.values()) {
-            for (Entity e : vals) {
-                e.update(dt);
-            }
+        for (Entity e : entities.get("Entity")) {
+            e.update(dt);
         }
     }
 
     @Override
     public void render(Renderer renderer) {
-        Entity p = entities.get("Player").iterator().next();
-        Player player = (Player)p;
+        Player player = getPlayer();
         renderer.setCamera(player.getCamera());
-        for (Set<Entity> vals : entities.values()) {
-            for (Entity e : vals) {
-                if (!e.getClass().getSimpleName().equals("Player")) {
-                    renderer.render(e);
-                }
+        for (Entity e : entities.get("Entity")) {
+            if (!e.getClass().getSimpleName().equals("Player")) {
+                renderer.render(e);
             }
         }
-        for (Set<Entity> vals : entities.values()) {
-            // TODO: Fix this small hack, used to make sure player renders text
-            // on top of entities
-            for (Entity e : vals) {
-                e.render(renderer);
-            }
+        for (Entity e : entities.get("Entity")) {
+            e.render(renderer);
         }
     }
 
     @Override
     public void handleInput() {
-        for (Set<Entity> vals : entities.values()) {
-            for (Entity e : vals) {
-                e.handleInput();
-            }
+        for (Entity e : entities.get("Entity")) {
+            e.handleInput();
         }
+    }
+
+    public void removeDesignatedEntities() {
+        for (Entity e : removedEntities) {
+            cleanUpEntity(e);
+        }
+        removedEntities.clear();
     }
 }

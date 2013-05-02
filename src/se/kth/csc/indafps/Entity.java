@@ -18,13 +18,16 @@ public abstract class Entity implements GameComponent {
 
     protected Model model;
 
+    protected Texture texture;
+
     public Entity() {
-		Vec3 position = new Vec3(0.0f, 0.0f, 0.0f);
-		Vec3 scale = new Vec3(1.0f, 1.0f, 1.0f);
-		Vec3 rotation = new Vec3(0.0f, 0.0f, 0.0f);
+        Vec3 position = new Vec3(0.0f, 0.0f, 0.0f);
+        Vec3 scale = new Vec3(1.0f, 1.0f, 1.0f);
+        Vec3 rotation = new Vec3(0.0f, 0.0f, 0.0f);
         box = new Box(position, scale, rotation);
         boundingSphere = new Sphere(new Vec3(0.0f, 0.0f, 0.0f), 0.5f);
         color = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        texture = null;
 
         solid = false;
     }
@@ -32,6 +35,13 @@ public abstract class Entity implements GameComponent {
     public Entity(Vec3 position) {
         this();
         setPosition(position);
+    }
+
+    /**
+     * Called when the player tries to interact with an entity.
+     */
+    public void interact() {
+
     }
 
     /**
@@ -46,7 +56,8 @@ public abstract class Entity implements GameComponent {
      * Sets the texture to this Entity. If texture is null, texturing on the
      * object will be disabled.
      */
-    public void setTexture() {
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
     /**
@@ -69,7 +80,7 @@ public abstract class Entity implements GameComponent {
      * Set the scale of this Entity.
      */
     public void setScale(Vec3 vec) {
-		box.setScale(vec);
+        box.setScale(vec);
     }
 
     /**
@@ -93,6 +104,15 @@ public abstract class Entity implements GameComponent {
      */
     public void setBoundingSphereRadius(float radius) {
         boundingSphere.setRadius(radius);
+    }
+
+    /**
+     * Returns the custom texture for this entity.
+     * 
+     * @return The custom texture for this entity
+     */
+    public Texture getTexture() {
+        return texture;
     }
 
     /**
@@ -152,29 +172,29 @@ public abstract class Entity implements GameComponent {
      * @return The point where the Line and this Entity intersects.
      */
     public Vec3 testIntersection(Line line) {
-		Vec3 intersects[] = new Vec3[6];
-		int closest = -1;
-		float closestLength = Float.MAX_VALUE;
-		Vec3 c[] = box.getCorners();
-		intersects[0] = line.intersects(new Parallelogram(c[0], c[1], c[2]));//NORTH
-		intersects[1] = line.intersects(new Parallelogram(c[0], c[1], c[3]));//BOTTOM
-		intersects[2] = line.intersects(new Parallelogram(c[0], c[2], c[3]));//WEST
-		intersects[3] = line.intersects(new Parallelogram(c[4], c[5], c[6]));//SOUTH
-		intersects[4] = line.intersects(new Parallelogram(c[4], c[5], c[7]));//TOP
-		intersects[5] = line.intersects(new Parallelogram(c[4], c[6], c[7]));//EAST
-		for (int i = 0; i < intersects.length; ++i) {
-			if (intersects[i] != null) {
-				Vec3 distanceVec = intersects[i].sub(line.getOrigin());
-				float length = distanceVec.dot(line.getDirection());
-				if (length < closestLength && length >= 0.0f) {
-					closest = i;
-					closestLength = length;
-				}
-			}
-		}
-		if (closest != -1) {
-			return intersects[closest];
-		}
+        Vec3 intersects[] = new Vec3[6];
+        int closest = -1;
+        float closestLength = Float.MAX_VALUE;
+        Vec3 c[] = box.getCorners();
+        intersects[0] = line.intersects(new Parallelogram(c[0], c[1], c[2]));// NORTH
+        intersects[1] = line.intersects(new Parallelogram(c[0], c[1], c[3]));// BOTTOM
+        intersects[2] = line.intersects(new Parallelogram(c[0], c[2], c[3]));// WEST
+        intersects[3] = line.intersects(new Parallelogram(c[4], c[5], c[6]));// SOUTH
+        intersects[4] = line.intersects(new Parallelogram(c[4], c[5], c[7]));// TOP
+        intersects[5] = line.intersects(new Parallelogram(c[4], c[6], c[7]));// EAST
+        for (int i = 0; i < intersects.length; ++i) {
+            if (intersects[i] != null) {
+                Vec3 distanceVec = intersects[i].sub(line.getOrigin());
+                float length = distanceVec.dot(line.getDirection());
+                if (length < closestLength && length >= 0.0f) {
+                    closest = i;
+                    closestLength = length;
+                }
+            }
+        }
+        if (closest != -1) {
+            return intersects[closest];
+        }
         return null;
     }
 

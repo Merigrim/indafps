@@ -19,17 +19,12 @@ public class Player extends Actor {
     // 0: W, 1: A, 2: S, 3: D
     private boolean[] wasd;
     private Item itemInSight;
+    private Door doorInSight;
     private boolean mouseButtonDown;
     private float firingDelay;
 
     public Player(Vec3 position) {
         this(position, 100, 12);
-        setScale(new Vec3(0.3f, 1.0f, 0.3f));
-        wasd = new boolean[4];
-        itemInSight = null;
-        mouseButtonDown = false;
-        firingDelay = 0.0f;
-		model = ModelManager.get("data/cube.obj");
     }
 
     /**
@@ -40,7 +35,14 @@ public class Player extends Actor {
      */
     public Player(Vec3 position, int maxHealth, int maxAmmo) {
         super(position, maxHealth, maxAmmo);
+        setScale(new Vec3(0.3f, 1.0f, 0.3f));
+        wasd = new boolean[4];
+        itemInSight = null;
+        doorInSight = null;
+        mouseButtonDown = false;
+        firingDelay = 0.0f;
         inventory = new HashSet<Item>();
+        model = ModelManager.get("data/cube.obj");
     }
 
     /**
@@ -86,7 +88,7 @@ public class Player extends Actor {
      */
     public Item requestItem(String type) {
         for (Item item : inventory) {
-            if (item.getClass().getName() == type) {
+            if (item.getClass().getSimpleName().equals(type)) {
                 inventory.remove(item);
                 item.setOwner(null);
                 return item;
@@ -125,7 +127,7 @@ public class Player extends Actor {
             movementDir = complDir.negate();
         }
         if (movementDir != null) {
-			move(movementDir, 1.5f * dt);
+            move(movementDir, 1.5f * dt);
         }
     }
 
@@ -138,10 +140,11 @@ public class Player extends Actor {
      */
     @Override
     public void update(float dt) {
-		super.update(dt);
+        super.update(dt);
         keyboardControl(dt);
 
-        itemInSight = (Item) getEntityInSight("Key", 1.0f, 0.5f);
+        itemInSight = (Item)getEntityInSight("Key", 1.0f, 0.5f);
+        doorInSight = (Door)getEntityInSight("Door", 1.5f, 0.5f);
 
         if (mouseButtonDown) {
             if (firingDelay == 0.0f) {
@@ -166,6 +169,13 @@ public class Player extends Actor {
                     new Vec2(Display.getWidth() / 2.0f,
                             Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
                             0.0f));
+        } else if (doorInSight != null) {
+            renderer.render(String.format("[E] %s door",
+                    doorInSight.isLocked() ? "Unlock"
+                            : !doorInSight.isOpen() ? "Open" : "Close"),
+                    new Vec2(Display.getWidth() / 2.0f,
+                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
+                            0.0f));
         }
     }
 
@@ -186,8 +196,12 @@ public class Player extends Actor {
 
         mouseButtonDown = Mouse.isButtonDown(0);
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_E) && itemInSight != null) {
-            pickUp(itemInSight);
+        if (EventHandler.wasKeyPressed(Keyboard.KEY_E)) {
+            if (itemInSight != null) {
+                pickUp(itemInSight);
+            } else if (doorInSight != null) {
+                doorInSight.interact();
+            }
         }
     }
 }

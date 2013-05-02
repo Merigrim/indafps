@@ -186,4 +186,8 @@ public class Model {
     public int getFaceCount() {
         return faceCount;
     }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
 }

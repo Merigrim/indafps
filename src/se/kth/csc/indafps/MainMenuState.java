@@ -79,7 +79,7 @@ public class MainMenuState extends State {
 
     @Override
     public void handleInput() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+        if (EventHandler.wasKeyPressed(Keyboard.KEY_RETURN)) {
             newGame();
         }
     }
