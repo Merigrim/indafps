@@ -262,19 +262,21 @@ public abstract class Actor extends Entity {
 
     @Override
     public void update(float dt) {
-        healthEffect *= 0.9f;
-        if (healthEffect < 0.0f) {
-            setColor(new Vec4(1.0f, 1.0f + healthEffect, 1.0f + healthEffect,
-                    1.0f));
-        }
-        if (healthEffect > 0.0f) {
-            setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
-                    1.0f));
-        }
-
-        if (!isAlive()) {
+        if (isAlive()) {
+            healthEffect *= 0.9f;
+            if (healthEffect < 0.0f) {
+                setColor(new Vec4(1.0f, 1.0f + healthEffect, 1.0f + healthEffect,
+                            1.0f));
+            }
+            if (healthEffect > 0.0f) {
+                setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
+                            1.0f));
+            }
+        } else {
             box.getPosition().setY(box.getScale().getX() * 0.5f);
             box.getRotation().setZ((float)Math.PI * 0.5f);
+            //TODO find a way to remove this small hack
+            setPosition(getPosition());
         }
     }
 
