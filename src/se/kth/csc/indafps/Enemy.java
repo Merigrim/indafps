@@ -14,6 +14,7 @@ public class Enemy extends Actor {
     private Phase phase;
     private float fireDelay;
     private Actor target;
+    private boolean droppedAmmo;
 
     /**
      * The phases of the Enemy.
@@ -24,11 +25,12 @@ public class Enemy extends Actor {
     }
 
     public Enemy(Vec3 position) {
-        this(position, 100, 12);
+        this(position, 50, 12);
         setScale(new Vec3(0.3f, 0.9f, 0.3f));
         phase = Phase.IDLE;
         fireDelay = 0.0f;
         model = ModelManager.get("data/cube.obj");
+        droppedAmmo = false;
     }
 
     /**
@@ -97,6 +99,13 @@ public class Enemy extends Actor {
                     fireBullet();
                     fireDelay = 0.0f;
                 }
+                // The Enemy have infinity amount of ammo.
+                restoreAmmo(12);
+            }
+        } else {
+            if (!droppedAmmo) {
+                level.addEntity(new AmmoPackage(getPosition(), 4));
+                droppedAmmo = true;
             }
         }
     }

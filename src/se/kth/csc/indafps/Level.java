@@ -20,6 +20,7 @@ import java.util.Set;
 public class Level implements GameComponent {
     private Map<String, Set<Entity>> entities;
     private Set<Entity> removedEntities;
+    private Set<Entity> addedEntities;
     private Vec2 size;
 
     /**
@@ -28,6 +29,7 @@ public class Level implements GameComponent {
     public Level() {
         entities = new HashMap<String, Set<Entity>>();
         removedEntities = new HashSet<Entity>();
+        addedEntities = new HashSet<Entity>();
         size = new Vec2();
     }
 
@@ -87,6 +89,11 @@ public class Level implements GameComponent {
                                     50));
                             addFloorAndRoof(x, y);
                             break;
+                        case 'a': // Ammo package
+                            addEntity(new AmmoPackage(new Vec3(x, 0.35f, y),
+                                    12));
+                            addFloorAndRoof(x, y);
+                            break;
                         }
                         ++x;
                     }
@@ -108,6 +115,7 @@ public class Level implements GameComponent {
                 }
             }
         } finally {
+            addQueuedEntities();
             br.close();
         }
     }
@@ -124,22 +132,16 @@ public class Level implements GameComponent {
     }
 
     /**
-     * Adds the given Entity to this Level and associates the Entity with this
-     * Level. This function will do nothing if entity is set to null.
+     * Associates the given Entity to the Level and adds the Entity to the
+     * Level. The added Entity will be ready to interact with the Level
+     * before the next frame. If the given Entity is set to null, nothing
+     * will be done.
      */
     public void addEntity(Entity entity) {
         if (entity == null) {
             return;
         }
-        Class<?> c = entity.getClass();
-        while (c != Object.class) {
-            String key = c.getSimpleName();
-            if (!entities.containsKey(key)) {
-                entities.put(key, new HashSet<Entity>());
-            }
-            entities.get(key).add(entity);
-            c = c.getSuperclass();
-        }
+        addedEntities.add(entity);
         entity.associateLevel(this);
     }
 
@@ -148,7 +150,25 @@ public class Level implements GameComponent {
         return entity;
     }
 
-    public Entity cleanUpEntity(Entity entity) {
+    /**
+     * Adds the entities waiting to be included in the Level.
+     */
+    private void addQueuedEntities() {
+        for (Entity entity : addedEntities) {
+            Class<?> c = entity.getClass();
+            while (c != Object.class) {
+                String key = c.getSimpleName();
+                if (!entities.containsKey(key)) {
+                    entities.put(key, new HashSet<Entity>());
+                }
+                entities.get(key).add(entity);
+                c = c.getSuperclass();
+            }
+        }
+        addedEntities.clear();
+    }
+
+    private Entity cleanUpEntity(Entity entity) {
         if (entity == null) {
             return null;
         }
@@ -229,6 +249,7 @@ public class Level implements GameComponent {
 
     @Override
     public void update(float dt) {
+        addQueuedEntities();
         for (Entity e : entities.get("Entity")) {
             e.update(dt);
         }

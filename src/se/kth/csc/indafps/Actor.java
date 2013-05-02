@@ -226,6 +226,9 @@ public abstract class Actor extends Entity {
      * fired.
      */
     public void fireBullet() {
+        if (!hasAmmo()) {
+            return;
+        }
         Vec3 viewDirection = camera.getViewDirection();
         Line shootLine = new Line(getPosition(), viewDirection);
         Entity closestActor = level.getIntersectingEntity("Actor", shootLine,
@@ -245,6 +248,7 @@ public abstract class Actor extends Entity {
         if (actorDistance < solidDistance) {
             ((Actor) closestActor).restoreHealth(-10);
         }
+        restoreAmmo(-1);
     }
 
     @Override

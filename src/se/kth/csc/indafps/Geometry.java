@@ -99,11 +99,11 @@ public class Geometry {
 
     /**
      * Tests if the the two boxes intersects with each other.
+     * Bad implementation
      * 
      * @return True if the two boxes intersect, otherwise false.
      */
     public static boolean intersectsFalse(Box box1, Box box2) {
-        // TODO This formula only detects if the boxes are colliding in 2D
         Vec3 corners1[] = box1.getCorners();
         Vec3 corners2[] = box2.getCorners();
         if (corners1[0].getX() > corners2[1].getX())
@@ -148,7 +148,7 @@ public class Geometry {
                     minValue += base2[j].get(i) * maximums2[i];
                 }
             }
-            if (maxValue < 0.0f || minValue > maximums1[i]) {
+            if (maxValue <= 0.0f || minValue >= maximums1[i]) {
                 return false;
             }
         }

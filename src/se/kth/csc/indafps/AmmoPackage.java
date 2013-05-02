@@ -10,6 +10,7 @@ package se.kth.csc.indafps;
 public class AmmoPackage extends Package {
     public AmmoPackage(Vec3 position, int quantity) {
         super(position, quantity, "Restore ammo");
+        model = ModelManager.get("data/key.obj");
     }
 
     /**
