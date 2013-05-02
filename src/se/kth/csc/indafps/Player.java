@@ -36,7 +36,7 @@ public class Player extends Actor {
      */
     public Player(Vec3 position, int maxHealth, int maxAmmo) {
         super(position, maxHealth, maxAmmo);
-        setScale(new Vec3(0.3f, 1.0f, 0.3f));
+        setScale(new Vec3(0.3f, 0.9f, 0.3f));
         wasd = new boolean[4];
         itemInSight = null;
         doorInSight = null;

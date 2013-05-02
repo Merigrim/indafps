@@ -102,7 +102,7 @@ public class Geometry {
      * 
      * @return True if the two boxes intersect, otherwise false.
      */
-    public static boolean intersects(Box box1, Box box2) {
+    public static boolean intersectsFalse(Box box1, Box box2) {
         // TODO This formula only detects if the boxes are colliding in 2D
         Vec3 corners1[] = box1.getCorners();
         Vec3 corners2[] = box2.getCorners();
@@ -114,6 +114,44 @@ public class Geometry {
             return false;
         if (corners1[3].getZ() < corners2[0].getZ())
             return false;
+        return true;
+    }
+
+    /**
+     * Tests if the the two boxes intersects with each other.
+     * 
+     * @return True if the two boxes intersect, otherwise false.
+     */
+    public static boolean intersects(Box box1, Box box2) {
+        Vec3 corners1[] = box1.getCorners();
+        Vec3 corners2[] = box2.getCorners();
+        Vec3 base1[] = new Vec3[3];
+        Vec3 base2[] = new Vec3[3];
+        float maximums1[] = new float[3];
+        float maximums2[] = new float[3];
+        for (int i = 0; i < 3; ++i) {
+            base1[i] = corners1[i + 1].sub(corners1[0]);
+            base2[i] = corners2[i + 1].sub(corners2[0]);
+            maximums1[i] = base1[i].getLength();
+            maximums2[i] = base2[i].getLength();
+            base1[i].copy(base1[i].normalize());
+            base2[i].copy(base2[i].normalize());
+        }
+        for (int i = 0; i < 3; ++i) {
+            float dotProduct = base1[i].dot(corners2[0].sub(corners1[0]));
+            float maxValue = dotProduct;
+            float minValue = dotProduct;
+            for (int j = 0; j < 3; ++j) {
+                if (base2[j].get(i) > 0.0f) {
+                    maxValue += base2[j].get(i) * maximums2[i];
+                } else {
+                    minValue += base2[j].get(i) * maximums2[i];
+                }
+            }
+            if (maxValue < 0.0f || minValue > maximums1[i]) {
+                return false;
+            }
+        }
         return true;
     }
 

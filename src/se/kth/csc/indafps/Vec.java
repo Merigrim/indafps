@@ -47,7 +47,7 @@ public class Vec {
      * @param n The component to get
      * @return The requested component
      */
-    protected float get(int n) {
+    public float get(int n) {
         return components[n];
     }
 
