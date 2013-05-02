@@ -34,6 +34,10 @@ public class Package extends Entity {
 
     @Override
     public void update(float dt) {
+		for (Entity player : level.getEntities("Player")) {
+			if (((Actor) player).isInSight(this, 1.0f, 0.1f)) {
+			}
+		}
     }
 
     @Override

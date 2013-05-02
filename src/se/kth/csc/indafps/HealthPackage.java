@@ -10,6 +10,7 @@ package se.kth.csc.indafps;
 public class HealthPackage extends Package {
 	public HealthPackage(Vec3 position, int quantity) {
 		super(position, quantity);
+		model = ModelManager.get("data/key.obj");
 	}
 
     @Override
