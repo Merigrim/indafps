@@ -228,34 +228,21 @@ public abstract class Actor extends Entity {
     public void fireBullet() {
         Vec3 viewDirection = camera.getViewDirection();
         Line shootLine = new Line(getPosition(), viewDirection);
-        Entity closestActor = null;
-        Entity closestPlayer = level.getIntersectingEntity("Player", shootLine,
+        Entity closestActor = level.getIntersectingEntity("Actor", shootLine,
                 this);
-        Entity closestEnemy = level.getIntersectingEntity("Enemy", shootLine,
+        Entity closestSolid = level.getIntersectingEntity("Solid", shootLine,
                 this);
-        Entity closestWall = level.getIntersectingEntity("Wall", shootLine,
-                this);
-        float playerDistance = Float.MAX_VALUE;
-        float enemyDistance = Float.MAX_VALUE;
-        float wallDistance = Float.MAX_VALUE;
-        if (closestPlayer != null) {
-            Vec3 toPlayer = closestPlayer.getPosition().sub(getPosition());
-            playerDistance = toPlayer.getLength();
-        }
-        if (closestEnemy != null) {
-            Vec3 toEnemy = closestEnemy.getPosition().sub(getPosition());
-            enemyDistance = toEnemy.getLength();
-        }
-        if (closestWall != null) {
-            Vec3 toWall = closestWall.getPosition().sub(getPosition());
-            wallDistance = toWall.getLength();
-        }
-        if (playerDistance < enemyDistance && playerDistance < wallDistance) {
-            closestActor = closestPlayer;
-        } else if (enemyDistance < playerDistance && enemyDistance < wallDistance) {
-            closestActor = closestEnemy;
-        }
+        float actorDistance = Float.MAX_VALUE;
+        float solidDistance = Float.MAX_VALUE;
         if (closestActor != null) {
+            Vec3 toActor = closestActor.getPosition().sub(getPosition());
+            actorDistance = toActor.getLength();
+        }
+        if (closestSolid != null) {
+            Vec3 toSolid = closestSolid.getPosition().sub(getPosition());
+            solidDistance = toSolid.getLength();
+        }
+        if (actorDistance < solidDistance) {
             ((Actor) closestActor).restoreHealth(-10);
         }
     }
