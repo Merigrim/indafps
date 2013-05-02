@@ -68,7 +68,7 @@ public class Level implements GameComponent {
                             break;
                         case '+': // Door
                             addEntity(new Door(new Vec3(x, 0.5f, y)));
-                            addEntity(new Floor(new Vec3(x, 0, y)));
+							addFloorAndRoof(x, y);
                             break;
                         case '@': // Player
                             addEntity(new Player(new Vec3(x, 0.5f, y)));
@@ -113,9 +113,8 @@ public class Level implements GameComponent {
     }
 
     /**
-     * Returns the player instance.
-     * 
-     * @return The player instance
+     * @return The first player instance, if available. Otherwise null is
+     * returned.
      */
     public Player getPlayer() {
         if (entities.get("Player").isEmpty()) {

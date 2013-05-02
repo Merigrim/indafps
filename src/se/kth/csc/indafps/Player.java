@@ -141,41 +141,35 @@ public class Player extends Actor {
     @Override
     public void update(float dt) {
         super.update(dt);
-        keyboardControl(dt);
 
-        itemInSight = (Item)getEntityInSight("Key", 1.0f, 0.5f);
-        doorInSight = (Door)getEntityInSight("Door", 1.5f, 0.5f);
+        if (isAlive()) {
+            keyboardControl(dt);
 
-        if (mouseButtonDown) {
-            if (firingDelay == 0.0f) {
-                fireBullet();
-            } else if (firingDelay > 20.0f) {
+            itemInSight = (Item)getEntityInSight("Key", 1.0f, 0.5f);
+            doorInSight = (Door)getEntityInSight("Door", 1.5f, 0.5f);
+
+            if (mouseButtonDown) {
+                if (firingDelay == 0.0f) {
+                    fireBullet();
+                } else if (firingDelay > 20.0f) {
+                    firingDelay = 0.0f;
+                }
+                firingDelay += 1.0f * dt;
+            } else {
                 firingDelay = 0.0f;
             }
-            firingDelay += 1.0f * dt;
-        } else {
-            firingDelay = 0.0f;
         }
-
-        // GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, new
-        // Vec4(getPosition()).toBuffer());
     }
 
     @Override
     public void render(Renderer renderer) {
         if (itemInSight != null) {
             renderer.render("[E] Pick up "
-                    + itemInSight.getClass().getSimpleName(),
-                    new Vec2(Display.getWidth() / 2.0f,
-                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
-                            0.0f));
+                    + itemInSight.getClass().getSimpleName());
         } else if (doorInSight != null) {
             renderer.render(String.format("[E] %s door",
                     doorInSight.isLocked() ? "Unlock"
-                            : !doorInSight.isOpen() ? "Open" : "Close"),
-                    new Vec2(Display.getWidth() / 2.0f,
-                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
-                            0.0f));
+                            : !doorInSight.isOpen() ? "Open" : "Close"));
         }
     }
 

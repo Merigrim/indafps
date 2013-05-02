@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
@@ -62,6 +63,23 @@ public class Renderer {
         this.camera = camera;
     }
 
+    /**
+     * Renders text at the position of subtitles.
+     *
+     * @param text The text to render
+     */
+
+    public void render(String text) {
+        render(text, new Vec2(Display.getWidth() / 2.0f,
+                    Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f, 0));
+    }
+
+    /**
+     * Renders centered text at the given position.
+     *
+     * @param text The text to render
+     * @param position The position to render the text at
+     */
     public void render(String text, Vec2 position) {
         render(text, position, new Vec2(0, 0));
     }

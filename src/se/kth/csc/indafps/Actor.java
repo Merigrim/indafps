@@ -165,54 +165,65 @@ public abstract class Actor extends Entity {
     }
 
     /**
+     * Tests if the given Entity is inside the field of view of this Actor.
+     * Entities blocked by walls will be excluded.
+     *
+     * @param entity The Entity that will be tested.
+     * @param maxDistance The maximum distance allowed between this Actor and
+     * the Entities.
+     * @param angle The maximum angle allowed between the line between this
+     * Actor and the Entities, and the view direction of the camera of this
+     * Actor.
+     * @return True if the Entity is inside the field of view of this Actor,
+     * otherwise false is returned.
+     */
+    public boolean isInSight(Entity entity, float maxDistance, float angle) {
+        Vec3 toEntity = entity.getPosition().sub(getPosition());
+        if (toEntity.getLength() > maxDistance
+                || toEntity.angle(camera.getViewDirection()) > angle) {
+            return false;
+        }
+        Line ray = new Line(getPosition(), toEntity);
+        Vec3 v = Geometry.intersects(ray, entity.getBoundingSphere());
+        if (v == null) {
+            return false;
+        }
+        float distance = v.sub(camera.getPosition()).getLength();
+        for (Entity wall : level.getEntities("Wall")) {
+            Vec3 v2 = wall.testIntersection(ray);
+            if (v2 != null && v2.sub(camera.getPosition()).getLength() < distance) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Searches for an entity that is inside the field of view of this Actor.
      * Entities blocked by walls will be excluded.
-     * 
+     *
      * @param type The type of Entity to search for.
      * @param maxDistance The maximum distance allowed between this Actor and
-     *            the Entities.
+     * the Entities.
      * @param angle The maximum angle allowed between the line between this
-     *            Actor and the Entities, and the view direction of the camera
-     *            of this Actor.
+     * Actor and the Entities, and the view direction of the camera of this
+     * Actor.
      * @return A Entity inside the field of view of this Actor.
      */
     public Entity getEntityInSight(String type, float maxDistance, float angle) {
-        Set<Entity> entities = level.getEntities(type);
-        if (entities == null) {
-            return null;
-        }
-        for (Entity e : entities) {
-            Vec3 toEntity = e.getPosition().sub(getPosition());
-            if (toEntity.getLength() > maxDistance
-                    || toEntity.angle(camera.getViewDirection()) > angle) {
-                continue;
-            }
-            Vec3 v;
-            Line ray = new Line(getPosition(), toEntity);
-            if ((v = Geometry.intersects(ray, e.getBoundingSphere())) != null) {
-                float distance = v.sub(camera.getPosition()).getLength();
-                boolean wallBlocking = false;
-                for (Entity w : level.getEntities("Wall")) {
-                    Vec3 v2;
-                    if ((v2 = w.testIntersection(ray)) != null
-                            && v2.sub(camera.getPosition()).getLength() < distance) {
-                        wallBlocking = true;
-                        break;
-                    }
-                }
-                if (!wallBlocking) {
-                    return e;
-                }
+        for (Entity entity : level.getEntities(type)) {
+            if (isInSight(entity, maxDistance, angle)) {
+                return entity;
             }
         }
         return null;
     }
 
     /**
-     * Fires a bullet in the direction of the view. Actors hit by the bullet
-     * will take damage. Walls blocks bullets. When shot, the amount of bullets
-     * left will be decreased by one. If there are no bullets left, no bullet
-     * will be fired.
+     * Fires a bullet in the direction of the view. Actors hit by the bullet will
+     * take damage. Walls blocks bullets. When shot, the amount of bullets left
+     * will be decreased by one. If there are no bullets left, no bullet will be
+     * fired.
      */
     public void fireBullet() {
         Vec3 viewDirection = camera.getViewDirection();
@@ -241,32 +252,31 @@ public abstract class Actor extends Entity {
         }
         if (playerDistance < enemyDistance && playerDistance < wallDistance) {
             closestActor = closestPlayer;
-        } else if (enemyDistance < playerDistance
-                && enemyDistance < wallDistance) {
+        } else if (enemyDistance < playerDistance && enemyDistance < wallDistance) {
             closestActor = closestEnemy;
         }
         if (closestActor != null) {
-            ((Actor)closestActor).restoreHealth(-10);
-            System.out.printf("%s shot %s\n", getClass().getSimpleName(),
-                    closestActor.getClass().getSimpleName());
+            ((Actor) closestActor).restoreHealth(-10);
         }
     }
 
     @Override
     public void update(float dt) {
-        healthEffect *= 0.9f;
-        if (healthEffect < 0.0f) {
-            setColor(new Vec4(1.0f, 1.0f + healthEffect, 1.0f + healthEffect,
-                    1.0f));
-        }
-        if (healthEffect > 0.0f) {
-            setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
-                    1.0f));
-        }
-
-        if (!isAlive()) {
+        if (isAlive()) {
+            healthEffect *= 0.9f;
+            if (healthEffect < 0.0f) {
+                setColor(new Vec4(1.0f, 1.0f + healthEffect, 1.0f + healthEffect,
+                            1.0f));
+            }
+            if (healthEffect > 0.0f) {
+                setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
+                            1.0f));
+            }
+        } else {
             box.getPosition().setY(box.getScale().getX() * 0.5f);
             box.getRotation().setZ((float)Math.PI * 0.5f);
+            //TODO find a way to remove this small hack
+            setPosition(getPosition());
         }
     }
 
