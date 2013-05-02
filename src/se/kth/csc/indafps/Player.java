@@ -165,17 +165,11 @@ public class Player extends Actor {
     public void render(Renderer renderer) {
         if (itemInSight != null) {
             renderer.render("[E] Pick up "
-                    + itemInSight.getClass().getSimpleName(),
-                    new Vec2(Display.getWidth() / 2.0f,
-                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
-                            0.0f));
+                    + itemInSight.getClass().getSimpleName());
         } else if (doorInSight != null) {
             renderer.render(String.format("[E] %s door",
                     doorInSight.isLocked() ? "Unlock"
-                            : !doorInSight.isOpen() ? "Open" : "Close"),
-                    new Vec2(Display.getWidth() / 2.0f,
-                            Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f,
-                            0.0f));
+                            : !doorInSight.isOpen() ? "Open" : "Close"));
         }
     }
 
