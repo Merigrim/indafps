@@ -150,7 +150,7 @@ public abstract class Actor extends Entity {
     }
 
     /**
-     * @return True if the actor still has ammunation left.
+     * @return True if the actor still has ammunition left.
      */
     public final boolean hasAmmo() {
         return !ammo.isEmpty();

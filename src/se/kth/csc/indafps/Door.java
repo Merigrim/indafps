@@ -10,7 +10,7 @@ import java.io.IOException;
  * @version 2013-04-25
  */
 
-public class Door extends Entity {
+public class Door extends Solid {
     private boolean locked;
     private boolean open;
     private int direction;
@@ -105,6 +105,9 @@ public class Door extends Entity {
 
     @Override
     public void update(float dt) {
+        if (getPosition().getY() < 1.25f) {
+            super.update(dt);
+        }
         Vec3 p = getPosition();
         if (open && p.getY() < 1.5f) {
             setPosition(new Vec3(p.getX(), Math.min(p.getY() + dt, 1.5f),

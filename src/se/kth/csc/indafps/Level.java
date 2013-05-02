@@ -31,10 +31,10 @@ public class Level implements GameComponent {
         size = new Vec2();
     }
 
-	private void addFloorAndRoof(int x, int y) {
-		addEntity(new Floor(new Vec3(x, 0, y)));
-		addEntity(new Roof(new Vec3(x, 1.0f, y)));
-	}
+    private void addFloorAndRoof(int x, int y) {
+        addEntity(new Floor(new Vec3(x, 0, y)));
+        addEntity(new Roof(new Vec3(x, 1.0f, y)));
+    }
 
     /**
      * Reads the content on the file with the given filename and builds the
@@ -62,7 +62,7 @@ public class Level implements GameComponent {
                             addEntity(new Wall(new Vec3(x, 0.5f, y)));
                             break;
                         case '.': // Floor
-							addFloorAndRoof(x, y);
+                            addFloorAndRoof(x, y);
                             break;
                         case ' ': // Void
                             break;
@@ -72,19 +72,21 @@ public class Level implements GameComponent {
                             break;
                         case '@': // Player
                             addEntity(new Player(new Vec3(x, 0.5f, y)));
-							addFloorAndRoof(x, y);
+                            addFloorAndRoof(x, y);
                             break;
                         case 'e': // Enemy
                             addEntity(new Enemy(new Vec3(x, 0.5f, y)));
-							addFloorAndRoof(x, y);
+                            addFloorAndRoof(x, y);
                             break;
                         case 'k': // Key
                             addEntity(new Key(new Vec3(x, 0.35f, y)));
-							addFloorAndRoof(x, y);
+                            addFloorAndRoof(x, y);
                             break;
-						case 'h': // Health package
-							addEntity(new HealthPackage(new Vec3(x, 0.35f, y), 50));
-							addFloorAndRoof(x, y);
+                        case 'h': // Health package
+                            addEntity(new HealthPackage(new Vec3(x, 0.35f, y),
+                                    50));
+                            addFloorAndRoof(x, y);
+                            break;
                         }
                         ++x;
                     }
