@@ -33,7 +33,7 @@ public abstract class Package extends Entity {
     /**
      * Interact with the given Actor.
      */
-    public abstract void interact(Actor actor);
+    protected abstract void interact(Actor actor);
 
     /**
      * Search for Players that has this Package in their field of view and

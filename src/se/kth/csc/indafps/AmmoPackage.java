@@ -15,7 +15,7 @@ public class AmmoPackage extends Package {
     /**
      * Restores the amount of ammunation carried by the Actor.
      */
-    public void interact(Actor actor) {
+    protected void interact(Actor actor) {
         actor.restoreAmmo(getQuantity());
     }
 }

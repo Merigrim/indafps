@@ -17,7 +17,7 @@ public class HealthPackage extends Package {
      * Restores the health of the Actor.
      */
     @Override
-    public void interact(Actor actor) {
+    protected void interact(Actor actor) {
         actor.restoreHealth(getQuantity());
     }
 }
