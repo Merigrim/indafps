@@ -149,11 +149,13 @@ public class Engine {
     }
 
     private void handleInput() {
+        EventHandler.resetKeys();
         while (Keyboard.next()) {
             if (Keyboard.getEventKey() == Keyboard.KEY_F11
                     && Keyboard.getEventKeyState()) {
                 toggleFullscreen();
             }
+            EventHandler.updateKey();
         }
         manager.handleInput();
     }

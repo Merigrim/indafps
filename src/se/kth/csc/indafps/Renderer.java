@@ -184,7 +184,7 @@ public class Renderer {
         GL11.glPushMatrix();
         GL11.glLoadMatrix(world.toFloatBuffer());
 
-		GL11.glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
+        GL11.glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         GL11.glVertex2f(rect.left, rect.top);
         GL11.glVertex2f(rect.left, rect.bottom);
@@ -199,18 +199,24 @@ public class Renderer {
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
+    public void render(Model model) {
+        render(model, null);
+    }
+
     /**
      * Renders the specified model.
      * 
      * @param model The model to render
      */
-    public void render(Model model) {
+    public void render(Model model, Texture texture) {
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
         // GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, model.getBuffer());
-        if (model.hasTexture()) {
+        if (texture != null) {
+            texture.bind();
+        } else if (model.hasTexture()) {
             model.getTexture().bind();
         }
 
@@ -263,6 +269,6 @@ public class Renderer {
         GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
         GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(),
                 ecolor.getA());
-        render(entity.getModel());
+        render(entity.getModel(), entity.getTexture());
     }
 }

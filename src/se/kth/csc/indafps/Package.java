@@ -12,25 +12,25 @@ public class Package extends Entity {
     protected boolean taken;
     protected int quantity;
 
-	public Package(Vec3 position, int quantity) {
-		super(position);
-		this.taken = false;
-		this.quantity = quantity;
-	}
+    public Package(Vec3 position, int quantity) {
+        super(position);
+        this.taken = false;
+        this.quantity = quantity;
+    }
 
-	/**
-	 * @return True if the package has been taken, otherwise false.
-	 */
-	public boolean isTaken() {
-		return taken;
-	}
+    /**
+     * @return True if the package has been taken, otherwise false.
+     */
+    public boolean isTaken() {
+        return taken;
+    }
 
-	/**
-	 * @return The quantity of the package.
-	 */
-	public int getQuantity() {
-		return quantity;
-	}
+    /**
+     * @return The quantity of the package.
+     */
+    public int getQuantity() {
+        return quantity;
+    }
 
     @Override
     public void update(float dt) {

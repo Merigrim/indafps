@@ -36,7 +36,7 @@ public class GameState extends State {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        hud = new Hud((Player) level.getEntities("Player").iterator().next());
+        hud = new Hud((Player)level.getEntities("Player").iterator().next());
         // p = new Player(new Vec3(0, 0, 0));
         // p2 = new Player(new Vec3(5, 0, 0));
         Mouse.setGrabbed(true);
@@ -45,11 +45,12 @@ public class GameState extends State {
 
     @Override
     public void update(float dt) {
-       test += dt / 10;
+        test += dt / 10;
         // p.setRotation(new Vec3(0, test, 0));
 
         level.update(dt);
         hud.update(dt);
+        level.removeDesignatedEntities();
     }
 
     @Override
