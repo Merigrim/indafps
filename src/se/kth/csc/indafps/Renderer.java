@@ -54,6 +54,13 @@ public class Renderer {
         }
     }
 
+    public static void setLightPosition() {
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, new Vec4(0.0f, 1.0f,
+                0.0f, 0.0f).toBuffer());
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, new Vec4(0.0f, -1.0f,
+                0.0f, 0.0f).toBuffer());
+    }
+
     /**
      * Sets the camera to use when rendering the scene.
      * 
@@ -192,9 +199,10 @@ public class Renderer {
      * @param color The color of the rectangle to be drawn.
      */
     public void render(Rect rect, Vec4 color) {
-        GL11.glDisable(GL11.GL_LIGHTING);
         projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
         world = new Mat4();
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadMatrix(projection.toFloatBuffer());
@@ -215,6 +223,7 @@ public class Renderer {
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     public void render(Model model) {
@@ -281,6 +290,7 @@ public class Renderer {
         Vec3 escale = entity.getScale();
         Vec4 ecolor = entity.getColor();
         GL11.glTranslatef(epos.getX(), epos.getY(), epos.getZ());
+        setLightPosition();
         GL11.glRotatef(erot.getX() / (float)Math.PI * 180.0f, 1, 0, 0);
         GL11.glRotatef(erot.getY() / (float)Math.PI * 180.0f, 0, 1, 0);
         GL11.glRotatef(erot.getZ() / (float)Math.PI * 180.0f, 0, 0, 1);
