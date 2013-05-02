@@ -1,6 +1,5 @@
 package se.kth.csc.indafps;
 
-import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -13,11 +12,7 @@ import java.util.Set;
 public class Wall extends Entity {
     public Wall(Vec3 position) {
         super(position);
-        try {
-            model = ModelManager.get("data/cube.obj");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		model = ModelManager.get("data/cube.obj");
     }
 
 	private boolean toNorth(Vec3 position) {
