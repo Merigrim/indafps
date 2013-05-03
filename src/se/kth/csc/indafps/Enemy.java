@@ -79,6 +79,15 @@ public class Enemy extends Actor {
         }
     }
 
+    /**
+     * Make the one who shot this Actor the current target.
+     */
+    @Override
+    protected void actOnShooter(Actor shooter) {
+        phase = Phase.ALERT;
+        target = shooter;
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
@@ -93,18 +102,23 @@ public class Enemy extends Actor {
                             * Math.signum(viewDir.getZ()), 0.0f));
                 if (target.getPosition().sub(getPosition()).getLength() >= 1.5f) {
                     move(viewDir, 0.5f * dt);
+                } else {
+                    move(viewDir, -0.5f * dt);
                 }
                 fireDelay += 1.0f * dt;
                 if (fireDelay > 1.0f) {
-                    fireBullet();
+                    if (fireBullet() == 0.0f) {
+                        target = null;
+                        phase = Phase.IDLE;
+                    }
                     fireDelay = 0.0f;
                 }
-                // The Enemy have infinity amount of ammo.
+                // The Enemy have infinite amount of ammo.
                 restoreAmmo(12);
             }
         } else {
             if (!droppedAmmo) {
-                level.addEntity(new AmmoPackage(getPosition(), 4));
+                level.addEntity(new AmmoPackage(getPosition(), 2));
                 droppedAmmo = true;
             }
         }

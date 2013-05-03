@@ -61,6 +61,29 @@ public abstract class Actor extends Entity {
     }
 
     /**
+     * Decreases the health of this Actor and tell this Actor who shot
+     * this Actor.
+     *
+     * @param amount The amount of health that will be decreased.
+     * @param shooter The Actor who took the shot.
+     * @return The new amount of health of this Actor.
+     */
+    public int takeDamage(int amount, Actor shooter) {
+        actOnShooter(shooter);
+        return restoreHealth(-amount);
+    }
+
+    /**
+     * Template for a function that gives this Actor the ability to respond
+     * a fired bullet.
+     *
+     * @param shooter The Actor that this Actor will respond to.
+     */
+    protected void actOnShooter(Actor shooter) {
+    }
+
+
+    /**
      * Restores the ammo of the Actor. If amount is negative, the ammo will be
      * decreased instead.
      * 
@@ -223,11 +246,15 @@ public abstract class Actor extends Entity {
      * Fires a bullet in the direction of the view. Actors hit by the bullet will
      * take damage. Walls blocks bullets. When shot, the amount of bullets left
      * will be decreased by one. If there are no bullets left, no bullet will be
-     * fired.
+     * fired. Returns the amount health left of the Actor who was shot. If
+     * there were no Actor who was hit by the bullet, -1 is returned instead.
+     *
+     * @return The amount healt left of the Actor who was hit by the buller,
+     * or -1 if no Actor was hit by the bullet.
      */
-    public void fireBullet() {
+    public int fireBullet() {
         if (!hasAmmo()) {
-            return;
+            return -1;
         }
         Vec3 viewDirection = camera.getViewDirection();
         Line shootLine = new Line(getPosition(), viewDirection);
@@ -237,6 +264,7 @@ public abstract class Actor extends Entity {
                 this);
         float actorDistance = Float.MAX_VALUE;
         float solidDistance = Float.MAX_VALUE;
+        restoreAmmo(-1);
         if (closestActor != null) {
             Vec3 toActor = closestActor.getPosition().sub(getPosition());
             actorDistance = toActor.getLength();
@@ -246,9 +274,9 @@ public abstract class Actor extends Entity {
             solidDistance = toSolid.getLength();
         }
         if (actorDistance < solidDistance) {
-            ((Actor) closestActor).restoreHealth(-10);
+            return ((Actor) closestActor).takeDamage(10, this);
         }
-        restoreAmmo(-1);
+        return -1;
     }
 
     @Override
