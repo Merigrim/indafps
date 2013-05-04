@@ -19,6 +19,7 @@ public abstract class Package extends Entity {
         super(position);
         this.quantity = quantity;
         inSight = false;
+        model = ModelManager.get("data/package.obj");
     }
 
     /**
@@ -62,6 +63,8 @@ public abstract class Package extends Entity {
                 }
             }
         }
+        setRotation(getRotation().add(
+                new Vec3(0, dt * (float)Math.PI * 1.5f, 0)));
     }
 
     /**
