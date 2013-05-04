@@ -30,7 +30,6 @@ public abstract class Actor extends Entity {
         health = new Gauge(maxHealth);
         ammo = new Gauge(maxAmmo);
         camera = new Camera();
-        camera.setPosition(position);
         healthEffect = 0.0f;
     }
 
@@ -291,6 +290,7 @@ public abstract class Actor extends Entity {
                 setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
                             1.0f));
             }
+            box.getPosition().setY(box.getScale().getY() * 0.5f);
         } else {
             box.getPosition().setY(box.getScale().getX() * 0.5f);
             box.getRotation().setZ((float)Math.PI * 0.5f);
