@@ -30,6 +30,7 @@ public abstract class Actor extends Entity {
         health = new Gauge(maxHealth);
         ammo = new Gauge(maxAmmo);
         camera = new Camera();
+        camera.setPosition(position);
         healthEffect = 0.0f;
     }
 
@@ -242,6 +243,14 @@ public abstract class Actor extends Entity {
     }
 
     /**
+     * Places this Actor on the ground.
+     */
+    private void placeOnGround() {
+        setPosition(new Vec3(getPosition().getX(), getScale().getY() * 0.5f,
+                    getPosition().getZ()));
+    }
+
+    /**
      * Fires a bullet in the direction of the view. Actors hit by the bullet will
      * take damage. Walls blocks bullets. When shot, the amount of bullets left
      * will be decreased by one. If there are no bullets left, no bullet will be
@@ -290,7 +299,7 @@ public abstract class Actor extends Entity {
                 setColor(new Vec4(1.0f + healthEffect, 1.0f, 1.0f - healthEffect,
                             1.0f));
             }
-            box.getPosition().setY(box.getScale().getY() * 0.5f);
+            placeOnGround();
         } else {
             box.getPosition().setY(box.getScale().getX() * 0.5f);
             box.getRotation().setZ((float)Math.PI * 0.5f);
