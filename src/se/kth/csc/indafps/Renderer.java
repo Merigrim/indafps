@@ -300,7 +300,6 @@ public class Renderer {
         GL11.glRotatef(erot.getX() / (float)Math.PI * 180.0f, 1, 0, 0);
         GL11.glRotatef(erot.getY() / (float)Math.PI * 180.0f, 0, 1, 0);
         GL11.glRotatef(erot.getZ() / (float)Math.PI * 180.0f, 0, 0, 1);
-        GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
         GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(),
                 ecolor.getA());
         render(entity.getModel(), entity.getTexture());
