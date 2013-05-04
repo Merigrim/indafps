@@ -29,7 +29,7 @@ public class Enemy extends Actor {
         setScale(new Vec3(0.3f, 0.8f, 0.3f));
         phase = Phase.IDLE;
         fireDelay = 0.0f;
-        model = ModelManager.get("data/cube.obj");
+        model = ModelManager.get("data/enemy.obj");
         droppedAmmo = false;
     }
 

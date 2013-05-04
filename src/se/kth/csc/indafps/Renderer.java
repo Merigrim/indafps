@@ -78,7 +78,8 @@ public class Renderer {
 
     public void render(String text) {
         render(text, new Vec2(Display.getWidth() / 2.0f,
-                Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f, 0));
+                Display.getHeight() / 6.0f * 5.0f), new Vec2(0.5f, 0),
+                new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
     /**
@@ -88,7 +89,7 @@ public class Renderer {
      * @param position The position to render the text at
      */
     public void render(String text, Vec2 position) {
-        render(text, position, new Vec2(0, 0));
+        render(text, position, new Vec2(0, 0), new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
     /**
@@ -98,7 +99,7 @@ public class Renderer {
      * @param position The position to render the text at
      * @param anchor The anchor position to use when rendering the text
      */
-    public void render(String text, Vec2 position, Vec2 anchor) {
+    public void render(String text, Vec2 position, Vec2 anchor, Vec4 color) {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         if (text.length() == 0) {
@@ -113,6 +114,7 @@ public class Renderer {
         GL11.glPushMatrix();
         GL11.glLoadMatrix(world.toFloatBuffer());
 
+        GL11.glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
         font.bind();
         GL11.glBegin(GL11.GL_TRIANGLES);
         int totalWidth = -widthOffset;
@@ -148,6 +150,7 @@ public class Renderer {
         }
         GL11.glEnd();
         font.release();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -300,7 +303,6 @@ public class Renderer {
         GL11.glRotatef(erot.getX() / (float)Math.PI * 180.0f, 1, 0, 0);
         GL11.glRotatef(erot.getY() / (float)Math.PI * 180.0f, 0, 1, 0);
         GL11.glRotatef(erot.getZ() / (float)Math.PI * 180.0f, 0, 0, 1);
-        GL11.glScalef(escale.getX(), escale.getY(), escale.getZ());
         GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(),
                 ecolor.getA());
         render(entity.getModel(), entity.getTexture());

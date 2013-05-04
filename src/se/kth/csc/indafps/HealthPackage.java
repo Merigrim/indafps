@@ -9,8 +9,8 @@ package se.kth.csc.indafps;
  */
 public class HealthPackage extends Package {
     public HealthPackage(Vec3 position, int quantity) {
-        super(position, quantity, "Restore health");
-        model = ModelManager.get("data/key.obj");
+        super(position, quantity);
+        setTexture(TextureManager.get("data/healthpackage.jpg"));
     }
 
     /**
@@ -19,5 +19,18 @@ public class HealthPackage extends Package {
     @Override
     protected void interact(Actor actor) {
         actor.restoreHealth(getQuantity());
+    }
+
+    @Override
+    protected String getHelpMessage(Player player) {
+        if (canPickUp(player)) {
+            return "Restore health";
+        }
+        return "Health full";
+    }
+
+    @Override
+    protected boolean canPickUp(Player player) {
+        return player.getHealth() < player.getMaximumHealth();
     }
 }
