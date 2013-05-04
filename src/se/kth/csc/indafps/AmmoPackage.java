@@ -9,14 +9,28 @@ package se.kth.csc.indafps;
  */
 public class AmmoPackage extends Package {
     public AmmoPackage(Vec3 position, int quantity) {
-        super(position, quantity, "Restore ammo");
+        super(position, quantity);
         model = ModelManager.get("data/key.obj");
     }
 
     /**
-     * Restores the amount of ammunation carried by the Actor.
+     * Restores the amount of ammunition carried by the Actor.
      */
+    @Override
     protected void interact(Actor actor) {
         actor.restoreAmmo(getQuantity());
+    }
+
+    @Override
+    protected String getHelpMessage(Player player) {
+        if (canPickUp(player)) {
+            return "Restore ammo";
+        }
+        return "Ammo full";
+    }
+
+    @Override
+    protected boolean canPickUp(Player player) {
+        return player.getAmmo() < player.getMaximumAmmo();
     }
 }
