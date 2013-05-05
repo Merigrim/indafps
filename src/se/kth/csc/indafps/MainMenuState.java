@@ -50,7 +50,7 @@ public class MainMenuState extends State {
      * Opens the options menu.
      */
     private void options() {
-        // TODO
+        manager.pushState(new OptionsState());
     }
 
     /**
@@ -74,6 +74,9 @@ public class MainMenuState extends State {
     public void handleInput() {
         if (EventHandler.wasKeyPressed(Keyboard.KEY_RETURN)) {
             newGame();
+        } else if (EventHandler.wasKeyPressed(Keyboard.KEY_O)) {
+            options();
         }
+        Mouse.setGrabbed(false);
     }
 }

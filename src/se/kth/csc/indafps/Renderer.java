@@ -2,7 +2,6 @@ package se.kth.csc.indafps;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -105,7 +104,8 @@ public class Renderer {
         if (text.length() == 0) {
             return;
         }
-        projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        projection = Mat4.ortho(0, Display.getWidth(), 0, Display.getHeight(),
+                -1.0f, 1.0f);
         world = new Mat4();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
@@ -136,7 +136,7 @@ public class Renderer {
             GL11.glTexCoord2f(tx, ty + th);
             GL11.glVertex2f(x + totalWidth, y + 32);
             GL11.glTexCoord2f(tx + tw, ty);
-            GL11.glVertex2f(x + totalWidth + charWidth, position.getY());
+            GL11.glVertex2f(x + totalWidth + charWidth, y);
             GL11.glTexCoord2f(tx, ty);
             GL11.glVertex2f(x + totalWidth, y);
 
@@ -160,15 +160,27 @@ public class Renderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
+    public void render(Button button) {
+        render((Image)button);
+        Rect rect = button.getRect();
+        render(button.getText(), new Vec2(rect.left + (rect.right - rect.left)
+                / 2, rect.top + (rect.bottom - rect.top) / 2), new Vec2(0.5f,
+                0.5f), new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    }
+
     /**
      * Renders the specified image.
      * 
      * @param image The image to render
      */
     public void render(Image image) {
+        if (image.getTexture() == null) {
+            return;
+        }
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
-        projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        projection = Mat4.ortho(0, Display.getWidth(), 0, Display.getHeight(),
+                -1.0f, 1.0f);
         world = new Mat4();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
@@ -206,7 +218,8 @@ public class Renderer {
      * @param color The color of the rectangle to be drawn.
      */
     public void render(Rect rect, Vec4 color) {
-        projection = Mat4.ortho(0, 1280, 0, 720, -1.0f, 1.0f);
+        projection = Mat4.ortho(0, Display.getWidth(), 0, Display.getHeight(),
+                -1.0f, 1.0f);
         world = new Mat4();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -306,5 +319,6 @@ public class Renderer {
         GL11.glColor4f(ecolor.getR(), ecolor.getG(), ecolor.getB(),
                 ecolor.getA());
         render(entity.getModel(), entity.getTexture());
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }

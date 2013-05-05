@@ -2,6 +2,7 @@ package se.kth.csc.indafps;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -65,8 +66,13 @@ public class GameState extends State {
 
     @Override
     public void handleInput() {
+        if (EventHandler.wasKeyReleased(Keyboard.KEY_ESCAPE)) {
+            manager.popState();
+            return;
+        }
         level.handleInput();
         hud.handleInput();
         // p2.handleInput();
+        Mouse.setGrabbed(true);
     }
 }

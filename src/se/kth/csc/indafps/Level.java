@@ -56,7 +56,6 @@ public class Level implements GameComponent {
             boolean mapBlock = false;
             int x = 0, y = 0;
             while ((line = br.readLine()) != null) {
-                line = line.trim();
                 if (mapBlock) {
                     for (char c : line.toCharArray()) {
                         switch (c) {
@@ -90,8 +89,7 @@ public class Level implements GameComponent {
                             addFloorAndRoof(x, y);
                             break;
                         case 'a': // Ammo package
-                            addEntity(new AmmoPackage(new Vec3(x, 0.35f, y),
-                                    12));
+                            addEntity(new AmmoPackage(new Vec3(x, 0.35f, y), 12));
                             addFloorAndRoof(x, y);
                             break;
                         }
@@ -99,18 +97,21 @@ public class Level implements GameComponent {
                     }
                     x = 0;
                     ++y;
-                } else if (line.startsWith("@")) { // property
-                    String[] parts = line.substring(1).split("=");
-                    switch (parts[0]) {
-                    case "width":
-                        size.setX(Integer.parseInt(parts[1]));
-                        break;
-                    case "height":
-                        size.setY(Integer.parseInt(parts[1]));
-                        break;
-                    case "map":
-                        mapBlock = true;
-                        break;
+                } else {
+                    line = line.trim();
+                    if (line.startsWith("@")) { // property
+                        String[] parts = line.substring(1).split("=");
+                        switch (parts[0]) {
+                        case "width":
+                            size.setX(Integer.parseInt(parts[1]));
+                            break;
+                        case "height":
+                            size.setY(Integer.parseInt(parts[1]));
+                            break;
+                        case "map":
+                            mapBlock = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -122,7 +123,7 @@ public class Level implements GameComponent {
 
     /**
      * @return The first player instance, if available. Otherwise null is
-     * returned.
+     *         returned.
      */
     public Player getPlayer() {
         if (entities.get("Player").isEmpty()) {
@@ -133,9 +134,8 @@ public class Level implements GameComponent {
 
     /**
      * Associates the given Entity to the Level and adds the Entity to the
-     * Level. The added Entity will be ready to interact with the Level
-     * before the next frame. If the given Entity is set to null, nothing
-     * will be done.
+     * Level. The added Entity will be ready to interact with the Level before
+     * the next frame. If the given Entity is set to null, nothing will be done.
      */
     public void addEntity(Entity entity) {
         if (entity == null) {

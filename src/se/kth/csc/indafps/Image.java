@@ -10,11 +10,14 @@ package se.kth.csc.indafps;
 public class Image extends Widget {
     // The texture to render
     private Texture texture;
-    // The image's position
-    private Vec2 position;
 
     public Image() {
         rect = new Rect(0, 0, 0, 0);
+    }
+
+    public Image(Vec2 position) {
+        super();
+        setPosition(position);
     }
 
     /**
@@ -58,9 +61,8 @@ public class Image extends Widget {
      * @param position The position on the screen
      */
     public void setPosition(Vec2 position) {
-        this.position = position;
-        rect.left = (int)this.position.getX();
-        rect.top = (int)this.position.getY();
+        rect.left = (int)position.getX();
+        rect.top = (int)position.getY();
         if (texture != null) {
             rect.right = rect.left + this.texture.getImageWidth();
             rect.bottom = rect.top + this.texture.getImageHeight();
@@ -73,6 +75,6 @@ public class Image extends Widget {
      * @return This image's position on the screen
      */
     public Vec2 getPosition() {
-        return new Vec2(position.getX(), position.getY());
+        return new Vec2(rect.left, rect.top);
     }
 }

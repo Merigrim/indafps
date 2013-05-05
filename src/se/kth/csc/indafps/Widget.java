@@ -12,6 +12,15 @@ public abstract class Widget implements GameComponent {
     protected Rect rect;
 
     /**
+     * Sets the dimensions of the widget as a rectangle.
+     * 
+     * @param rect The rectangle to use
+     */
+    public void setRect(Rect rect) {
+        this.rect = rect;
+    }
+
+    /**
      * Returns the dimensions of the widget as a rectangle.
      * 
      * @return The dimensions of the widget as a rectangle

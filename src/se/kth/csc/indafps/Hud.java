@@ -29,10 +29,11 @@ public class Hud implements GameComponent {
     }
 
     private void drawHealthMeter(Renderer renderer) {
-        Rect background = new Rect(50, 100,
-                Display.getHeight() - 150, Display.getHeight() - 50);
-        Rect meter = new Rect(50, 100, Display.getHeight() - 50 -
-                player.getHealth(), Display.getHeight() - 50);
+        Rect background = new Rect(50, Display.getHeight() - 150, 100,
+                Display.getHeight() - 50);
+        Rect meter = new Rect(50,
+                Display.getHeight() - 50 - player.getHealth(), 100,
+                Display.getHeight() - 50);
         renderer.render(background, new Vec4(0.2f, 0.0f, 0.0f, 1.0f));
         renderer.render(meter, new Vec4(0.8f, 0.0f, 0.0f, 1.0f));
     }
@@ -40,7 +41,7 @@ public class Hud implements GameComponent {
     private void drawAmmoMeter(Renderer renderer) {
         int x = Display.getWidth() - 50;
         for (int i = 0; i < player.getMaximumAmmo(); ++i) {
-            Rect bullet = new Rect(x - 20, x, Display.getHeight() - 100,
+            Rect bullet = new Rect(x - 20, Display.getHeight() - 100, x,
                     Display.getHeight() - 50);
             if (i < player.getAmmo()) {
                 renderer.render(bullet, new Vec4(0.4f, 0.4f, 1.0f, 1.0f));
@@ -53,19 +54,19 @@ public class Hud implements GameComponent {
 
     @Override
     public void render(Renderer renderer) {
-		if (player != null) {
+        if (player != null) {
             drawHealthMeter(renderer);
             drawAmmoMeter(renderer);
-			Rect rect = new Rect(0, Display.getWidth(), 0, Display.getHeight());
-			float tintLevel = player.getHealthEffect() * 0.9f;
-			if (tintLevel < 0.0f) {
-				// Player has taken damage
-				renderer.render(rect, new Vec4(1.0f, 0.0f, 0.0f, -tintLevel));
-			} else if (tintLevel > 0.0f) {
-				// Player has recovered some health
-				renderer.render(rect, new Vec4(0.0f, 1.0f, 0.0f, tintLevel));
-			}
-		}
+            Rect rect = new Rect(0, 0, Display.getWidth(), Display.getHeight());
+            float tintLevel = player.getHealthEffect() * 0.9f;
+            if (tintLevel < 0.0f) {
+                // Player has taken damage
+                renderer.render(rect, new Vec4(1.0f, 0.0f, 0.0f, -tintLevel));
+            } else if (tintLevel > 0.0f) {
+                // Player has recovered some health
+                renderer.render(rect, new Vec4(0.0f, 1.0f, 0.0f, tintLevel));
+            }
+        }
     }
 
     @Override

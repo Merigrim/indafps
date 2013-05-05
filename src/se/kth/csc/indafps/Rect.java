@@ -27,10 +27,10 @@ public class Rect {
      * @param top The topmost coordinate of the rectangle
      * @param bottom The bottommost coordinate of the rectangle
      */
-    public Rect(int left, int right, int top, int bottom) {
+    public Rect(int left, int top, int right, int bottom) {
         this.left = left;
-        this.right = right;
         this.top = top;
+        this.right = right;
         this.bottom = bottom;
     }
 

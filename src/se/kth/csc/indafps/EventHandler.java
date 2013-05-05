@@ -1,10 +1,14 @@
 package se.kth.csc.indafps;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 public class EventHandler {
     private static boolean[] pressed;
     private static boolean[] released;
+    private static boolean[] mousePressed;
+    private static boolean[] mouseReleased;
 
     private static void createKeyCodes() {
         if (pressed == null) {
@@ -12,6 +16,12 @@ public class EventHandler {
         }
         if (released == null) {
             released = new boolean[256];
+        }
+        if (mousePressed == null) {
+            mousePressed = new boolean[10];
+        }
+        if (mouseReleased == null) {
+            mouseReleased = new boolean[10];
         }
     }
 
@@ -57,9 +67,17 @@ public class EventHandler {
         return released[keyCode];
     }
 
+    public static boolean wasButtonPressed(int i) {
+        createKeyCodes();
+        return mousePressed[i];
+    }
+
     public static void resetKeys() {
         createKeyCodes();
         for (int i = 0; i < 256; ++i) {
+            if (i < 10) {
+                mousePressed[i] = mouseReleased[i] = false;
+            }
             pressed[i] = released[i] = false;
         }
     }
@@ -70,5 +88,20 @@ public class EventHandler {
         } else {
             released[Keyboard.getEventKey()] = true;
         }
+    }
+
+    public static void updateButton() {
+        if (Mouse.getEventButton() == -1) {
+            return;
+        }
+        if (Mouse.getEventButtonState()) {
+            mousePressed[Mouse.getEventButton()] = true;
+        } else {
+            mouseReleased[Mouse.getEventButton()] = true;
+        }
+    }
+
+    public static Vec2 getMousePosition() {
+        return new Vec2(Mouse.getX(), Display.getHeight() - Mouse.getY());
     }
 }

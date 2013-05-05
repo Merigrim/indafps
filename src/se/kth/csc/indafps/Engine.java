@@ -2,6 +2,7 @@ package se.kth.csc.indafps;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -32,7 +33,7 @@ public class Engine {
      * @return Whether the initialization was successful or not.
      */
     private boolean initGL() {
-        float ambient[] = {1.0f, 1.0f, 1.0f};
+        float ambient[] = { 1.0f, 1.0f, 1.0f };
         GL11.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -49,14 +50,14 @@ public class Engine {
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glColorMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT_AND_DIFFUSE);
         GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, new Vec4(0.5f, 0.5f,
-                    0.5f, 1.0f).toBuffer());
+                0.5f, 1.0f).toBuffer());
         GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, new Vec4(0.2f, 0.2f,
-                    0.2f, 1.0f).toBuffer());
+                0.2f, 1.0f).toBuffer());
 
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, new Vec4(0.2f, 0.2f,
-                    0.1f, 1.0f).toBuffer());
+                0.1f, 1.0f).toBuffer());
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, new Vec4(0.2f, 0.2f,
-                    0.15f, 1.0f).toBuffer());
+                0.15f, 1.0f).toBuffer());
 
         renderer = new Renderer();
 
@@ -166,6 +167,9 @@ public class Engine {
                 toggleFullscreen();
             }
             EventHandler.updateKey();
+        }
+        while (Mouse.next()) {
+            EventHandler.updateButton();
         }
         manager.handleInput();
     }
