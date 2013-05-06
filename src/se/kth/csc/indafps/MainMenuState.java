@@ -32,7 +32,7 @@ public class MainMenuState extends State {
      * Starts a new game.
      */
     private void newGame() {
-        GameState gameState = new GameState("data/level.lvl");
+        GameState gameState = new GameState("data/test.lvl");
         // Reset mouse movement
         Mouse.getDX();
         Mouse.getDY();
