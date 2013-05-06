@@ -126,10 +126,11 @@ public class Level implements GameComponent {
      *         returned.
      */
     public Player getPlayer() {
-        if (entities.get("Player").isEmpty()) {
+        Set<Entity> playerSet = entities.get("Player");
+        if (playerSet == null || playerSet.isEmpty()) {
             return null;
         }
-        return (Player)entities.get("Player").iterator().next();
+        return (Player)playerSet.iterator().next();
     }
 
     /**
@@ -229,7 +230,11 @@ public class Level implements GameComponent {
      */
     public Set<Entity> getEntities(String type) {
         Set<Entity> ret = new HashSet<Entity>();
-        for (Entity e : entities.get(type)) {
+        Set<Entity> entitySet = entities.get(type);
+        if (entitySet == null) {
+            return ret;
+        }
+        for (Entity e : entitySet) {
             if (removedEntities.contains(e)) {
                 continue;
             }
@@ -258,7 +263,9 @@ public class Level implements GameComponent {
     @Override
     public void render(Renderer renderer) {
         Player player = getPlayer();
-        renderer.setCamera(player.getCamera());
+        if (player != null) {
+            renderer.setCamera(player.getCamera());
+        }
         for (Entity e : entities.get("Entity")) {
             if (!e.getClass().getSimpleName().equals("Player")) {
                 renderer.render(e);

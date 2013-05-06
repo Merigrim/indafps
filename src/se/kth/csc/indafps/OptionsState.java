@@ -20,8 +20,12 @@ public class OptionsState extends State {
     private int displayModeIndex;
     private DisplayMode[] displayModes;
     private boolean fullscreen;
+    private Level backgroundLevel;
+    private Player cameraEntity;
 
-    public OptionsState() {
+    public OptionsState(Level backgroundLevel, Player cameraEntity) {
+        this.backgroundLevel = backgroundLevel;
+        this.cameraEntity = cameraEntity;
         fullscreen = Display.isFullscreen();
         try {
             displayModes = Display.getAvailableDisplayModes();
@@ -110,6 +114,8 @@ public class OptionsState extends State {
 
     @Override
     public void update(float dt) {
+        cameraEntity.getCamera().move(dt * (float)Math.PI * 3.0f, 0.0f);
+        backgroundLevel.update(dt);
         for (Button b : buttons) {
             b.update(dt);
         }
@@ -117,6 +123,8 @@ public class OptionsState extends State {
 
     @Override
     public void render(Renderer renderer) {
+        renderer.setCamera(cameraEntity.getCamera());
+        backgroundLevel.render(renderer);
         for (Button b : buttons) {
             renderer.render(b);
         }

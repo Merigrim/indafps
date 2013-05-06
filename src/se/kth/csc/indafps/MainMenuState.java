@@ -18,7 +18,9 @@ import org.lwjgl.opengl.Display;
  * @version 2013-04-25
  */
 public class MainMenuState extends State {
-    Image logo;
+    private Image logo;
+    private Level backgroundLevel;
+    private Player cameraEntity;
 
     public MainMenuState() {
         logo = new Image();
@@ -26,6 +28,14 @@ public class MainMenuState extends State {
         logo.setTexture(logoTexture);
         logo.setPosition(new Vec2((Display.getWidth() - 512.0f) / 2.0f, Display
                 .getHeight() / 22.5f));
+        backgroundLevel = new Level();
+        try {
+            backgroundLevel.importLevel("data/mainmenu.lvl");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        cameraEntity = new Player(new Vec3(2.0f, 0.5f, 2.0f));
     }
 
     /**
@@ -50,7 +60,7 @@ public class MainMenuState extends State {
      * Opens the options menu.
      */
     private void options() {
-        manager.pushState(new OptionsState());
+        manager.pushState(new OptionsState(backgroundLevel, cameraEntity));
     }
 
     /**
@@ -62,11 +72,14 @@ public class MainMenuState extends State {
 
     @Override
     public void update(float dt) {
-        // TODO Auto-generated method stub
+        backgroundLevel.update(dt);
+        cameraEntity.getCamera().move(dt * (float)Math.PI * 3.0f, 0.0f);
     }
 
     @Override
     public void render(Renderer renderer) {
+        renderer.setCamera(cameraEntity.getCamera());
+        backgroundLevel.render(renderer);
         renderer.render(logo);
     }
 

@@ -64,6 +64,9 @@ public abstract class Solid extends Entity {
     }
 
     protected void actorCollision(Set<Entity> entities) {
+        if (entities == null) {
+            return;
+        }
         for (Entity entity : entities) {
             if (testIntersection(entity)) {
                 positionActor((Actor)entity);
