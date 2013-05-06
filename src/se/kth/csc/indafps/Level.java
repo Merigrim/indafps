@@ -89,7 +89,7 @@ public class Level implements GameComponent {
                             addFloorAndRoof(x, y);
                             break;
                         case 'a': // Ammo package
-                            addEntity(new AmmoPackage(new Vec3(x, 0.35f, y), 12));
+                            addEntity(new AmmoPackage(new Vec3(x, 0.35f, y), 5));
                             addFloorAndRoof(x, y);
                             break;
                         }

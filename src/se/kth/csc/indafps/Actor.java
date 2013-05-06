@@ -301,6 +301,7 @@ public abstract class Actor extends Entity {
             }
             placeOnGround();
         } else {
+            healthEffect = -1;
             box.getPosition().setY(box.getScale().getX() * 0.5f);
             box.getRotation().setZ((float)Math.PI * 0.5f);
             //TODO find a way to remove this small hack

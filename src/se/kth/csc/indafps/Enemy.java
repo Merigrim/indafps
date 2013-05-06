@@ -119,7 +119,7 @@ public class Enemy extends Actor {
         } else {
             if (!droppedAmmo) {
                 Vec3 itemPosition = getPosition().add(new Vec3(0.0f, 0.25f, 0.0f));
-                level.addEntity(new AmmoPackage(itemPosition, 2));
+                level.addEntity(new AmmoPackage(itemPosition, 5));
                 droppedAmmo = true;
             }
         }
