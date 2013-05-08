@@ -74,7 +74,7 @@ public class Player extends Actor {
      */
     public Item searchItem(String type) {
         for (Item item : inventory) {
-            if (item.getClass().getName() == type) {
+            if (item.getClass().getSimpleName().equals(type)) {
                 return item;
             }
         }
@@ -171,10 +171,6 @@ public class Player extends Actor {
         if (itemInSight != null) {
             renderer.render("[E] Pick up "
                     + itemInSight.getClass().getSimpleName());
-        } else if (doorInSight != null) {
-            renderer.render(String.format("[E] %s door",
-                    doorInSight.isLocked() ? "Unlock"
-                            : !doorInSight.isOpen() ? "Open" : "Close"));
         }
         renderer.render(crosshair);
     }

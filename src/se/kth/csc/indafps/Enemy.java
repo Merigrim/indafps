@@ -27,7 +27,6 @@ public class Enemy extends Actor {
     public Enemy(Vec3 position) {
         this(position, 50, 12);
         setScale(new Vec3(0.3f, 0.8f, 0.3f));
-		setRotation(new Vec3(0.0f, 1.0f, 0.0f));
         phase = Phase.IDLE;
         fireDelay = 0.0f;
         model = ModelManager.get("data/enemy.obj");
@@ -73,7 +72,7 @@ public class Enemy extends Actor {
      * is found, this Enemy will be set to alert mode and target the Player.
      */
     private void findPlayer(){
-        Actor foundActor = (Actor) getEntityInSight("Player", 3.0f, (float) Math.PI / 4);
+        Actor foundActor = (Actor) getEntityInSight("Player", 3.0f, (float) Math.PI * 2);
         if (foundActor != null) {
             target = foundActor;
             phase = Phase.ALERT;
@@ -94,6 +93,7 @@ public class Enemy extends Actor {
         super.update(dt);
         if (isAlive()) {
             if (phase == Phase.IDLE) {
+                camera.setTarget(getPosition().add(new Vec3(1.0f, 0.0f, 0.0f)));
                 findPlayer();
             } else if (phase == Phase.ALERT) {
                 camera.setTarget(target.getPosition());
