@@ -27,6 +27,7 @@ public class Enemy extends Actor {
     public Enemy(Vec3 position) {
         this(position, 50, 12);
         setScale(new Vec3(0.3f, 0.8f, 0.3f));
+		setRotation(new Vec3(0.0f, 1.0f, 0.0f));
         phase = Phase.IDLE;
         fireDelay = 0.0f;
         model = ModelManager.get("data/enemy.obj");
