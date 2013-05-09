@@ -33,7 +33,6 @@ public class Engine {
      * @return Whether the initialization was successful or not.
      */
     private boolean initGL() {
-        float ambient[] = { 1.0f, 1.0f, 1.0f };
         GL11.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -100,17 +99,22 @@ public class Engine {
             return;
         }
         long lastTime = System.nanoTime();
+        long accumulator = 0;
+        float dt = 1.0f / 60.0f;
         while (!Display.isCloseRequested()) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            handleInput();
-
             long currentTime = System.nanoTime();
-            float dt = (currentTime - lastTime) / 1000000000.0f;
+            accumulator += currentTime - lastTime;
             lastTime = currentTime;
-            manager.update(dt);
-            manager.render(renderer);
 
+            while (accumulator >= (long)(dt * 1000000000.0)) {
+                handleInput();
+                manager.update(dt);
+                accumulator -= (long)(dt * 1000000000.0);
+            }
+
+            manager.render(renderer);
             Display.update();
             Display.sync(60);
         }
