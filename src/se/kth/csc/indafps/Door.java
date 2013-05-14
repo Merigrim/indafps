@@ -1,7 +1,6 @@
 package se.kth.csc.indafps;
 
 import java.io.IOException;
-import org.lwjgl.opengl.Display;
 
 /**
  * A game object that blocks the path of Actors when locked.
@@ -35,25 +34,6 @@ public class Door extends Solid {
         if (level.getPlayer().requestItem("Key") != null) {
             locked = false;
         }
-    }
-
-    /**
-     * Returns true if the Player has a key available to unlock this door.
-     */
-    public boolean canInteract(Player player) {
-        return !isLocked() || player.searchItem("Key") != null;
-    }
-
-    /**
-     * Returns the help message of the door.
-     */
-    public String getHelpMessage(Player player) {
-        if (isLocked()) {
-            return "Unlock";
-        } else if (isOpen()) {
-            return "Open";
-        }
-        return "Close";
     }
 
     @Override
@@ -134,18 +114,6 @@ public class Door extends Solid {
 
     @Override
     public void render(Renderer renderer) {
-        Player player = level.getPlayer();
-        if (player != null && player.isInSight(this, 1.0f, 0.5f)) {
-            if (canInteract(player)) {
-                renderer.render(String.format("[E] %s",
-                        getHelpMessage(level.getPlayer())));
-            } else {
-                renderer.render("Must have key", new Vec2(
-                        Display.getWidth() / 2.0f,
-                        Display.getHeight() / 6.0f * 5.0f),
-                        new Vec2(0.5f, 0.0f), new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
-            }
-        }
     }
 
     @Override
